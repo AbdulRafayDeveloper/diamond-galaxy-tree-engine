@@ -1,0 +1,203 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+/* Apply globally */
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+.rbc-toolbar {
+  @apply flex justify-center items-center space-x-2 py-2;
+}
+
+/* Customize the button group container */
+.rbc-btn-group {
+  display: flex;
+  gap: 6px;
+  /* Space between buttons */
+}
+
+/* Style all buttons */
+.rbc-btn-group button {
+  padding: 4px 10px;
+  /* Smaller buttons */
+  font-size: 10px;
+  /* Slightly smaller text */
+  background-color: white;
+  /* Default background */
+  cursor: pointer;
+  border: none;
+  /* Remove borders */
+  border-radius: 6px;
+  /* Slight rounding */
+  transition: background-color 0.2s;
+}
+
+/* Hover state */
+.rbc-btn-group button:hover {
+  background-color: #f3f3f3;
+}
+
+/* Active button (the currently selected view) */
+.rbc-btn-group button.rbc-active {
+  background-color: #FF8A8A;
+  /* Your desired color */
+  color: white;
+  font-weight: bold;
+}
+
+
+.rbc-toolbar button {
+  @apply px-3 py-1 rounded-lg bg-white border shadow hover:bg-gray-100;
+}
+
+.rbc-toolbar-label {
+  @apply font-semibold text-lg;
+}
+
+.rbc-event {
+  @apply bg-blue-500 text-white rounded-lg p-1;
+}
+
+.rbc-day-bg {
+  @apply hover:bg-gray-50;
+}
+
+.rbc-ellipsis,
+.rbc-show-more,
+.rbc-row-segment .rbc-event-content,
+.rbc-event-label {
+  text-overflow: unset !important;
+  /* Or initial */
+  white-space: unset !important;
+  /* Or initial */
+}
+
+.rbc-event,
+.rbc-day-slot .rbc-background-event {
+  background-color: #FF8A8A !important;
+}
+
+.rbc-header {
+  font-size: 70% !important;
+}
+
+.rbc-button-link {
+  font-size: 12px !important;
+  /* Adjust as needed */
+  padding: 4px 8px !important;
+  /* Adds small padding to make button smaller */
+  background: none !important;
+  /* No background */
+  border: none !important;
+  /* No border */
+  cursor: pointer !important;
+  /* Standard cursor */
+  color: #333 !important;
+  /* Adjust color to match your design */
+  transition: all 0.2s ease-in-out;
+}
+
+.rbc-button-link:hover {
+  color: #FF9100 !important;
+  /* Optional hover effect */
+}
+
+.rbc-active {
+  background-color: #FF9100 !important;
+  color: white !important;
+  border-radius: 4px !important;
+  /* Slight rounding for active state */
+  padding: 4px 8px !important;
+}
+
+.rbc-event-content {
+  font-size: small !important;
+}
+
+.rbc-toolbar button {
+  border: none !important;
+  --tw-shadow: none !important;
+}
+
+.rbc-day-slot .rbc-events-container {
+  margin-right: 0 !important;
+}
+
+.rbc-day-slot .rbc-event,
+.rbc-day-slot .rbc-background-event {
+  text-overflow: ellipsis !important;
+  border: none !important;
+
+}
+
+.rbc-label {
+  font-size: 70% !important;
+}
+
+.rbc-time-gutter .rbc-time-column {
+  padding-right: 15px !important;
+}
+
+.rbc-timeslot-group {
+  padding-right: 20px !important;
+}
+
+.rbc-events-container {
+  padding-right: 20px !important;
+}
+
+.rbc-toolbar-label {
+  font-size: medium !important;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+
+
+::-webkit-scrollbar-thumb {
+  background-color: #FF9100;
+  /* Indigo color */
+  border-radius: 10px;
+  border: 2px solid #f1f1f1;
+}
+
+::selection {
+  background-color: #FF9100;
+  color: #ffffff;
+  /* White text for better contrast */
+}
