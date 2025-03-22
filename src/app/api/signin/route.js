@@ -18,11 +18,10 @@ export async function POST(req) {
 
     const { error } = userSignIn({ email, password });
     if (error) {
-      console.log("🧪 Joi validation error:", error.details);
       return NextResponse.json(
         {
           success: false,
-          error: error.details.map((d) => d.message).join(", "),
+          error: error.details[0].message,
         },
         { status: 400 }
       );

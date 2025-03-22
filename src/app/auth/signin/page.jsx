@@ -3,7 +3,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import axios from "axios";
-import Swal from "sweetalert2";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Page = () => {
   const router = useRouter();
@@ -26,11 +27,7 @@ const Page = () => {
     e.preventDefault();
 
     if (!formData.email || !formData.password) {
-      Swal.fire(
-        "Missing Info",
-        "Please enter both email and password.",
-        "warning"
-      );
+      toast.warning("Please enter both email and password.");
       return;
     }
 
@@ -45,7 +42,7 @@ const Page = () => {
 
         localStorage.setItem("token", token);
 
-        Swal.fire("Success", "Login successful!", "success").then(() => {
+        toast.success("Login successful!").then(() => {
           router.push("/owner/dashboard");
         });
       } else {
@@ -57,7 +54,7 @@ const Page = () => {
         err?.message ||
         "Something went wrong. Please check your credentials.";
 
-      Swal.fire("Login Failed", message, "error");
+      toast.error(message);
     }
   };
 
@@ -172,6 +169,7 @@ const Page = () => {
                   </p>
                 </div>
               </form>
+              <ToastContainer position="top-right" autoClose={3000} />
             </div>
           </div>
         </div>

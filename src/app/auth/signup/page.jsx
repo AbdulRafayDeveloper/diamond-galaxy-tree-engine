@@ -2,7 +2,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import Swal from "sweetalert2";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Page = () => {
   const router = useRouter();
@@ -31,7 +32,7 @@ const Page = () => {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      Swal.fire("Password Mismatch", "Passwords do not match!", "warning");
+      toast.warning("Passwords do not match!");
       return;
     }
 
@@ -44,11 +45,7 @@ const Page = () => {
       !formData.phoneNo ||
       !formData.country
     ) {
-      Swal.fire(
-        "Missing Fields",
-        "Please fill out all required fields.",
-        "warning"
-      );
+      toast.warning("Please fill out all required fields.");
       return;
     }
 
@@ -68,7 +65,7 @@ const Page = () => {
 
       localStorage.setItem("token", token);
 
-      Swal.fire("Success", "Account created successfully!", "success");
+      toast.success("Account created successfully!");
 
       router.push("/owner/dashboard");
     } catch (err) {
@@ -77,7 +74,7 @@ const Page = () => {
         err?.message ||
         "Something went wrong. Please check your credentials.";
 
-      Swal.fire("Login Failed", message, "error");
+      toast.error(message);
     }
   };
 
@@ -333,6 +330,7 @@ const Page = () => {
                   </p>
                 </div>
               </form>
+              <ToastContainer position="top-right" autoClose={3000} />
             </div>
           </div>
         </div>

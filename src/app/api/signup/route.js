@@ -19,7 +19,6 @@ export async function POST(req) {
       password,
     } = await req.json();
 
-    // Joi validation
     const { error } = validateUser({
       firstName,
       lastName,
@@ -31,17 +30,15 @@ export async function POST(req) {
     });
 
     if (error) {
-      const messages = error.details.map((err) => err.message).join(", ");
       return NextResponse.json(
         {
           success: false,
-          error: messages,
+          error: error.details[0].message,
         },
         { status: 400 }
       );
     }
 
-    // Check for existing user
     const existingUser = await Users.findOne({ email });
     if (existingUser) {
       return NextResponse.json(
@@ -53,7 +50,6 @@ export async function POST(req) {
       );
     }
 
-    // Hash password and create user
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = new Users({
