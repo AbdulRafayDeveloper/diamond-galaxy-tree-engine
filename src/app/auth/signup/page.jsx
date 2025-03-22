@@ -1,14 +1,9 @@
 "use client";
 import { useState } from "react";
-import axios from "axios";
-import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 const Page = () => {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword]=useState(false);
   const [showConfirmPassword,setShowConfirmPassword]=useState(false);
   const [formData, setFormData] = useState({
@@ -30,40 +25,17 @@ const Page = () => {
       [name]: value,
     }));
   };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit=(e)=>{
     e.preventDefault();
-    setLoading(true);
-
-    if (formData.password !== formData.confirmPassword) {
-      Swal.fire({
-        icon: "error",
-        title: "Password Mismatch",
-        text: "Passwords do not match. Please try again.",
-      });
-      setLoading(false);
-      return;
-    }
-
-    const submissionData = {
-      name: formData.fname,
-      email: formData.email,
-      password: formData.password,
-    };
-
-    
-  };
+    console.log("form data: ",formData);
+  }
 
   return (
     <div className="relative">
-      <div
-        className="fixed top-0 left-0 w-full h-full bg-cover bg-center z-0"
-        // style={{ backgroundImage: "url('/images/design.png')" }}
-      ></div>
-      <div className="font-calibri relative z-10">
-        <div className="min-h-screen flex max-w-screen bg-gray-100">
-          <div className="grid md:grid-cols-2  lg:grid-cols-2 grid-cols-1 items-center max-w-5xl gap-3">
-            <div style={{ backgroundImage: "url('/reg.jpg')" }} className="flex relative justify-center object-cover p-3 bg-cover min-h-screen w-[550px] ">
+      <div className="font-calibri relative z-10 ">
+        <div className="bg-gray-100">
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 grid-cols-1 min-h-screen">
+            <div style={{ backgroundImage: "url('/reg.jpg')" }} className="flex relative justify-center object-cover bg-cover min-h-scree ">
               <div className="absolute inset-0 flex flex-col justify-center items-center bg-black bg-opacity-40 p-2 gap-4">
                 <h1 className="text-[32px] text-white font-bold">Daimond Galaxy</h1>
                 <p className="text-center text-white text-sm">
@@ -74,12 +46,9 @@ const Page = () => {
                 </button>
               </div>
             </div>
-            <div className="mx-auto flex justify-center ml-14">
-              <form
-                // onSubmit={handleSubmit}
-                className=""
-              >
-                <div className="p-3 w-[700px]">
+            <div className="mx-auto flex justify-center">
+              <form>
+                <div className="p-3 m-4">
                   <div className="flex justify-center items-center text-center">
                     <h3 className="text-[#22405c] font-calibri text-3xl font-extrabold mb-6 text-center">
                       Register<br></br>
@@ -186,7 +155,7 @@ const Page = () => {
                         <path d="M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z"/>
                       </svg>
                         <input
-                          name="country"
+                          name="password"
                           type={showPassword ? "text":"password"}
                           value={formData.password}
                           onChange={handleChange}
@@ -226,7 +195,7 @@ const Page = () => {
                         <path d="M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z"/>
                       </svg>
                         <input
-                          name="password"
+                          name="country"
                           type="text"
                           value={formData.country}
                           onChange={handleChange}
@@ -242,7 +211,7 @@ const Page = () => {
                     <button
                       // type="submit"
                       className="w-full shadow-xl py-2.5 px-4 text-sm font-semibold rounded bg-[#22405c] text-white focus:outline-none"
-                      onChange={()=>console.log("Form Data:", formData)}
+                      onClick={handleSubmit}
                       
                     >
                       Register
