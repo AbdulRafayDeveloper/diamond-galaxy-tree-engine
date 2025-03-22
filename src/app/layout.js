@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "HouseHub",
+  title: "Daimond Galaxy",
   description: "Construction Management Platform",
 };
 
