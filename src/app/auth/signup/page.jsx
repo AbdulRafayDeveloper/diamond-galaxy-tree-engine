@@ -4,11 +4,13 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 const Page = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     fname: "",
     lname: "",
@@ -30,9 +32,10 @@ const Page = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     if (formData.password !== formData.confirmPassword) {
       toast.warning("Passwords do not match!");
+      setLoading(false);
       return;
     }
 
@@ -46,6 +49,7 @@ const Page = () => {
       !formData.country
     ) {
       toast.warning("Please fill out all required fields.");
+      setLoading(false);
       return;
     }
 
@@ -61,19 +65,23 @@ const Page = () => {
         referralCode: formData.referralCode || "",
       });
 
-      const { token, user } = response.data;
+      if (response.status === 200 && response.data.success) {
+        const { token, user } = response.data;
 
-      localStorage.setItem("token", token);
+        localStorage.setItem("token", token);
 
-      toast.success("Account created successfully!");
-
-      router.push("/owner/dashboard");
+        toast.success("Registration successful!");
+        setLoading(false);
+      } else {
+        setLoading(false);
+        throw new Error("Unexpected response");
+      }
     } catch (err) {
       const message =
         err?.response?.data?.error ||
         err?.message ||
         "Something went wrong. Please check your credentials.";
-
+      setLoading(false);
       toast.error(message);
     }
   };
@@ -105,8 +113,8 @@ const Page = () => {
                 </button>
               </div>
             </div>
-            <div className="mx-auto flex justify-center">
-              <form>
+            <div className="w-full flex justify-center px-4">
+              <form className="w-full max-w-3xl">
                 <div className="p-3 m-4">
                   <div className="flex justify-center items-center text-center">
                     <h3 className="text-[#22405c] font-calibri text-3xl font-extrabold mb-6 text-center">
@@ -162,11 +170,17 @@ const Page = () => {
                       <div className="relative">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 448 512"
-                          className="absolute left-3 top-1/2 tranform -translate-y-1/2 fill-gray-400 w-4 h-5"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                          className="absolute left-3 top-1/2 transform -translate-y-1/2 fill-gray-400 w-5 h-6"
                         >
-                          <path d="M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z" />
+                          <path
+                            fill-rule="evenodd"
+                            d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
+                            clip-rule="evenodd"
+                          />
                         </svg>
+
                         <input
                           name="username"
                           type="text"
@@ -200,11 +214,17 @@ const Page = () => {
                       <div className="relative">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 448 512"
-                          className="absolute left-3 top-1/2 tranform -translate-y-1/2 fill-gray-400 w-4 h-5"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                          className="absolute left-3 top-1/2 transform -translate-y-1/2 fill-gray-400 w-4 h-5"
                         >
-                          <path d="M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z" />
+                          <path
+                            fill-rule="evenodd"
+                            d="M3 4.875C3 3.839 3.84 3 4.875 3h4.5c1.036 0 1.875.84 1.875 1.875v4.5c0 1.036-.84 1.875-1.875 1.875h-4.5A1.875 1.875 0 0 1 3 9.375v-4.5ZM4.875 4.5a.375.375 0 0 0-.375.375v4.5c0 .207.168.375.375.375h4.5a.375.375 0 0 0 .375-.375v-4.5a.375.375 0 0 0-.375-.375h-4.5Zm7.875.375c0-1.036.84-1.875 1.875-1.875h4.5C20.16 3 21 3.84 21 4.875v4.5c0 1.036-.84 1.875-1.875 1.875h-4.5a1.875 1.875 0 0 1-1.875-1.875v-4.5Zm1.875-.375a.375.375 0 0 0-.375.375v4.5c0 .207.168.375.375.375h4.5a.375.375 0 0 0 .375-.375v-4.5a.375.375 0 0 0-.375-.375h-4.5ZM6 6.75A.75.75 0 0 1 6.75 6h.75a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-.75.75h-.75A.75.75 0 0 1 6 7.5v-.75Zm9.75 0A.75.75 0 0 1 16.5 6h.75a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-.75.75h-.75a.75.75 0 0 1-.75-.75v-.75ZM3 14.625c0-1.036.84-1.875 1.875-1.875h4.5c1.036 0 1.875.84 1.875 1.875v4.5c0 1.035-.84 1.875-1.875 1.875h-4.5A1.875 1.875 0 0 1 3 19.125v-4.5Zm1.875-.375a.375.375 0 0 0-.375.375v4.5c0 .207.168.375.375.375h4.5a.375.375 0 0 0 .375-.375v-4.5a.375.375 0 0 0-.375-.375h-4.5Zm7.875-.75a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-.75.75h-.75a.75.75 0 0 1-.75-.75v-.75Zm6 0a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-.75.75h-.75a.75.75 0 0 1-.75-.75v-.75ZM6 16.5a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-.75.75h-.75a.75.75 0 0 1-.75-.75v-.75Zm9.75 0a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-.75.75h-.75a.75.75 0 0 1-.75-.75v-.75Zm-3 3a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-.75.75h-.75a.75.75 0 0 1-.75-.75v-.75Zm6 0a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-.75.75h-.75a.75.75 0 0 1-.75-.75v-.75Z"
+                            clip-rule="evenodd"
+                          />
                         </svg>
+
                         <input
                           name="referralCode"
                           type="number"
@@ -218,11 +238,17 @@ const Page = () => {
                       <div className="relative">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 448 512"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
                           className="absolute left-3 top-1/2 tranform -translate-y-1/2 fill-gray-400 w-4 h-5"
                         >
-                          <path d="M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z" />
+                          <path
+                            fill-rule="evenodd"
+                            d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z"
+                            clip-rule="evenodd"
+                          />
                         </svg>
+
                         <input
                           name="phoneNo"
                           type="number"
@@ -292,11 +318,18 @@ const Page = () => {
                       <div className="relative">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 448 512"
-                          className="absolute left-3 top-1/2 tranform -translate-y-1/2 fill-gray-400 w-4 h-5"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                          className="absolute left-3 top-1/2 tranform -translate-y-1/2 fill-gray-400 w-5 h-6"
                         >
-                          <path d="M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z" />
+                          <path d="M15.75 8.25a.75.75 0 0 1 .75.75c0 1.12-.492 2.126-1.27 2.812a.75.75 0 1 1-.992-1.124A2.243 2.243 0 0 0 15 9a.75.75 0 0 1 .75-.75Z" />
+                          <path
+                            fill-rule="evenodd"
+                            d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM4.575 15.6a8.25 8.25 0 0 0 9.348 4.425 1.966 1.966 0 0 0-1.84-1.275.983.983 0 0 1-.97-.822l-.073-.437c-.094-.565.25-1.11.8-1.267l.99-.282c.427-.123.783-.418.982-.816l.036-.073a1.453 1.453 0 0 1 2.328-.377L16.5 15h.628a2.25 2.25 0 0 1 1.983 1.186 8.25 8.25 0 0 0-6.345-12.4c.044.262.18.503.389.676l1.068.89c.442.369.535 1.01.216 1.49l-.51.766a2.25 2.25 0 0 1-1.161.886l-.143.048a1.107 1.107 0 0 0-.57 1.664c.369.555.169 1.307-.427 1.605L9 13.125l.423 1.059a.956.956 0 0 1-1.652.928l-.679-.906a1.125 1.125 0 0 0-1.906.172L4.575 15.6Z"
+                            clip-rule="evenodd"
+                          />
                         </svg>
+
                         <input
                           name="country"
                           type="text"
@@ -313,7 +346,9 @@ const Page = () => {
                   <div className="!mt-8">
                     <button
                       // type="submit"
-                      className="w-full shadow-xl py-2.5 px-4 text-sm font-semibold rounded bg-[#22405c] text-white focus:outline-none"
+                      className={`w-full shadow-xl py-2.5 px-4 text-sm font-semibold rounded bg-[#22405c] text-white focus:outline-none ${
+                        loading ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
                       onClick={handleSubmit}
                     >
                       Register

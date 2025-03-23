@@ -1,14 +1,14 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+
 import Link from "next/link";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Page = () => {
-  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -25,9 +25,10 @@ const Page = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     if (!formData.email || !formData.password) {
       toast.warning("Please enter both email and password.");
+      setLoading(false);
       return;
     }
 
@@ -42,10 +43,10 @@ const Page = () => {
 
         localStorage.setItem("token", token);
 
-        toast.success("Login successful!").then(() => {
-          router.push("/owner/dashboard");
-        });
+        toast.success("Login successful!");
+        setLoading(false);
       } else {
+        setLoading(false);
         throw new Error("Unexpected response");
       }
     } catch (err) {
@@ -53,7 +54,7 @@ const Page = () => {
         err?.response?.data?.error ||
         err?.message ||
         "Something went wrong. Please check your credentials.";
-
+      setLoading(false);
       toast.error(message);
     }
   };
@@ -102,11 +103,10 @@ const Page = () => {
                       <div className="relative">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 448 512"
-                          fill="currentColor"
-                          className="absolute left-3 top-1/2 transform -translate-y-1/2 fill-gray-400  w-5 h-4"
+                          viewBox="0 0 512 512"
+                          className="absolute left-3 top-1/2 transform -translate-y-1/2 fill-gray-400 w-4 h-5"
                         >
-                          <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z" />
+                          <path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48L48 64zM0 176L0 384c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-208L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z" />
                         </svg>
                         <input
                           name="email"
@@ -152,7 +152,9 @@ const Page = () => {
                   <div className="!mt-8">
                     <button
                       // type="submit"
-                      className="w-full shadow-xl py-2.5 px-4 text-sm font-semibold rounded bg-[#22405c] text-white focus:outline-none"
+                      className={`w-full shadow-xl py-2.5 px-4 text-sm font-semibold rounded bg-[#22405c] text-white focus:outline-none ${
+                        loading ? "opacity-50 cursor-not-allowed" : ""
+                      } `}
                       onClick={handleSubmit}
                     >
                       Login
