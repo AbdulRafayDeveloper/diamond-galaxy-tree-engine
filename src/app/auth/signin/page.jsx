@@ -114,7 +114,7 @@ const Page = () => {
                           value={formData.email}
                           onChange={handleChange}
                           required
-                          className="bg-gray-50 w-[400px] text-sm text-gray-800 px-4 py-3.5 pl-9 rounded-md outline-purple-600 focus:bg-transparent"
+                          className="bg-gray-50 w-[400px] text-sm text-gray-800 px-4 py-3.5 pl-9 rounded-md outline-blue-800 focus:bg-transparent"
                           placeholder="email"
                         />
                       </div>
@@ -135,7 +135,7 @@ const Page = () => {
                           value={formData.password}
                           onChange={handleChange}
                           required
-                          className="bg-gray-50 w-[400px] text-sm text-gray-800 px-4 py-3.5 pl-9 rounded-md outline-purple-600 focus:bg-transparent"
+                          className="bg-gray-50 w-[400px] text-sm text-gray-800 px-4 py-3.5 pl-9 rounded-md outline-blue-800 focus:bg-transparent"
                           placeholder="password"
                         />
                         <button
