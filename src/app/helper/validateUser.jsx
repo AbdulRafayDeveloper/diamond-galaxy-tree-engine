@@ -22,7 +22,6 @@ const userSchema = Joi.object({
     }),
 
   username: Joi.string().alphanum().min(3).max(30).required().messages({
-    "string.alphanum": "Username must only contain letters and numbers.",
     "string.empty": "Username is required.",
     "string.min": "Username must be at least 3 characters long.",
     "string.max": "Username must be at most 30 characters long.",
