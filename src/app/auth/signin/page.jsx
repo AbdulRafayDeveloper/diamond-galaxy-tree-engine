@@ -43,8 +43,8 @@ const Page = () => {
 
         localStorage.setItem("token", token);
 
-        toast.success("Login successful!");
-        setLoading(false);
+        toast.success("Login successful!")
+        // router.push("/owner/dashboard");
       } else {
         setLoading(false);
         throw new Error("Unexpected response");
