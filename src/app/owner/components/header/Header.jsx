@@ -101,19 +101,19 @@ useEffect(() => {
       <header>
         <nav className="w-full border-gray-200 px-4 lg:px-6 py-2">
           <div className="flex justify-between items-center mx-auto max-w-screen-xl pt-2">
-            <p
-              className={`text-[#393939] lg:text-2xl text-[13px] ${title.includes("Welcome")
-                  ? "font-bold text-2xl"
-                  : "font-medium text-2xl"
+            {/* <p
+              className={`text-[#393939] lg:text-3xl text-[20px] ${title.includes("Diamond")
+                  ? "font-bold text-3xl"
+                  : "font-medium text-3xl"
                 }`}
             >
               {title}
-            </p>
+            </p> */}
 
             <div className="flex items-center lg:order-2 order-2 space-x-4">
               {/* Conditional rendering of dropdown button */}
 
-              <div
+              {/* <div
                 className={`relative  ${isDropdownAppear ? "inline-block" : "hidden"
                   }`}
               >
@@ -189,7 +189,7 @@ useEffect(() => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               {/* Bell Icon with Red Dot 
               <div className="relative pl-12">
@@ -257,8 +257,8 @@ useEffect(() => {
                   className="flex flex-row justify-center items-center focus:outline-none"
                 >
                   <img
-                    className="w-8 h-9 rounded-full"
-                    src="/person2.jpg"
+                    className="w-10 h-10 rounded-[400px] object-cover"
+                    src="/logo.jpg"
                     alt="Rounded avatar"
                   />
                   <svg
@@ -306,13 +306,42 @@ useEffect(() => {
                         <div className="flex items-center gap-x-2">
                           <img
                             src="/icons/person.png"
-                            className=" w-3 h-3"
+                            className="size-3"
+                            fill="black" stroke="black"
                             alt="Profile"
                           />
                           <div className="flex flex-col">
                             <Link href="/owner/profile_settings">
                               <span className="text-xs  text-gray-800">
-                                Profile Settings
+                                Profile 
+                              </span>
+                            </Link>
+                          </div>
+                        </div>
+                      </li>
+                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                        <div className="flex items-center gap-x-2">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="black" stroke="black" className="size-3">
+                            <path d="M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z"/>
+                          </svg>
+                          <div className="flex flex-col">
+                            <Link href="/owner/profile_settings">
+                              <span className="text-xs  text-gray-800">
+                                Update Password 
+                              </span>
+                            </Link>
+                          </div>
+                        </div>
+                      </li>
+                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                        <div className="flex items-center gap-x-2">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="black" stroke="black" className="size-3">
+                            <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"/>
+                          </svg>
+                          <div className="flex flex-col">
+                            <Link href="/owner/profile_settings">
+                              <span className="text-xs  text-gray-800">
+                                Logout 
                               </span>
                             </Link>
                           </div>
@@ -360,9 +389,6 @@ useEffect(() => {
                           </div>
                         </div>
                       </li> */}
-                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                        Logout
-                      </li>
                     </ul>
                   </div>
                 )}
