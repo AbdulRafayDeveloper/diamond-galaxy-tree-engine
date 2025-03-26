@@ -5,8 +5,10 @@ import Image from "next/image";
 
 const Carousel = () => {
   const slides = [
-    "/carousel/image2.jpg",
-    "/carousel/image3.jpg",
+    // "/carousel/image4.jpg",
+    "/carousel/image5.webp",
+    // "/carousel/image6.jpg",
+
   ];
 
   const [current, setCurrent] = useState(0);
@@ -36,7 +38,7 @@ const Carousel = () => {
               alt={`Slide ${index + 1}`}
               layout="fill"
               objectFit="cover"
-              className="rounded-lg w-[100%] "
+              className="rounded-lg w-[90%] "
               
             />
           </div>
@@ -58,15 +60,16 @@ const Carousel = () => {
 
       {/* Navigation Buttons */}
       <button
-        className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white/30 hover:bg-white/50 p-2 rounded-full"
+        className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white/30 hover:bg-white/50 p-1 rounded-full"
         onClick={() => setCurrent(current === 0 ? length - 1 : current - 1)}
       >
         ❮
       </button>
       <button
-        className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-white/30 hover:bg-white/50 p-2 rounded-full"
+        className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-white/30 hover:bg-white/50 p-1 rounded-full"
         onClick={() => setCurrent((current + 1) % length)}
       >
+        
         ❯
       </button>
     </div>

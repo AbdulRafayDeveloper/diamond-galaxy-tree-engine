@@ -1,64 +1,23 @@
 "use client";
-import Header from "@/app/owner/components/header/Header";
-import Table from "@/app/owner/components/itemTable/Table";
-import SideBar from "@/app/owner/components/sidebar/SideBar";
+
 import { useState, useRef, useEffect } from "react";
-import { Calendar, dateFnsLocalizer } from "react-big-calendar";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import { format, parse, startOfWeek, getDay } from "date-fns";
-import Pagination from "../components/pagination/page";
+import Header from "@/app/owner/components/header/Header";
+import SideBar from "@/app/owner/components/sidebar/SideBar";
 import Link from "next/link";
 import Carousel from "../components/carousel/page";
+import Card from "../components/cards/page";
+import Deposit from '../components/deposits/page';
 
-const locales = {
-  "en-US": require("date-fns/locale/en-US"),
-};
 
-const localizer = dateFnsLocalizer({
-  format,
-  parse,
-  startOfWeek,
-  getDay,
-  locales,
-});
 
-const events = [
-  {
-    title: "House Paint",
-    start: new Date(2024, 7, 21, 13, 0),
-    end: new Date(2024, 7, 21, 15, 0),
-  },
-  {
-    title: "Furniture Polish",
-    start: new Date(2024, 7, 22, 8, 0),
-    end: new Date(2024, 7, 22, 10, 0),
-  },
-  {
-    title: "Electricity Work",
-    start: new Date(2024, 7, 24, 10, 0),
-    end: new Date(2024, 7, 24, 12, 0),
-  },
-];
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
   const buttonRef = useRef(null);
-  const [currentDate, setCurrentDate] = useState(new Date());
 
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
-  };
-
-  const [currentView, setCurrentView] = useState("week");
-
-  const handleNavigate = (newDate) => {
-    setCurrentDate(newDate);
-  };
-
-  const handleViewChange = (view) => {
-    setCurrentView(view);
-    console.log("View changed to:", view);
   };
 
   const handleClickOutside = (event) => {
@@ -71,50 +30,6 @@ const Page = () => {
       setIsSidebarOpen(false);
     }
   };
-
-  const products = [
-    {
-      name: "Apple MacBook Pro 17",
-      image: "/icons/image_1.png",
-      status: "Good",
-      service: "06/Sep/2024",
-      date: "15/may/2024",
-      warranty: "1 Year",
-    },
-    {
-      name: "Microsoft Surface Pro",
-      image: "/icons/image_2.png",
-      status: "Upcoming Maintenance",
-      service: "06/Sep/2024",
-      date: "15/may/2024",
-      warranty: "1 Year",
-    },
-    {
-      name: "Magic Mouse 2",
-      image: "/icons/image_3.png",
-      status: "Urgent Repair",
-      service: "06/Sep/2024",
-      date: "15/may/2024",
-      warranty: "1 Year",
-    },
-    {
-      name: "Google Pixel Phone",
-      image: "/icons/image_4.png",
-      status: "Upcoming Maintenance",
-      service: "06/Sep/2024",
-      date: "15/may/2024",
-      warranty: "1 Year",
-    },
-    {
-      name: "Apple Watch 5",
-      image: "/icons/image_5.png",
-      status: "Urgent Repair",
-      service: "06/Sep/2024",
-      date: "15/may/2024",
-      warranty: "1 Year",
-    },
-  ];
-
   const section = "Dashboard";
 
   useEffect(() => {
@@ -170,43 +85,50 @@ const Page = () => {
 
       <div className="md:ml-64">
         
-        <div className=" p-6 bg-white">
-          <div className="mx-auto bg-white flex justify-center items-center ">
-            <div className="w-full bg-[#22405c] p-4 justify-center rounded-md">
-                <div className="flex flex-row text-white  gap-6 justify-between">
-                  <div>
+        <div className="bg-white">
+          <div className="bg-white p-4">
+          <div className="w-full bg-white shadow-xl border border-[#22405c] p-4 justify-center rounded-md">
+              <div className="flex flex-row text-[#22405c]  gap-6 justify-between">
+                 <div>
                     <img
-                      className="w-14 h-14 rounded-[400px] object-cover"
-                      src="/logo.jpg"
+                      className="w-[70px] h-[55px] rounded-[300px] object-cover"
+                      src="/logoImg.avif"
                       alt="Rounded avatar"
                     />
                   </div>
-                  <div className="text-sm md:text-md">
-                    <p>Member Name : Ali</p>
-                    <p>Member Grade : Top Level</p>
+                  <div  className="flex flex-row md:text-md text-sm gap-4 justify-center item-center text-center mt-5">
+                    <p className="text-[9px] md:text-lg">Refered By : Rafy</p>
+                    <p className="text-[9px] md:text-lg">Senior Username : Rafy </p>
                   </div>
-                  <div  className="text-sm md:text-md">
-                    <p>Refered By : Rafy</p>
-                    <p>Senior Username : Rafy </p>
+                  <div className="flex flex-row md:text-md text-sm gap-4 justify-center item-center text-center mt-5">
+                    <p className="text-[9px] md:text-lg">Member Name : Ali</p>
+                    <p className="text-[9px] md:text-lg">Member Grade : Top Level</p>
                   </div>
-                </div>
-                <p className="mt-4 text-white font-bold">Personal Link</p>
-                <button className="w-full p-1 bg-white text-blue rounded-md">
-                  <Link href="#" className="flex">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className="size-5 fill-gray-700 mt-1">
-                    <path d="M208 0L332.1 0c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9L448 336c0 26.5-21.5 48-48 48l-192 0c-26.5 0-48-21.5-48-48l0-288c0-26.5 21.5-48 48-48zM48 128l80 0 0 64-64 0 0 256 192 0 0-32 64 0 0 48c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 176c0-26.5 21.5-48 48-48z"/></svg>
-                    <p className="text-blue-500 underline text-left ml-4">www.diamondGalaxy.io</p>
-                  </Link>
-                </button>
-            </div>
-
-
+              </div>
+                  
+                  <p className="mt-4 text-[#22405c] font-bold">Personal Link</p>
+                  <Link
+                      href="https://www.diamondGalaxy.io"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full p-2 rounded-md bg-[#22405c] flex items-center justify-between text-white hover:bg-[#2a4e6d] transition-colors"
+                    >
+                      <span className="underline underline-offset-2 ml-2">www.diamondGalaxy.io</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className="size-5 fill-white mt-1 text-left flex items-end">
+                        <path d="M208 0L332.1 0c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9L448 336c0 26.5-21.5 48-48 48l-192 0c-26.5 0-48-21.5-48-48l0-288c0-26.5 21.5-48 48-48zM48 128l80 0 0 64-64 0 0 256 192 0 0-32 64 0 0 48c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 176c0-26.5 21.5-48 48-48z"/>
+                      </svg>
+                    </Link>
+              </div>
+              <div className=" mt-4">
+                <Carousel />
+              </div>
+              <div>
+                <Card/>
+              </div>
+              <div>
+                <Deposit/>
+              </div>
           </div>
-          {/* carousel */}
-            <div className="flex justify-center items-center mt-4">
-            <Carousel />
-          </div>
-
         </div>
       </div>
     </div>

@@ -13,17 +13,17 @@ const SideBar = ({ section }) => {
           <p>Account Balance</p>
           <p className="text-md font-mono">10.00 USD</p> 
           <div className="flex flex-row gap-4 mt-3">
-            <button className="p-2 rounded-md text-sm text-white bg-gray-400">Deposit</button>
-            <button className="p-2 rounded-md text-sm text-white bg-gray-900">Withdraw</button>
+            <button className="p-2 rounded-md text-sm text-black bg-[#F6F1DE]">Deposit</button>
+            <button className="p-2 rounded-md text-sm text-black bg-[#F6F1DE]">Withdraw</button>
           </div>
         </li>
         <Link
             href="/owner/dashboard"
-            className={`flex items-center bg-gray-900 p-2 text-white group ${section === "Dashboard" ? "bg-gray-900" : "hover:bg-gray-900"
+            className={`flex items-center bg-[#F6F1DE] p-2 text-black group ${section === "Dashboard" ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
               }`}
           >
         <li
-          className={`pt-2 pb-2 flex items-center cursor-pointer ${section === "Dashboard" ? "bg-gray-900" : "hover:bg-gray-900"
+          className={`pt-2 pb-2 flex items-center cursor-pointer ${section === "Dashboard" ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
             }`}
         >
           
@@ -31,7 +31,7 @@ const SideBar = ({ section }) => {
               <img
                 src="/icons/mage_dashboard-fill.png"
                 alt=""
-                className="w-4 h-4 flex-shrink-0"
+                className="w-4 h-4 flex-shrink-0 bg-black"
               />
               <span className="ms-3 font-normal text-sm">
                 Dashboard 
@@ -43,13 +43,13 @@ const SideBar = ({ section }) => {
         
         <li
           className={`pb-2 ${section === "Deposit"
-            ? "bg-gray-900" : "hover:bg-gray-900"
+            ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
             }`}
         >
           <Link
             href="#"
             className={`flex items-center p-2 text-white group ${section === "Deposit"
-              ? "bg-gray-900" : "hover:bg-gray-900"
+              ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
               }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center">
@@ -64,13 +64,13 @@ const SideBar = ({ section }) => {
         </li>
         <li
           className={`pb-2 ${section === "Lucky Draw"
-            ? "bg-gray-900" : "hover:bg-gray-900"
+            ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
             }`}
         >
           <Link
             href="#"
             className={`flex items-center p-2 text-white group ${section === "Lucky Draw"
-              ? "bg-gray-900" : "hover:bg-gray-900"
+              ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
               }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center">
@@ -85,13 +85,13 @@ const SideBar = ({ section }) => {
         </li>
         <li
           className={`pb-2 ${section === "Registration"
-            ? "bg-gray-900" : "hover:bg-gray-900"
+            ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
             }`}
         >
           <Link
             href="#"
             className={`flex items-center p-2 text-white group ${section === "Registration"
-              ? "bg-gray-900" : "hover:bg-gray-900"
+              ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
               }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center">
@@ -107,13 +107,13 @@ const SideBar = ({ section }) => {
         </li>
         <li
           className={`pb-2  ${section === "Activate"
-            ? "bg-gray-900" : "hover:bg-gray-900"
+            ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
             }`}
         >
           <a
             href="#"
             className={`flex items-center p-2 text-white group ${section === "Activate"
-              ? "bg-gray-900" : "hover:bg-gray-900"
+              ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
               }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center">
@@ -128,13 +128,13 @@ const SideBar = ({ section }) => {
         </li>
         <li
           className={`pb-2 ${section === "Slotes"
-            ? "bg-gray-900" : "hover:bg-gray-900"
+            ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
             }`}
         >
           <a
             href="#"
             className={`flex items-center p-2 text-white group ${section === "Slotes"
-                ? "bg-gray-900" : "hover:bg-gray-900"
+                ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
               }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center">
@@ -150,13 +150,13 @@ const SideBar = ({ section }) => {
         {/*  */}
         <li
           className={`pb-2 ${section === "Monthly Gifts"
-            ? "bg-gray-900" : "hover:bg-gray-900"
+            ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
             }`}
         >
           <a
             href="#"
             className={`flex items-center p-2 text-white group ${section === "Monthly Gifts"
-                ? "bg-gray-900" : "hover:bg-gray-900"
+                ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
               }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center">
@@ -171,13 +171,13 @@ const SideBar = ({ section }) => {
         </li>
         <li
           className={`pb-2 ${section === "Grades"
-            ? "bg-gray-900" : "hover:bg-gray-900"
+            ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
             }`}
         >
           <a
             href="#"
             className={`flex items-center p-2 text-white group ${section === "Grades"
-                ? "bg-gray-900" : "hover:bg-gray-900"
+                ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
               }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center">
@@ -192,13 +192,13 @@ const SideBar = ({ section }) => {
         </li>
         <li
           className={`pb-2 ${section === "Rewards"
-            ? "bg-gray-900" : "hover:bg-gray-900"
+            ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
             }`}
         >
           <a
             href="#"
             className={`flex items-center p-2 text-white group ${section === "Rewards"
-                ? "bg-gray-900" : "hover:bg-gray-900"
+                ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
               }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center">
@@ -213,13 +213,13 @@ const SideBar = ({ section }) => {
         </li>
         <li
           className={`pb-2 ${section === "My Refferal"
-            ? "bg-gray-900" : "hover:bg-gray-900"
+            ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
             }`}
         >
           <a
             href="#"
             className={`flex items-center p-2 text-white group ${section === "My Refferal"
-                ? "bg-gray-900" : "hover:bg-gray-900"
+                ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
               }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center">
@@ -234,13 +234,13 @@ const SideBar = ({ section }) => {
         </li>
         <li
           className={`pb-2 ${section === "Education"
-            ? "bg-gray-900" : "hover:bg-gray-900"
+            ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
             }`}
         >
           <a
             href="#"
             className={`flex items-center p-2 text-white group ${section === "Education"
-                ? "bg-gray-900" : "hover:bg-gray-900"
+                ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
               }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center" >
@@ -255,13 +255,13 @@ const SideBar = ({ section }) => {
         </li>
         <li
           className={`pb-2 ${section === "Salary"
-            ? "bg-gray-900" : "hover:bg-gray-900"
+            ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
             }`}
         >
           <a
             href="#"
             className={`flex items-center p-2 text-white group ${section === "Salary"
-                ? "bg-gray-900" : "hover:bg-gray-900"
+                ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
               }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center">
@@ -276,13 +276,13 @@ const SideBar = ({ section }) => {
         </li>
         <li
           className={`pb-2 ${section === "Transaction"
-            ? "bg-gray-900" : "hover:bg-gray-900"
+            ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
             }`}
         >
           <a
             href="#"
             className={`flex items-center p-2 text-white group ${section === "Transaction"
-                ? "bg-gray-900" : "hover:bg-gray-900"
+                ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
               }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center">
@@ -297,13 +297,13 @@ const SideBar = ({ section }) => {
         </li>
         <li
           className={`pb-2 ${section === "My Team"
-            ? "bg-gray-900" : "hover:bg-gray-900"
+            ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
             }`}
         >
           <a
             href="#"
             className={`flex items-center p-2 text-white group ${section === "My Team"
-                ? "bg-gray-900" : "hover:bg-gray-900"
+                ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
               }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center">
@@ -318,13 +318,13 @@ const SideBar = ({ section }) => {
         </li>
         <li
           className={`pb-2 ${section === "Fingure Print"
-            ? "bg-gray-900" : "hover:bg-gray-900"
+            ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
             }`}
         >
           <a
             href="#"
             className={`flex items-center p-2 text-white group ${section === "Fingure Print"
-                ? "bg-gray-900" : "hover:bg-gray-900"
+                ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
               }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center">
@@ -339,13 +339,13 @@ const SideBar = ({ section }) => {
         </li>
         <li
           className={`pb-2 ${section === "Change Profile"
-            ? "bg-gray-900" : "hover:bg-gray-900"
+            ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
             }`}
         >
           <a
             href="#"
             className={`flex items-center p-2 text-white group ${section === "Change Profile"
-                ? "bg-gray-900" : "hover:bg-gray-900"
+                ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
               }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center">
@@ -360,13 +360,13 @@ const SideBar = ({ section }) => {
         </li>
         <li
           className={`pb-2 ${section === "Change Password"
-            ? "bg-gray-900" : "hover:bg-gray-900"
+            ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
             }`}
         >
           <a
             href="#"
             className={`flex items-center p-2 text-white group ${section === "Change Password"
-                ? "bg-gray-900" : "hover:bg-gray-900"
+                ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
               }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center">
@@ -381,13 +381,13 @@ const SideBar = ({ section }) => {
         </li>
         <li
           className={`pb-2 ${section === "Logout"
-            ? "bg-gray-900" : "hover:bg-gray-900"
+            ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
             }`}
         >
           <a
             href="#"
             className={`flex items-center p-2 text-white group ${section === "Logout"
-                ? "bg-gray-900" : "hover:bg-gray-900"
+                ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
               }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center">
