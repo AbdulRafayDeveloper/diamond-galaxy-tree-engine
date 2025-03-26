@@ -226,11 +226,11 @@ const Page = () => {
                   </svg>
                         
                     <input
-                          name="number"
-                          type="text"
+                          name="phoneNo"
+                          type="tel"
                           value={formData.phoneNo}
                           onChange={handleChange}
-                          required
+                          // required
                           className="bg-gray-50 w-full text-sm text-gray-800 px-4 py-3.5 pl-9 rounded-md outline-blue-800 focus:bg-transparent"
                           placeholder="Phone Number"
                         />
@@ -320,7 +320,7 @@ const Page = () => {
                           type="text"
                           value={formData.referralCode}
                           onChange={handleChange}
-                          required
+                          // required
                           className="bg-gray-50 w-full text-sm text-gray-800 px-4 py-3.5 pl-9 rounded-md outline-blue-800 focus:bg-transparent"
                           placeholder="Referral Code (optional)"
                         />
