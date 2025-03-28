@@ -4,16 +4,16 @@ const Page=()=>{
     return (
         <>
             <div className="conatiner mt-3 ">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="flex flex-col bg-[#F6F1DE] rounded-xl h-[200px] gap-4 p-3 justify-center items-center">
                        <div className="flex flex-row gap-2">
-                            <h1 className="text-black">Partners</h1>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className="size-5" fill="black" stroke="black">
+                            <h1 className="text-black text-3xl">Partners</h1>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className="size-6 mt-2" fill="black" stroke="black">
                                 <path d="M352 224c53 0 96-43 96-96s-43-96-96-96s-96 43-96 96c0 4 .2 8 .7 11.9l-94.1 47C145.4 170.2 121.9 160 96 160c-53 0-96 43-96 96s43 96 96 96c25.9 0 49.4-10.2 66.6-26.9l94.1 47c-.5 3.9-.7 7.8-.7 11.9c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-25.9 0-49.4 10.2-66.6 26.9l-94.1-47c.5-3.9 .7-7.8 .7-11.9s-.2-8-.7-11.9l94.1-47C302.6 213.8 326.1 224 352 224z"/>
                             </svg>
                        </div>
                        <div>
-                            <p className="text-lg font-bold text-yellow-500">5</p>
+                            <p className="text-2xl font-bold text-yellow-500">5</p>
                        </div>
                        <div className="flex flex-row" >
                             <button className="w-[150px] p-1 bg-black opacticy-30  flex flex-row justify-center gap-4 rounded-xl">
@@ -28,13 +28,13 @@ const Page=()=>{
                     {/* col 2 */}
                     <div className="flex flex-col bg-[#22405c] rounded-xl gap-4 p-3 justify-center items-center">
                        <div className="flex flex-row gap-2">
-                            <h1 className="text-white">Team</h1>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className="size-5" fill="white" stroke="black">
+                            <h1 className="text-white text-3xl">Team</h1>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className="size-6 mt-2" fill="white" stroke="black">
                                 <path d="M352 224c53 0 96-43 96-96s-43-96-96-96s-96 43-96 96c0 4 .2 8 .7 11.9l-94.1 47C145.4 170.2 121.9 160 96 160c-53 0-96 43-96 96s43 96 96 96c25.9 0 49.4-10.2 66.6-26.9l94.1 47c-.5 3.9-.7 7.8-.7 11.9c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-25.9 0-49.4 10.2-66.6 26.9l-94.1-47c.5-3.9 .7-7.8 .7-11.9s-.2-8-.7-11.9l94.1-47C302.6 213.8 326.1 224 352 224z"/>
                             </svg>
                        </div>
                        <div>
-                            <p className="text-lg font-bold text-yellow-500">5</p>
+                            <p className="text-2xl font-bold text-yellow-500">5</p>
                        </div>
                        <div className="flex flex-row" >
                             <button className="w-[150px] p-1 bg-white opacticy-30  flex flex-row justify-center gap-4 rounded-xl">
@@ -46,9 +46,9 @@ const Page=()=>{
                             </button>
                        </div>
                     </div>
-                    <div className="flex flex-col bg-[#F6F1DE] rounded-xl h-[200px] gap-4 p-3 justify-center items-center">
+                    {/* <div className="flex flex-col bg-[#F6F1DE] rounded-xl h-[200px] gap-4 p-3 justify-center items-center">
                        <div className="flex flex-row gap-2">
-                            <h1 className="text-black">Partners</h1>
+                            <h1 className="text-black">Individual</h1>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className="size-5" fill="black" stroke="black">
                                 <path d="M352 224c53 0 96-43 96-96s-43-96-96-96s-96 43-96 96c0 4 .2 8 .7 11.9l-94.1 47C145.4 170.2 121.9 160 96 160c-53 0-96 43-96 96s43 96 96 96c25.9 0 49.4-10.2 66.6-26.9l94.1 47c-.5 3.9-.7 7.8-.7 11.9c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-25.9 0-49.4 10.2-66.6 26.9l-94.1-47c.5-3.9 .7-7.8 .7-11.9s-.2-8-.7-11.9l94.1-47C302.6 213.8 326.1 224 352 224z"/>
                             </svg>
@@ -65,7 +65,7 @@ const Page=()=>{
                                 <img src="/logoImg.avif" alt="" className="w-6 h-6 flex justify-end rounded-[200px]" />
                             </button>
                        </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </>

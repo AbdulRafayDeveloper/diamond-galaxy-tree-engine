@@ -6,7 +6,7 @@ import SideBar from "@/app/owner/components/sidebar/SideBar";
 import Link from "next/link";
 import Carousel from "../components/carousel/page";
 import Card from "../components/cards/page";
-import Deposit from '../components/deposits/page';
+import WithDraw from '../components/with_draw/page';
 
 
 
@@ -15,9 +15,15 @@ const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
   const buttonRef = useRef(null);
-
+  // const [copied,setCopied]=useState("");
+  
+  const link="https://www.diamondGalaxy.io";
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
+  };
+  const handleCopy = () => {
+    navigator.clipboard.writeText(link);
+    alert("Link copied to clipboard!");
   };
 
   const handleClickOutside = (event) => {
@@ -97,26 +103,28 @@ const Page = () => {
                     />
                   </div>
                   <div  className="flex flex-row md:text-md text-sm gap-4 justify-center item-center text-center mt-5">
-                    <p className="text-[9px] md:text-lg">Refered By : Rafy</p>
-                    <p className="text-[9px] md:text-lg">Senior Username : Rafy </p>
+                    <p className="text-[9px] md:text-lg">Member Name: Fatima</p>
+                    <p className="text-[9px] md:text-lg">Member Grade : Top Level</p>
                   </div>
                   <div className="flex flex-row md:text-md text-sm gap-4 justify-center item-center text-center mt-5">
-                    <p className="text-[9px] md:text-lg">Member Name : Ali</p>
-                    <p className="text-[9px] md:text-lg">Member Grade : Top Level</p>
+                    <p className="text-[9px] md:text-lg">Country Name: PKR</p>
+                    <p className="text-[9px] md:text-lg">Reffered By: Rafy</p>
                   </div>
               </div>
                   
                   <p className="mt-4 text-[#22405c] font-bold">Personal Link</p>
                   <Link
-                      href="https://www.diamondGalaxy.io"
+                      href={link}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-full p-2 rounded-md bg-[#22405c] flex items-center justify-between text-white hover:bg-[#2a4e6d] transition-colors"
                     >
-                      <span className="underline underline-offset-2 ml-2">www.diamondGalaxy.io</span>
+                      <span className="underline underline-offset-2 ml-2">{link}</span>
+                     <button onClick={handleCopy}>
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className="size-5 fill-white mt-1 text-left flex items-end">
-                        <path d="M208 0L332.1 0c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9L448 336c0 26.5-21.5 48-48 48l-192 0c-26.5 0-48-21.5-48-48l0-288c0-26.5 21.5-48 48-48zM48 128l80 0 0 64-64 0 0 256 192 0 0-32 64 0 0 48c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 176c0-26.5 21.5-48 48-48z"/>
-                      </svg>
+                          <path d="M208 0L332.1 0c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9L448 336c0 26.5-21.5 48-48 48l-192 0c-26.5 0-48-21.5-48-48l0-288c0-26.5 21.5-48 48-48zM48 128l80 0 0 64-64 0 0 256 192 0 0-32 64 0 0 48c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 176c0-26.5 21.5-48 48-48z"/>
+                        </svg>
+                     </button>
                     </Link>
               </div>
               <div className=" mt-4">
@@ -125,9 +133,31 @@ const Page = () => {
               <div>
                 <Card/>
               </div>
-              <div>
-                <Deposit/>
+              <div className="conatiner mt-5">
+              <div className="bg-[#F6F1DE] p-3">
+                      <div className="bg-[#22405c] p-3 rounded-md">
+                        <h1 className="text-xl text-white">Deposit</h1>
+                      </div>
+                      <div className="flex flex-row justify-between gap-4 p-4">
+                          <div>
+                            <p>Submitted</p>
+                            <p>$0.00</p>
+                          </div>
+                          <div>
+                            <p>Pending</p>
+                            <p>$0.00</p>
+                          </div>
+                          <div>
+                            <p>Rejected</p>
+                            <p>$0.00</p>
+                          </div>
+                      </div>
+                  </div>
               </div>
+              <div>
+                <WithDraw/>
+              </div>
+
           </div>
         </div>
       </div>

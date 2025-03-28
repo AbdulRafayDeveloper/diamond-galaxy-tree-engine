@@ -12,7 +12,6 @@ const Page = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-
   const handleClickOutside = (event) => {
     if (
       sidebarRef.current &&
@@ -59,7 +58,12 @@ const Page = () => {
         email:"abcd1234@gail.com",
         joinDate:"23-02-2025 3:00 PM",
     }
-  ]
+  ];
+  const maskEmail = (email) => {
+    const [first, domain] = email.split("@"); // Split the email
+    const masked = first.charAt(0) + "*".repeat(first.length - 1); // Mask the username
+    return `${masked}@${domain}`;
+  };
   return (
     <div className="overflow-y-auto scrollbar-hidden">
       <div className="grid grid-cols-3 md:flex  p-2">
@@ -133,7 +137,7 @@ const Page = () => {
                                     Email
                                 </div>
                                 <div>
-                                    {el.email}
+                                {maskEmail(el.email)}
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 bg-white shadow-md p-2 mb-1">
