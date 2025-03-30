@@ -18,6 +18,9 @@ const userSchema = new mongoose.Schema(
       default: [],
       ref: "Users",
     },
+    rewardableReferrals: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
+    ],
   },
   {
     timestamps: true,

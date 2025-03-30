@@ -62,12 +62,10 @@ export async function POST(req) {
     }
 
     let referrerId = null;
-    let referrerPathBase = [];
-    let referrerUser;
     let referralChain = [];
 
     if (referrerCode) {
-      referrerUser = await Users.findOne({ username: referrerCode });
+      const referrerUser = await Users.findOne({ username: referrerCode });
 
       if (!referrerUser) {
         return NextResponse.json(
@@ -78,17 +76,6 @@ export async function POST(req) {
 
       referrerId = referrerUser._id;
       const parentChain = referrerUser.referralChain || [];
-
-      if (parentChain.length >= 6) {
-        return NextResponse.json(
-          {
-            success: false,
-            error: "Referral chain limit (7 levels) reached.",
-          },
-          { status: 400 }
-        );
-      }
-
       referralChain = [referrerId, ...parentChain];
     }
 
@@ -129,9 +116,15 @@ export async function POST(req) {
       );
     }
 
-    if (referrerUser) {
-      await Users.findByIdAndUpdate(referrerUser._id, {
+    if (referrerId) {
+      await Users.findByIdAndUpdate(referrerId, {
         $addToSet: { referralPath: savedUser._id },
+      });
+    }
+
+    for (let i = 0; i < referralChain.length && i < 7; i++) {
+      await Users.findByIdAndUpdate(referralChain[i], {
+        $addToSet: { rewardableReferrals: savedUser._id },
       });
     }
 
