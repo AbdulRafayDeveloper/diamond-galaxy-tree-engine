@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { Contractor } from "@/app/config/Models/Contractor/contractor";
 import { Subscribers } from "@/app/config/Models/Subscriber/subscribers";
-import serverSideHomeOwnerValidation from "@/app/helper/serverSideHomeOwnerValidation";
+import serverSideHomeOwnerValidation from "@/app/helper/serverSideUserValidation";
 import {
   successResponse,
   serverErrorResponse,

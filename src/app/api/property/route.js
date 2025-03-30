@@ -12,7 +12,7 @@ import {
   conflictResponse,
 } from "@/app/helper/apiResponseHelpers";
 
-import serverSideHomeOwnerValidation from "@/app/helper/serverSideHomeOwnerValidation";
+import serverSideHomeOwnerValidation from "@/app/helper/serverSideUserValidation";
 
 export async function GET(req) {
   try {

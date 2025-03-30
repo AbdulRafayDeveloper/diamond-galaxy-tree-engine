@@ -5,8 +5,11 @@ import Link from "next/link";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 const Page = () => {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -41,10 +44,10 @@ const Page = () => {
       if (response.status === 200 && response.data.success) {
         const { token, user } = response.data;
 
-        localStorage.setItem("token", token);
+        Cookies.set("token", token, { expires: 7 });
 
-        toast.success("Login successful!")
-        // router.push("/owner/dashboard");
+        toast.success("Login successful!");
+        router.push("/owner/dashboard");
       } else {
         setLoading(false);
         throw new Error("Unexpected response");

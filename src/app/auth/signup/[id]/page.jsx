@@ -1,10 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 const Page = () => {
   const [loading, setLoading] = useState(false);
@@ -58,7 +59,7 @@ const Page = () => {
 
     try {
       console.log(formData);
-      const response = await axios.post("../api/signup", {
+      const response = await axios.post("/api/signup", {
         firstName: formData.fname,
         lastName: formData.lname,
         username: formData.username,
@@ -68,12 +69,13 @@ const Page = () => {
         password: formData.password,
         referrerCode: formData.referrerCode || "",
       });
-
+      console.log(response);
       if (response.status === 200 && response.data.success) {
         const { token, user } = response.data;
 
         toast.success("Account created successfully!");
 
+        // Clear fields after successful response
         setFormData({
           fname: "",
           lname: "",
@@ -101,6 +103,21 @@ const Page = () => {
       setLoading(false);
     }
   };
+
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const ref = searchParams.get("ref");
+
+    if (!ref) {
+      const pathRef = window.location.pathname.split("ref=").pop();
+      if (pathRef && pathRef !== window.location.pathname) {
+        setFormData((prev) => ({ ...prev, referrerCode: pathRef }));
+      }
+    } else {
+      setFormData((prev) => ({ ...prev, referrerCode: ref }));
+    }
+  }, []);
 
   return (
     <div className="relative">
@@ -344,8 +361,9 @@ const Page = () => {
                       type="text"
                       value={formData.referrerCode}
                       onChange={handleChange}
-                      // required
-                      className="bg-gray-50 w-full text-sm text-gray-800 px-4 py-3.5 pl-9 rounded-md outline-blue-800 focus:bg-transparent"
+                      disabled
+                      readOnly={!!searchParams.get("ref")}
+                      className="bg-gray-50 w-full text-sm text-gray-500 px-4 py-3.5 pl-9 rounded-md outline-blue-800 focus:bg-transparent"
                       placeholder="Referrer Code (optional)"
                     />
                   </div>

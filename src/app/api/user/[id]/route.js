@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { Users } from "@/app/config/Models/Users/users";
-import serverSideValidations from "@/app/helper/serverSideValidations";
+import serverSideUserValidation from "@/app/helper/serverSideUserValidation";
 import {
   successResponse,
   badRequestResponse,
@@ -11,19 +11,24 @@ import {
 } from "@/app/helper/apiResponseHelpers";
 import db from "@/app/config/db";
 import { Subscribers } from "@/app/config/Models/Subscriber/subscribers";
+import serverSideValidations from "@/app/helper/serverSideValidations";
 
 export async function GET(req, res) {
   try {
     const token = serverSideValidations.checkTokenValidationStyle(req);
-    const user = await serverSideValidations.validateUserByToken(token);
+    console.log(token);
+    const user = await serverSideUserValidation.validateUserByToken(token);
+
     if (user.status) return user;
 
     const id = new URL(req.url).pathname.split("/").pop();
-    const foundUser = await Users.findById(id);
+    const foundUser = await Users.findById(user._id);
 
     if (!foundUser) {
       return notFoundResponse("User not found.", null);
     }
+
+    console.log(foundUser);
 
     return successResponse("User retrieved successfully.", foundUser);
   } catch (error) {

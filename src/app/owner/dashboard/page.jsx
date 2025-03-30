@@ -6,18 +6,19 @@ import SideBar from "@/app/owner/components/sidebar/SideBar";
 import Link from "next/link";
 import Carousel from "../components/carousel/page";
 import Card from "../components/cards/page";
-import WithDraw from '../components/with_draw/page';
-
-
-
+import WithDraw from "../components/with_draw/page";
+import Cookies from "js-cookie";
+import axios from "axios";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
   const buttonRef = useRef(null);
+  const [data, setData] = useState({});
+  const [loading, setLoading] = useState(true);
   // const [copied,setCopied]=useState("");
-  
-  const link="https://www.diamondGalaxy.io";
+
+  const link = "https://www.diamondGalaxy.io";
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -44,6 +45,31 @@ const Page = () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const token = Cookies.get("token");
+
+        const response = await axios.get("/api/frontend/user", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const userData = response.data.data;
+        setData(userData);
+        setLoading(false);
+      } catch (e) {
+        console.error("Failed to fetch user:", e);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getData();
+  }, []);
+
   return (
     <div className="overflow-y-auto scrollbar-hidden">
       <div className="grid grid-cols-3 md:flex  p-2">
@@ -74,93 +100,113 @@ const Page = () => {
           <aside
             ref={sidebarRef}
             id="separator-sidebar"
-            className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-              } sm:translate-x-0`}
+            className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${
+              isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+            } sm:translate-x-0`}
             aria-label="Sidebar"
           >
             <SideBar section={section} />
           </aside>
         </div>
         <div className=" flex items-center md:mt-5  px-2 sm:px-6 lg:px-8 md:ml-56">
-            <p className="text-[12px]  md:text-2xl md:font-semibold">Diamond Galaxy</p>
+          <p className="text-[12px]  md:text-2xl md:font-semibold">
+            Diamond Galaxy
+          </p>
         </div>
         <div className="flex justify-end md:ml-[730px]">
-            <Header appear={true} />
+          <Header appear={true} />
         </div>
       </div>
 
-      <div className="md:ml-64">
-        
-        <div className="bg-white">
-          <div className="bg-white p-4">
-          <div className="w-full bg-white shadow-xl border border-[#22405c] p-4 justify-center rounded-md">
-              <div className="flex flex-row text-[#22405c]  gap-6 justify-between">
-                 <div>
+      {loading ? (
+        <p>Loading user...</p>
+      ) : (
+        <div className="md:ml-64">
+          <div className="bg-white">
+            <div className="bg-white p-4">
+              <div className="w-full bg-white shadow-xl border border-[#22405c] p-4 justify-center rounded-md">
+                <div className="flex flex-row text-[#22405c]  gap-6 justify-between">
+                  <div>
                     <img
                       className="w-[70px] h-[55px] rounded-[300px] object-cover"
                       src="/logoImg.avif"
                       alt="Rounded avatar"
                     />
                   </div>
-                  <div  className="flex flex-row md:text-md text-sm gap-4 justify-center item-center text-center mt-5">
-                    <p className="text-[9px] md:text-lg">Member Name: Fatima</p>
-                    <p className="text-[9px] md:text-lg">Member Grade : Top Level</p>
+                  <div className="flex flex-row md:text-md text-sm gap-4 justify-center item-center text-center mt-5">
+                    <p className="text-[9px] md:text-lg">
+                      Member Name: {data.firstName}
+                    </p>
+
+                    <p className="text-[9px] md:text-lg">
+                      Member Grade : Top Level
+                    </p>
                   </div>
                   <div className="flex flex-row md:text-md text-sm gap-4 justify-center item-center text-center mt-5">
-                    <p className="text-[9px] md:text-lg">Country Name: PKR</p>
-                    <p className="text-[9px] md:text-lg">Reffered By: Rafy</p>
+                    <p className="text-[9px] md:text-lg">
+                      Country Name: {data.country}
+                    </p>
+                    <p className="text-[9px] md:text-lg">
+                      Referred By: {data?.referrerId?.firstName || ""}
+                    </p>
                   </div>
-              </div>
-                  
-                  <p className="mt-4 text-[#22405c] font-bold">Personal Link</p>
-                  <Link
-                      href={link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full p-2 rounded-md bg-[#22405c] flex items-center justify-between text-white hover:bg-[#2a4e6d] transition-colors"
+                </div>
+
+                <p className="mt-4 text-[#22405c] font-bold">Personal Link</p>
+                <Link
+                  href={`/auth/signup/ref=${data.username}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full p-2 rounded-md bg-[#22405c] flex items-center justify-between text-white hover:bg-[#2a4e6d] transition-colors"
+                >
+                  <span className="underline underline-offset-2 ml-2">
+                    {data.referenceUrl}
+                  </span>
+                  <button onClick={handleCopy}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 448 512"
+                      className="size-5 fill-white mt-1 text-left flex items-end"
                     >
-                      <span className="underline underline-offset-2 ml-2">{link}</span>
-                     <button onClick={handleCopy}>
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className="size-5 fill-white mt-1 text-left flex items-end">
-                          <path d="M208 0L332.1 0c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9L448 336c0 26.5-21.5 48-48 48l-192 0c-26.5 0-48-21.5-48-48l0-288c0-26.5 21.5-48 48-48zM48 128l80 0 0 64-64 0 0 256 192 0 0-32 64 0 0 48c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 176c0-26.5 21.5-48 48-48z"/>
-                        </svg>
-                     </button>
-                    </Link>
+                      <path d="M208 0L332.1 0c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9L448 336c0 26.5-21.5 48-48 48l-192 0c-26.5 0-48-21.5-48-48l0-288c0-26.5 21.5-48 48-48zM48 128l80 0 0 64-64 0 0 256 192 0 0-32 64 0 0 48c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 176c0-26.5 21.5-48 48-48z" />
+                    </svg>
+                  </button>
+                </Link>
               </div>
               <div className=" mt-4">
                 <Carousel />
               </div>
               <div>
-                <Card/>
+                <Card />
               </div>
               <div className="conatiner mt-5">
-              <div className="bg-[#F6F1DE] p-3">
-                      <div className="bg-[#22405c] p-3 rounded-md">
-                        <h1 className="text-xl text-white">Deposit</h1>
-                      </div>
-                      <div className="flex flex-row justify-between gap-4 p-4">
-                          <div>
-                            <p>Submitted</p>
-                            <p>$0.00</p>
-                          </div>
-                          <div>
-                            <p>Pending</p>
-                            <p>$0.00</p>
-                          </div>
-                          <div>
-                            <p>Rejected</p>
-                            <p>$0.00</p>
-                          </div>
-                      </div>
+                <div className="bg-[#F6F1DE] p-3">
+                  <div className="bg-[#22405c] p-3 rounded-md">
+                    <h1 className="text-xl text-white">Deposit</h1>
                   </div>
+                  <div className="flex flex-row justify-between gap-4 p-4">
+                    <div>
+                      <p>Submitted</p>
+                      <p>$0.00</p>
+                    </div>
+                    <div>
+                      <p>Pending</p>
+                      <p>$0.00</p>
+                    </div>
+                    <div>
+                      <p>Rejected</p>
+                      <p>$0.00</p>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div>
-                <WithDraw/>
+                <WithDraw />
               </div>
-
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

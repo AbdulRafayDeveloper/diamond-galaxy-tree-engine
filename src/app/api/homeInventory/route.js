@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { HomeInventories } from "@/app/config/Models/HomeInventories/homeinventory";
 import { Properties } from "@/app/config/Models/Property/property";
 import { Contractor } from "@/app/config/Models/Contractor/contractor";
-import serverSideHomeOwnerValidation from "@/app/helper/serverSideHomeOwnerValidation";
+import serverSideHomeOwnerValidation from "@/app/helper/serverSideUserValidation";
 import {
   successResponse,
   serverErrorResponse,

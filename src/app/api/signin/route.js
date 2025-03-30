@@ -3,17 +3,19 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { userSignIn } from "@/app/helper/userSignIn";
 import { Users } from "@/app/config/Models/Users/users";
-import db from "@/app/config/db";
+
 import {
   successResponse,
   badRequestResponse,
   serverErrorResponse,
 } from "@/app/helper/apiResponseHelpers";
+import connectDB from "@/app/config/db";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
 export async function POST(req) {
   try {
+    await connectDB();
     const { email, password } = await req.json();
 
     const { error } = userSignIn({ email, password });

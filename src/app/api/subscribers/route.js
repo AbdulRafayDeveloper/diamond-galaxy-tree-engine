@@ -3,7 +3,7 @@ import Stripe from "stripe";
 import db from "@/app/config/db";
 import { Packages } from "@/app/config/Models/Packages/packages";
 import { Subscribers } from "@/app/config/Models/Subscriber/subscribers";
-import serverSideHomeOwnerValidation from "@/app/helper/serverSideHomeOwnerValidation";
+import serverSideHomeOwnerValidation from "@/app/helper/serverSideUserValidation";
 import {
   successResponse,
   badRequestResponse,

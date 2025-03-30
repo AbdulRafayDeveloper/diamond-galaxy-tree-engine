@@ -2,12 +2,14 @@
 import Header from "@/app/owner/components/header/Header";
 import SideBar from "@/app/owner/components/sidebar/SideBar";
 import { useState, useRef, useEffect } from "react";
-
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
   const buttonRef = useRef(null);
+  const [refData, setData] = useState({});
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -23,7 +25,6 @@ const Page = () => {
     }
   };
 
-  
   const section = "My Refferal";
 
   useEffect(() => {
@@ -33,31 +34,54 @@ const Page = () => {
     };
   }, []);
 
-  const data=[
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const token = Cookies.get("token");
+
+        const response = await axios.get("/api/frontend/references", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const userData = response.data.data;
+        setData(userData);
+        console.log(userData);
+      } catch (e) {
+        console.error("Failed to fetch user:", e);
+      } finally {
+      }
+    };
+
+    getData();
+  }, []);
+
+  const data = [
     {
-        username:"Dummy1",
-        name:"Fatima",
-        email:"abcd1234@gail.com",
-        joinDate:"23-02-2025 3:00 PM",
+      username: "Dummy1",
+      name: "Fatima",
+      email: "abcd1234@gail.com",
+      joinDate: "23-02-2025 3:00 PM",
     },
     {
-        username:"Dummy1",
-        name:"Fatima",
-        email:"abcd1234@gail.com",
-        joinDate:"23-02-2025 3:00 PM",
+      username: "Dummy1",
+      name: "Fatima",
+      email: "abcd1234@gail.com",
+      joinDate: "23-02-2025 3:00 PM",
     },
     {
-        username:"Dummy1",
-        name:"Fatima",
-        email:"abcd1234@gail.com",
-        joinDate:"23-02-2025 3:00 PM",
+      username: "Dummy1",
+      name: "Fatima",
+      email: "abcd1234@gail.com",
+      joinDate: "23-02-2025 3:00 PM",
     },
     {
-        username:"Dummy1",
-        name:"Fatima",
-        email:"abcd1234@gail.com",
-        joinDate:"23-02-2025 3:00 PM",
-    }
+      username: "Dummy1",
+      name: "Fatima",
+      email: "abcd1234@gail.com",
+      joinDate: "23-02-2025 3:00 PM",
+    },
   ];
   const maskEmail = (email) => {
     const [first, domain] = email.split("@"); // Split the email
@@ -94,65 +118,58 @@ const Page = () => {
           <aside
             ref={sidebarRef}
             id="separator-sidebar"
-            className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-              } sm:translate-x-0`}
+            className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${
+              isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+            } sm:translate-x-0`}
             aria-label="Sidebar"
           >
             <SideBar section={section} />
           </aside>
         </div>
         <div className=" flex items-center md:mt-2  px-1 sm:px-6 lg:px-8 md:ml-56">
-            <p className="text-[12px]  md:text-2xl md:font-semibold ml-3">My Refferals</p>
+          <p className="text-[12px]  md:text-2xl md:font-semibold ml-3">
+            My Refferals
+          </p>
         </div>
         <div className="flex justify-end md:ml-[750px]">
-            <Header appear={true} />
+          <Header appear={true} />
         </div>
       </div>
 
       <div className="md:ml-64">
         <div className="bg-white">
           <div className="md:p-4 p-2">
-              <div className="grid md:grid-cols-2 grid-cols-1  gap-5">
-                {
-                    data.map((el,idx)=>(
-                        <div key={idx} className="p-2 md:p-4 shadow-xl md:text-md text-sm bg-[#F6F1DE] gap-3">
-                            <div className="grid grid-cols-2 bg-white shadow-md p-2 mb-1">
-                                <div>
-                                    Username
-                                </div>
-                                <div>
-                                    {el.username}
-                                </div>
-                            </div>
-                            <div className="grid grid-cols-2 bg-white shadow-md p-2 mb-1">
-                                <div>
-                                    Name
-                                </div>
-                                <div>
-                                    { el.name }
-                                </div>
-                            </div>
-                            <div className="grid grid-cols-2 bg-white shadow-md p-2 mb-1">
-                                <div>
-                                    Email
-                                </div>
-                                <div>
-                                {maskEmail(el.email)}
-                                </div>
-                            </div>
-                            <div className="grid grid-cols-2 bg-white shadow-md p-2 mb-1">
-                                <div>
-                                    Join Date
-                                </div>
-                                <div>
-                                    {el.joinDate}
-                                </div>
-                            </div>
-                        </div>
-                    ))
-                }
-                
-              </div>
+            <div className="grid md:grid-cols-2 grid-cols-1  gap-5">
+              {Array.isArray(refData) && refData.length > 0 ? (
+                refData.map((el, idx) => (
+                  <div
+                    key={idx}
+                    className="p-2 md:p-4 shadow-xl md:text-md text-sm bg-[#F6F1DE] gap-3"
+                  >
+                    <div className="grid grid-cols-2 bg-white shadow-md p-2 mb-1">
+                      <div>Username</div>
+                      <div>{el.username}</div>
+                    </div>
+                    <div className="grid grid-cols-2 bg-white shadow-md p-2 mb-1">
+                      <div>Name</div>
+                      <div>
+                        {el.firstName} {el.lastName}
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 bg-white shadow-md p-2 mb-1">
+                      <div>Email</div>
+                      <div>{maskEmail(el.email)}</div>
+                    </div>
+                    <div className="grid grid-cols-2 bg-white shadow-md p-2 mb-1">
+                      <div>Join Date</div>
+                      <div>{new Date(el.createdAt).toLocaleString()}</div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="text-gray-500 text-sm">No referrals found.</p>
+              )}
+            </div>
           </div>
         </div>
       </div>

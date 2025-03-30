@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { Appliances } from "@/app/config/Models/Appliances/appliances";
 import { Properties } from "@/app/config/Models/Property/property";
-import serverSideHomeOwnerValidation from "@/app/helper/serverSideHomeOwnerValidation";
+import serverSideHomeOwnerValidation from "@/app/helper/serverSideUserValidation";
 import {
   successResponse,
   serverErrorResponse,

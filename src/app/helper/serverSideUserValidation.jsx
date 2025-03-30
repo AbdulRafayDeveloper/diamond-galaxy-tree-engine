@@ -10,7 +10,7 @@ import {
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
-const serverSideHomeOwnerValidation = {
+const serverSideUserValidation = {
   extractAuthToken: function (req) {
     const authHeader = req.headers.get("authorization");
 
@@ -35,7 +35,7 @@ const serverSideHomeOwnerValidation = {
     }
   },
 
-  validateHomeownerByToken: async function (token) {
+  validateUserByToken: async function (token) {
     try {
       if (!token)
         return badRequestResponse(
@@ -50,9 +50,9 @@ const serverSideHomeOwnerValidation = {
       const user = await Users.findOne({ _id: tokenData.id });
       if (!user) return notFoundResponse("User not found, log in again", null);
 
-      if (user.role !== "homeowner") {
+      if (user.role !== "user") {
         return badRequestResponse(
-          "Access Denied. Only homeowners can perform this action.",
+          "Access Denied. Only Users can perform this action.",
           null
         );
       }
@@ -87,4 +87,4 @@ const serverSideHomeOwnerValidation = {
   },
 };
 
-export default serverSideHomeOwnerValidation;
+export default serverSideUserValidation;
