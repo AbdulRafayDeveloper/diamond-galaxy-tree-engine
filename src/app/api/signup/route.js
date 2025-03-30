@@ -64,6 +64,7 @@ export async function POST(req) {
     let referrerId = null;
     let referrerPathBase = [];
     let referrerUser;
+    let referralChain = [];
 
     if (referrerCode) {
       referrerUser = await Users.findOne({ username: referrerCode });
@@ -76,6 +77,19 @@ export async function POST(req) {
       }
 
       referrerId = referrerUser._id;
+      const parentChain = referrerUser.referralChain || [];
+
+      if (parentChain.length >= 6) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: "Referral chain limit (7 levels) reached.",
+          },
+          { status: 400 }
+        );
+      }
+
+      referralChain = [referrerId, ...parentChain];
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -103,6 +117,7 @@ export async function POST(req) {
       referrerId: referrerId ?? null,
       referralPath: [],
       referenceUrl,
+      referralChain,
     });
 
     const savedUser = await newUser.save();
