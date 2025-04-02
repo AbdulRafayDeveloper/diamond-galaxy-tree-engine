@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import Header from "@/app/owner/components/header/Header";
-import SideBar from "@/app/owner/components/sidebar/SideBar";
+import Header from "@/app/users/components/header/Header";
+import SideBar from "@/app/users/components/sidebar/SideBar";
 import Link from "next/link";
 import Carousel from "../components/carousel/page";
 import Card from "../components/cards/page";

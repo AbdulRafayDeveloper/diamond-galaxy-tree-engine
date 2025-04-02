@@ -1,6 +1,6 @@
 "use client";
-import Header from "@/app/owner/components/header/Header";
-import SideBar from "@/app/owner/components/sidebar/SideBar";
+import Header from "@/app/users/components/header/Header";
+import SideBar from "@/app/users/components/sidebar/SideBar";
 import { useState, useRef, useEffect } from "react";
 
 const Page = () => {

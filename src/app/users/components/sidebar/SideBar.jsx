@@ -7,7 +7,7 @@ const SideBar = ({ section }) => {
     <div className="h-full py-4 overflow-y-auto bg-[#22405c] scrollbar">
       <ul className=" font-medium">
         <li className="flex justify-center pb-6 flex flex-col text-white justify-center items-center">
-          <Link href="/owner/dashboard">
+          <Link href="/users/dashboard">
             <img src="/logo.jpg" className="w-24 h-24 rounded-[300px]" alt="no image" />
           </Link>
           <p>Account Balance</p>
@@ -18,7 +18,7 @@ const SideBar = ({ section }) => {
           </div>
         </li>
         <Link
-            href="/owner/dashboard"
+            href="/users/dashboard"
             className={`flex items-center bg-[#F6F1DE] p-2 text-black group ${section === "Dashboard" ? "bg-[#F6F1DE]" : "hover:bg-[#F6F1DE]"
               }`}
           >
@@ -217,7 +217,7 @@ const SideBar = ({ section }) => {
             }`}
         >
           <a
-            href="/owner/my_refferals"
+            href="/users/my_refferals"
             className={`flex items-center p-2 group ${
               section === "My Refferal"
                 ? "bg-[#F6F1DE] text-black" : "hover:bg-[#F6F1DE] hover:text-black text-white"
