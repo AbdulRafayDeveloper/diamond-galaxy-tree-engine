@@ -7,7 +7,7 @@ import Link from "next/link";
 import Carousel from "../components/carousel/page";
 import Card from "../components/cards/page";
 import WithDraw from "../components/with_draw/page";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 import axios from "axios";
 
 const Page = () => {

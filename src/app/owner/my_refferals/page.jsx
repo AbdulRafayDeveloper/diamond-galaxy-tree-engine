@@ -2,14 +2,11 @@
 import Header from "@/app/owner/components/header/Header";
 import SideBar from "@/app/owner/components/sidebar/SideBar";
 import { useState, useRef, useEffect } from "react";
-import axios from "axios";
-import Cookies from "js-cookie";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
   const buttonRef = useRef(null);
-  const [refData, setData] = useState({});
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -33,30 +30,6 @@ const Page = () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const token = Cookies.get("token");
-
-        const response = await axios.get("/api/frontend/references", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const userData = response.data.data;
-        setData(userData);
-        console.log(userData);
-      } catch (e) {
-        console.error("Failed to fetch user:", e);
-      } finally {
-      }
-    };
-
-    getData();
-  }, []);
-
   const data = [
     {
       username: "Dummy1",
@@ -140,8 +113,8 @@ const Page = () => {
         <div className="bg-white">
           <div className="md:p-4 p-2">
             <div className="grid md:grid-cols-2 grid-cols-1  gap-5">
-              {Array.isArray(refData) && refData.length > 0 ? (
-                refData.map((el, idx) => (
+              {Array.isArray(data) && data.length > 0 ? (
+                data.map((el, idx) => (
                   <div
                     key={idx}
                     className="p-2 md:p-4 shadow-xl md:text-md text-sm bg-[#F6F1DE] gap-3"

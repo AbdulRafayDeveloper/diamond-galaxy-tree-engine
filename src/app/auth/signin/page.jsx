@@ -6,7 +6,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 
 const Page = () => {
   const router = useRouter();
