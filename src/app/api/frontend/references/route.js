@@ -10,7 +10,6 @@ import {
   notFoundResponse,
 } from "@/app/helper/apiResponseHelpers";
 
-import { Subscribers } from "@/app/config/Models/Subscriber/subscribers";
 import serverSideValidations from "@/app/helper/serverSideValidations";
 import connectDB from "@/app/config/db";
 
