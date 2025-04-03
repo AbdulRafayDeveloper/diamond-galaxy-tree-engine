@@ -131,16 +131,10 @@ const Page = () => {
             >
               <div className="absolute inset-0 flex flex-col justify-center items-center bg-black bg-opacity-40 p-2 gap-4">
                 <h1 className="text-[32px] text-white font-bold">
-                  Daimond Galaxy
+                  Diamond Galaxy
                 </h1>
                 <p className="text-center text-white text-sm">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book. It has survived not only five centuries, but
-                  also the leap into electronic typesetting, remaining
-                  essentially unchanged.
+                  Multi-Level Marketing (MLM) is a business strategy where individuals earn income not only through direct sales of products or services but also by recruiting others to join the business. Each new recruit, known as a downline, can also earn commissions by selling products and recruiting others. This creates a hierarchical structure where earnings are based on both personal sales and the sales made by recruited individuals. While MLM can offer financial opportunities, it often faces criticism for being similar to pyramid schemes, where the focus may be more on recruitment than product sales, leading to potential legal and ethical concerns. Successful MLM businesses typically have strong, high-demand products and an ethical structure that emphasizes sales over recruitment.
                 </p>
                 <Link
                   href="/auth/signin"
@@ -297,6 +291,7 @@ const Page = () => {
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 448 512"
                         className="absolute left-3 top-1/2 tranform -translate-y-1/2 fill-gray-400 w-4 h-5"
+                        fill="currentColor"
                       >
                         <path d="M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z" />
                       </svg>
@@ -306,7 +301,7 @@ const Page = () => {
                         value={formData.password}
                         onChange={handleChange}
                         required
-                        className="bg-gray-50 w-full text-sm text-gray-800 px-4 py-3.5 pl-9 rounded-md outline-blue-800 focus:bg-transparent"
+                        className="bg-gray-50 w-[400px] text-sm text-gray-800 px-4 py-3.5 pl-9 rounded-md outline-blue-800 focus:bg-transparent"
                         placeholder="password"
                       />
                       <button
@@ -376,6 +371,15 @@ const Page = () => {
                   >
                     {loading ? "Processing..." : "Register"}
                   </button>
+                  <p className="text-sm mt-3 text-gray-800 ">
+                    Already have an account?{" "}
+                    <a
+                      href="/auth/signin"
+                      className="text-[#22405c] font-semibold hover:underline ml-1"
+                    >
+                      Login here
+                    </a>
+                  </p>
                 </div>
               </form>
             </div>

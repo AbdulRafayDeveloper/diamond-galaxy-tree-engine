@@ -10,6 +10,7 @@ const Page = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [errors,setErrors]=useState({})
   const router = useRouter();
   const [formData, setFormData] = useState({
     fname: "",
@@ -30,50 +31,64 @@ const Page = () => {
       [name]: value,
     }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    if (formData.password !== formData.confirmPassword) {
-      toast.warning("Passwords do not match!");
+    let newErrors = {};
+    setErrors({}); // Reset errors before new validation
+
+    // Regular Expressions for validation
+    const nameRegex = /^[A-Za-z]{2,}$/;
+    const usernameRegex = /^[a-zA-Z0-9]{4,}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9]{10,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+
+    // Validations
+    if (!formData.fname) newErrors.fname = "First name is required!";
+    else if (!nameRegex.test(formData.fname))
+      newErrors.fname = "First name must be at least 2 characters long.";
+
+    if (!formData.lname) newErrors.lname = "Last name is required!";
+    else if (!nameRegex.test(formData.lname))
+      newErrors.lname = "Last name must be at least 2 characters long.";
+
+    if (!formData.username) newErrors.username = "Username is required!";
+    else if (!usernameRegex.test(formData.username))
+      newErrors.username = "Username must be at least 4 characters.";
+
+    if (!formData.email) newErrors.email = "Email is required!";
+    else if (!emailRegex.test(formData.email))
+      newErrors.email = "Invalid email format.";
+
+    if (!formData.phoneNo) newErrors.phoneNo = "Phone number is required!";
+    else if (!phoneRegex.test(formData.phoneNo))
+      newErrors.phoneNo = "Phone number must be at least 10 digits.";
+
+    if (!formData.country) newErrors.country = "Please select a country.";
+
+    if (!formData.password) newErrors.password = "Password is required!";
+    else if (!passwordRegex.test(formData.password))
+      newErrors.password =
+        "Password must 8+ chars, 1 uppercase, 1 number, 1 special char.";
+
+    if (!formData.confirmPassword)
+      newErrors.confirmPassword = "Confirm Password is required!";
+    else if (formData.password !== formData.confirmPassword)
+      newErrors.confirmPassword = "Passwords do not match.";
+
+    // If any errors exist, set them and return
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       setLoading(false);
       return;
     }
-
-    if (
-      !formData.fname ||
-      !formData.lname ||
-      !formData.username ||
-      !formData.email ||
-      !formData.password ||
-      !formData.phoneNo ||
-      !formData.country
-    ) {
-      toast.warning("Please fill out all required fields.");
-      setLoading(false);
-      return;
-    }
-
-    setLoading(true);
 
     try {
-      console.log(formData);
-      const response = await axios.post("../api/signup", {
-        firstName: formData.fname,
-        lastName: formData.lname,
-        username: formData.username,
-        email: formData.email,
-        phoneNumber: formData.phoneNo,
-        country: formData.country,
-        password: formData.password,
-        referrerCode: formData.referrerCode || "",
-      });
+      const response = await axios.post("../api/signup", formData);
 
       if (response.status === 200 && response.data.success) {
-        const { token, user } = response.data;
-
         toast.success("Account created successfully!");
-
         setFormData({
           fname: "",
           lname: "",
@@ -85,22 +100,17 @@ const Page = () => {
           password: "",
           confirmPassword: "",
         });
-        setLoading(false);
         router.push("/auth/signin");
       } else {
-        setLoading(false);
+        toast.error(response.data.message || "Signup failed.");
       }
     } catch (err) {
-      const message =
-        err?.response?.data?.error ||
-        err?.message ||
-        "Something went wrong. Please check your credentials.";
-      setLoading(false);
-      toast.error(message);
+      toast.error(err.response?.data?.error || "Something went wrong.");
     } finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="relative">
@@ -114,16 +124,10 @@ const Page = () => {
             >
               <div className="absolute inset-0 flex flex-col justify-center items-center bg-black bg-opacity-40 p-2 gap-4">
                 <h1 className="text-[32px] text-white font-bold">
-                  Daimond Galaxy
+                  Diamond Galaxy
                 </h1>
                 <p className="text-center text-white text-sm">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book. It has survived not only five centuries, but
-                  also the leap into electronic typesetting, remaining
-                  essentially unchanged.
+                  Multi-Level Marketing (MLM) is a business strategy where individuals earn income not only through direct sales of products or services but also by recruiting others to join the business. Each new recruit, known as a downline, can also earn commissions by selling products and recruiting others. This creates a hierarchical structure where earnings are based on both personal sales and the sales made by recruited individuals. While MLM can offer financial opportunities, it often faces criticism for being similar to pyramid schemes, where the focus may be more on recruitment than product sales, leading to potential legal and ethical concerns. Successful MLM businesses typically have strong, high-demand products and an ethical structure that emphasizes sales over recruitment.
                 </p>
                 <Link
                   href="/auth/signin"
@@ -146,6 +150,7 @@ const Page = () => {
                 <div className="space-y-5 ">
                   {/* First & Last Name */}
                   <div className="grid grid-cols-2 gap-4">
+                    <div className="flex flex-col">
                     <div className="relative">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -165,6 +170,10 @@ const Page = () => {
                         placeholder="First name"
                       />
                     </div>
+                    {errors.fname && <p className="text-red-500 text-xs">{errors.fname}</p>}
+                    </div>
+
+                    <div className="flex flex-col">
                     <div className="relative">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -184,10 +193,13 @@ const Page = () => {
                         placeholder="Last name"
                       />
                     </div>
+                    {errors.lname && <p className="text-red-500 text-xs">{errors.lname}</p>}
+                    </div>
                   </div>
 
                   {/* Username & Email */}
                   <div className="grid grid-cols-2 gap-4">
+                    <div className="flex flex-col">
                     <div className="relative">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -207,6 +219,9 @@ const Page = () => {
                         placeholder="username"
                       />
                     </div>
+                    {errors.username && <p className="text-red-500 text-xs">{errors.username}</p>}
+                    </div>
+                    <div className="flex flex-col">
                     <div className="relative">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -227,10 +242,13 @@ const Page = () => {
                         placeholder="email"
                       />
                     </div>
+                    {errors.email && <p className="text-red-500 text-xs">{errors.email}</p>}
+                    </div>
                   </div>
 
                   {/* Phone & Country */}
                   <div className="grid grid-cols-2 gap-4">
+                    <div className="flex flex-col">
                     <div className="relative">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -251,6 +269,9 @@ const Page = () => {
                         placeholder="Phone Number"
                       />
                     </div>
+                    {errors.phoneNo && <p className="text-red-500 text-xs">{errors.phoneNo}</p>}
+                    </div>
+                    <div className="flex flex-col">
                     <div className="relative">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -271,10 +292,13 @@ const Page = () => {
                         placeholder="Country"
                       />
                     </div>
+                    {errors.country && <p className="text-red-500 text-xs">{errors.country}</p>}
+                    </div>
                   </div>
 
                   {/* Password & Confirm Password */}
                   <div className="grid grid-cols-2 gap-4">
+                    <div className="flex flex-col">
                     <div className="relative">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -300,6 +324,9 @@ const Page = () => {
                         {showPassword ? "👁️" : "👁‍🗨"}
                       </button>
                     </div>
+                    {errors.password && <p className="text-red-500 text-xs">{errors.password}</p>}
+                    </div>
+                    <div className="flex flex-col">
                     <div className="relative">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -326,6 +353,8 @@ const Page = () => {
                       >
                         {showConfirmPassword ? "👁️" : "👁‍🗨"}
                       </button>
+                    </div>
+                    {errors.confirmPassword && <p className="text-red-500 text-xs">{errors.confirmPassword}</p>}
                     </div>
                   </div>
 
@@ -358,6 +387,15 @@ const Page = () => {
                   >
                     {loading ? "Processing..." : "Register"}
                   </button>
+                  <p className="text-sm mt-3 text-gray-800 ">
+                    Already have an account?{" "}
+                    <a
+                      href="/auth/signin"
+                      className="text-[#22405c] font-semibold hover:underline ml-1"
+                    >
+                      Login here
+                    </a>
+                  </p>
                 </div>
               </form>
             </div>

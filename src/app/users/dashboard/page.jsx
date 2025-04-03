@@ -108,12 +108,12 @@ const Page = () => {
             <SideBar section={section} />
           </aside>
         </div>
-        <div className=" flex items-center md:mt-5  px-2 sm:px-6 lg:px-8 md:ml-56">
-          <p className="text-[12px]  md:text-2xl md:font-semibold">
+        <div className="flex items-center md:mt-5  px-2 sm:px-6 lg:px-10 md:ml-56">
+          <p className="text-[12px] md:ml-6  lg:ml-1 md:text-xl md:font-semibold">
             Diamond Galaxy
           </p>
         </div>
-        <div className="flex justify-end md:ml-[730px]">
+        <div className="flex justify-end md:ml-[150px] xl:ml-[730px] lg:ml-[400px]">
           <Header appear={true} />
         </div>
       </div>

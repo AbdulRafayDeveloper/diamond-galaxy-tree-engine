@@ -99,12 +99,12 @@ const Page = () => {
             <SideBar section={section} />
           </aside>
         </div>
-        <div className=" flex items-center md:mt-2  px-1 sm:px-6 lg:px-8 md:ml-56">
-          <p className="text-[12px]  md:text-2xl md:font-semibold ml-3">
+        <div className="flex items-center md:mt-5  px-2 sm:px-6 lg:px-10 md:ml-56">
+          <p className="text-[12px] md:ml-6  lg:ml-1 md:text-xl md:font-semibold">
             My Refferals
           </p>
         </div>
-        <div className="flex justify-end md:ml-[750px]">
+        <div className="flex justify-end md:ml-[230px] xl:ml-[770px] lg:ml-[460px]">
           <Header appear={true} />
         </div>
       </div>

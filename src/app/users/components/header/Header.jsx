@@ -6,11 +6,11 @@ const Header = ({ appear, title }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenAvatar, setIsOpenAvatar] = useState(false);
   const [isDropdownAppear, setIsDropdownAppear] = useState(false);
-  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  // const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isNotification, setIsNotification] = useState(false);
-  const [selectOption, setSelectOpion] = useState("ST Gamer Propert");
+  // const [selectOption, setSelectOpion] = useState("ST Gamer Propert");
   const dropdownRef = useRef(null);
-  const buttonRef = useRef(null);
+  // const buttonRef = useRef(null);
 
   const handleChange = (option) => {
     setSelectOpion(option);
