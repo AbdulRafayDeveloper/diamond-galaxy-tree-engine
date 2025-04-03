@@ -1,12 +1,15 @@
 "use client";
-import Header from "@/app/users/components/header/Header";
-import SideBar from "@/app/users/components/sidebar/SideBar";
+import Header from "../components/header/Header";
+import SideBar from "../components/sidebar/SideBar";
 import { useState, useRef, useEffect } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
   const buttonRef = useRef(null);
+  const [refData, setData] = useState({});
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -30,6 +33,30 @@ const Page = () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const token = Cookies.get("token");
+
+        const response = await axios.get("/api/frontend/references", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const userData = response.data.data;
+        setData(userData);
+        console.log(userData);
+      } catch (e) {
+        console.error("Failed to fetch user:", e);
+      } finally {
+      }
+    };
+
+    getData();
+  }, []);
+
   const data = [
     {
       username: "Dummy1",
@@ -99,12 +126,12 @@ const Page = () => {
             <SideBar section={section} />
           </aside>
         </div>
-        <div className="flex items-center md:mt-5  px-2 sm:px-6 lg:px-10 md:ml-56">
-          <p className="text-[12px] md:ml-6  lg:ml-1 md:text-xl md:font-semibold">
+        <div className=" flex items-center md:mt-2  px-1 sm:px-6 lg:px-8 md:ml-56">
+          <p className="text-[12px]  md:text-2xl md:font-semibold ml-3">
             My Refferals
           </p>
         </div>
-        <div className="flex justify-end md:ml-[230px] xl:ml-[770px] lg:ml-[460px]">
+        <div className="flex justify-end md:ml-[750px]">
           <Header appear={true} />
         </div>
       </div>
@@ -113,8 +140,8 @@ const Page = () => {
         <div className="bg-white">
           <div className="md:p-4 p-2">
             <div className="grid md:grid-cols-2 grid-cols-1  gap-5">
-              {Array.isArray(data) && data.length > 0 ? (
-                data.map((el, idx) => (
+              {Array.isArray(refData) && refData.length > 0 ? (
+                refData.map((el, idx) => (
                   <div
                     key={idx}
                     className="p-2 md:p-4 shadow-xl md:text-md text-sm bg-[#F6F1DE] gap-3"

@@ -6,29 +6,29 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
-// import Cookies from "js-cookie";
+import Cookies from "js-cookie";
 
 const Page = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [errors,setErrors]=useState({});
+  const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const validateEmail=(email)=>{
-    const re=/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const validateEmail = (email) => {
+    const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return re.test(email);
-  }
-  const validatePassword=(password)=>{
+  };
+  const validatePassword = (password) => {
     return (
       password.length >= 8 &&
       /[A-Z]/.test(password) &&
       /[0-9]/.test(password) &&
       /[^A-Za-z0-9]/.test(password)
     );
-  }
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -41,18 +41,21 @@ const Page = () => {
     e.preventDefault();
     setErrors({});
     let newError = {};
-  
+
     if (!formData.email) newError.email = "Email is required.";
-    else if (!validateEmail(formData.email)) newError.email = "Invalid email format.";
-  
+    else if (!validateEmail(formData.email))
+      newError.email = "Invalid email format.";
+
     if (!formData.password) newError.password = "Password is required.";
-    else if (!validatePassword(formData.password)) newError.password = "Password must 8+ chars, 1 uppercase, 1 number, 1 special char.";
-  
+    else if (!validatePassword(formData.password))
+      newError.password =
+        "Password must 8+ chars, 1 uppercase, 1 number, 1 special char.";
+
     if (Object.keys(newError).length > 0) {
       setErrors(newError);
       return;
     }
-  
+
     try {
       const response = await axios.post("/api/signin", {
         email: formData.email,
@@ -79,7 +82,6 @@ const Page = () => {
       toast.error(message);
     }
   };
-  
 
   return (
     <div className="relative">
@@ -95,7 +97,11 @@ const Page = () => {
                   Diamond Galaxy
                 </h1>
                 <p className="text-center text-white text-sm">
-                Multi-Level Marketing (MLM) is a business strategy where individuals earn income not only through direct sales of products or services but also by recruiting others to join the business. Each new recruit, known as a downline, can also earn commissions by selling products and recruiting others. 
+                  Multi-Level Marketing (MLM) is a business strategy where
+                  individuals earn income not only through direct sales of
+                  products or services but also by recruiting others to join the
+                  business. Each new recruit, known as a downline, can also earn
+                  commissions by selling products and recruiting others.
                 </p>
                 <button className="bg-[#22405c] p-2 text-white w-[200px] rounded-[50px] font-bold text-sm">
                   <Link href="/auth/signup">Register Now</Link>
@@ -135,44 +141,45 @@ const Page = () => {
                             className="bg-gray-50 w-[400px] text-sm text-gray-800 px-4 py-3.5 pl-9 rounded-md outline-blue-800 focus:bg-transparent"
                             placeholder="email"
                           />
-                        
                         </div>
                       </div>
-                      <span className="text-sm text-red-500">{errors.email} </span>
+                      <span className="text-sm text-red-500">
+                        {errors.email}{" "}
+                      </span>
                     </div>
 
                     <div className="flex flex-col">
-                    <div className="flex  gap-4">
-                      <div className="relative">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 448 512"
-                          className="absolute left-3 top-1/2 tranform -translate-y-1/2 fill-gray-400 w-4 h-5"
-                        >
-                          <path d="M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z" />
-                        </svg>
-                        <input
-                          name="password"
-                          type={showPassword ? "text" : "password"}
-                          value={formData.password}
-                          onChange={handleChange}
-                          required
-                          autoComplete="current-password"
-                          className="bg-gray-50 w-[400px] text-sm text-gray-800 px-4 py-3.5 pl-9 rounded-md outline-blue-800 focus:bg-transparent"
-                          placeholder="password"
-                        />
-                        <button
-                          type="button"
-                          className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-5"
-                          onClick={() => setShowPassword(!showPassword)}
-                        >
-                          {showPassword ? "👁️" : "👁‍🗨"}
-                        </button>
-                        
+                      <div className="flex  gap-4">
+                        <div className="relative">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 448 512"
+                            className="absolute left-3 top-1/2 tranform -translate-y-1/2 fill-gray-400 w-4 h-5"
+                          >
+                            <path d="M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z" />
+                          </svg>
+                          <input
+                            name="password"
+                            type={showPassword ? "text" : "password"}
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                            autoComplete="current-password"
+                            className="bg-gray-50 w-[400px] text-sm text-gray-800 px-4 py-3.5 pl-9 rounded-md outline-blue-800 focus:bg-transparent"
+                            placeholder="password"
+                          />
+                          <button
+                            type="button"
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-5"
+                            onClick={() => setShowPassword(!showPassword)}
+                          >
+                            {showPassword ? "👁️" : "👁‍🗨"}
+                          </button>
+                        </div>
                       </div>
-                      
-                    </div>
-                    <p className="text-sm text-red-500 w-[400px]">{errors.password}</p>
+                      <p className="text-sm text-red-500 w-[400px]">
+                        {errors.password}
+                      </p>
                     </div>
                   </div>
 

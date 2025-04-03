@@ -15,24 +15,35 @@ export async function POST(req) {
   try {
     await connectDB();
     let {
-      firstName,
-      lastName,
+      fname,
+      lname,
       username,
       email,
-      phoneNumber,
+      phoneNo,
       country,
       password,
       referrerCode,
     } = await req.json();
 
+    console.log(
+      fname,
+      lname,
+      username,
+      email,
+      phoneNo,
+      country,
+      password,
+      referrerCode
+    );
+
     console.log("Referrer code: ", referrerCode);
 
     const { error } = validateUser({
-      firstName,
-      lastName,
+      fname,
+      lname,
       username,
       email,
-      phoneNumber,
+      phoneNo,
       country,
       password,
       referrerCode,
@@ -93,11 +104,11 @@ export async function POST(req) {
     }
 
     const newUser = new Users({
-      firstName,
-      lastName,
+      fname,
+      lname,
       username,
       email,
-      phoneNumber,
+      phoneNo,
       country,
       password: hashedPassword,
       role: "user",

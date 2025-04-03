@@ -3,7 +3,7 @@ import Joi from "joi";
 const objectIdPattern = /^[a-f\d]{24}$/i;
 
 const userSchema = Joi.object({
-  firstName: Joi.string()
+  fname: Joi.string()
     .pattern(/^[A-Za-z\s'-]+$/)
     .min(2)
     .required()
@@ -13,7 +13,7 @@ const userSchema = Joi.object({
       "string.min": "First name must be at least 2 characters long.",
     }),
 
-  lastName: Joi.string()
+  lname: Joi.string()
     .pattern(/^[A-Za-z\s'-]+$/)
     .min(2)
     .required()
@@ -24,20 +24,23 @@ const userSchema = Joi.object({
     }),
 
   username: Joi.string()
-    .pattern(/^[a-zA-Z][a-zA-Z0-9._]{2,29}$/)
+    .pattern(/^[^\s]{3,30}$/)
     .required()
     .messages({
       "string.pattern.base":
-        "Username must start with a letter, contain no spaces, and can include letters, numbers, underscores, or periods (3-30 characters).",
+        "Username can include any letters, numbers, or special characters except spaces (3-30 characters).",
       "string.empty": "Username is required.",
     }),
 
-  email: Joi.string().email().required().messages({
-    "string.email": "Please enter a valid email address.",
-    "string.empty": "Email is required.",
-  }),
+  email: Joi.string()
+    .email({ tlds: { allow: false } })
+    .required()
+    .messages({
+      "string.email": "Please enter a valid email address.",
+      "string.empty": "Email is required.",
+    }),
 
-  phoneNumber: Joi.string()
+  phoneNo: Joi.string()
     .pattern(/^[0-9]{10,15}$/)
     .required()
     .messages({
@@ -51,9 +54,7 @@ const userSchema = Joi.object({
   }),
 
   password: Joi.string()
-    .pattern(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-    )
+    .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/)
     .required()
     .messages({
       "string.pattern.base":
