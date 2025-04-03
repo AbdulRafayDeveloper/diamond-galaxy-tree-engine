@@ -112,7 +112,9 @@ const Page = () => {
           password: "",
           confirmPassword: "",
         });
-        router.push("/auth/signin");
+        setTimeout(() => {
+          router.push("/auth/signin");
+        }, 2000);
       } else {
         toast.error(response.data.message || "Signup failed.");
       }
