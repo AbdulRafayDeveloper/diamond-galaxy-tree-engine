@@ -30,7 +30,7 @@ export async function GET(req, res) {
 
     const referredUsers = await Users.find({
       _id: { $in: foundUser.referralPath },
-    }).select("firstName lastName username email country createdAt");
+    }).select("fname lname username email country createdAt");
 
     return successResponse(
       "Referred users fetched successfully.",

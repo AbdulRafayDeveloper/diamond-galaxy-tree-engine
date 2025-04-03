@@ -49,7 +49,9 @@ const Page = () => {
     if (!formData.fname) {
       newErrors.fname = "First name is required!";
     } else if (formData.fname.length < 3) {
-      newErrors.fname = "First Name must be at least 3 characters .";
+      newErrors.fname = "First Name must be at least 3 characters.";
+    } else if (formData.fname.length > 10) {
+      newErrors.fname = "First Name must only be 10 characters long";
     } else if (/\d/.test(formData.fname)) {
       newErrors.fname = "First Name must not contain numbers.";
     } else if (!/^[A-Za-z]+$/.test(formData.fname)) {
@@ -62,6 +64,8 @@ const Page = () => {
       newErrors.lname = "Last name is required!";
     } else if (formData.lname.length < 3) {
       newErrors.lname = "Last Name must be at least 3 characters .";
+    } else if (formData.lname.length > 10) {
+      newErrors.lname = "Last Name must only be 10 characters long.";
     } else if (/\d/.test(formData.lname)) {
       newErrors.lname = "Last Name must not contain numbers.";
     } else if (!/^[A-Za-z]+$/.test(formData.lname)) {
@@ -84,9 +88,13 @@ const Page = () => {
       newErrors.email = "Invalid email format.";
 
     // Phone Number
-    if (!formData.phoneNo) newErrors.phoneNo = "Phone number is required!";
-    else if (!phoneRegex.test(formData.phoneNo))
-      newErrors.phoneNo = "Phone number must be at least 10 digits.";
+    if (!formData.phoneNo) {
+      newErrors.phoneNo = "Phone number is required!";
+    } else if (/[a-zA-Z]/.test(formData.phoneNo)) {
+      newErrors.phoneNo = "Phone number must not contain alphabets.";
+    } else if (!/^\d{10}$/.test(formData.phoneNo)) {
+      newErrors.phoneNo = "Phone number must be exactly 10 digits.";
+    }
 
     // Country
     if (!formData.country) newErrors.country = "Please select a country.";
