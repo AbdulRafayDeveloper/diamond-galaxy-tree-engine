@@ -21,6 +21,18 @@ const userSchema = new mongoose.Schema(
     rewardableReferrals: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
     ],
+    grade: {
+      type: String,
+      enum: [
+        "Silver Grade",
+        "Gold Grade",
+        "Diamond Grade",
+        "Royal Grade",
+        "Star Grade",
+      ],
+      default: "Silver Grade",
+      required: true,
+    },
   },
   {
     timestamps: true,

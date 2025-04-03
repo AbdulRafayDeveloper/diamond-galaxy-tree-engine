@@ -56,17 +56,35 @@ const Page = () => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
 
     // Validations
-    if (!formData.fname) newErrors.fname = "First name is required!";
-    else if (!nameRegex.test(formData.fname))
-      newErrors.fname = "First name must be at least 2 characters long.";
+    if (!formData.fname) {
+      newErrors.fname = "First name is required!";
+    } else if (formData.fname.length < 3) {
+      newErrors.fname = "First Name must be at least 3 characters .";
+    } else if (/\d/.test(formData.fname)) {
+      newErrors.fname = "First Name must not contain numbers.";
+    } else if (!/^[A-Za-z]+$/.test(formData.fname)) {
+      newErrors.fname =
+        "First Name must only contain letters (no spaces or symbols).";
+    }
 
-    if (!formData.lname) newErrors.lname = "Last name is required!";
-    else if (!nameRegex.test(formData.lname))
-      newErrors.lname = "Last name must be at least 2 characters long.";
+    if (!formData.lname) {
+      newErrors.lname = "Last name is required!";
+    } else if (formData.lname.length < 3) {
+      newErrors.lname = "Last Name must be at least 3 characters .";
+    } else if (/\d/.test(formData.lname)) {
+      newErrors.lname = "Last Name must not contain numbers.";
+    } else if (!/^[A-Za-z]+$/.test(formData.lname)) {
+      newErrors.lname =
+        "Last Name must only contain letters (no spaces or symbols).";
+    }
 
-    if (!formData.username) newErrors.username = "Username is required!";
-    else if (!usernameRegex.test(formData.username))
-      newErrors.username = "Username must be at least 4 characters.";
+    if (!formData.username) {
+      newErrors.username = "Username is required!";
+    } else if (formData.username.length < 3) {
+      newErrors.username = "Username must be at least 3 characters";
+    } else if (/\s/.test(formData.username)) {
+      newErrors.username = "Username must not contain any spaces.";
+    }
 
     if (!formData.email) newErrors.email = "Email is required!";
     else if (!emailRegex.test(formData.email))
@@ -78,10 +96,19 @@ const Page = () => {
 
     if (!formData.country) newErrors.country = "Please select a country.";
 
-    if (!formData.password) newErrors.password = "Password is required!";
-    else if (!passwordRegex.test(formData.password))
+    if (!formData.password) {
+      newErrors.password = "Password is required!";
+    } else if (formData.password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters .";
+    } else if (!/[A-Z]/.test(formData.password)) {
       newErrors.password =
-        "Password must 8+ chars, 1 uppercase, 1 number, 1 special char.";
+        "Password must include at least one uppercase letter.";
+    } else if (!/\d/.test(formData.password)) {
+      newErrors.password = "Password must include at least one number.";
+    } else if (!/[\W_]/.test(formData.password)) {
+      newErrors.password =
+        "Password must include at least one special character.";
+    }
 
     if (!formData.confirmPassword)
       newErrors.confirmPassword = "Confirm Password is required!";
@@ -96,6 +123,7 @@ const Page = () => {
     }
 
     try {
+      setLoading(true);
       console.log(formData);
       const response = await axios.post("../api/signup", formData);
 
@@ -430,7 +458,9 @@ const Page = () => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="bg-[#22405c] w-full text-white py-3.5 rounded-md font-bold text-sm flex justify-center"
+                    className={`bg-[#22405c] w-full text-white py-3.5 rounded-md font-bold text-sm flex justify-center ${
+                      loading ? "opacity-50 cursor-not-allowed" : ""
+                    } `}
                   >
                     {loading ? "Processing..." : "Register"}
                   </button>

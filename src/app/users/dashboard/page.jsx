@@ -155,7 +155,7 @@ const Page = () => {
                       Country Name: {data.country}
                     </p>
                     <p className="text-[9px] md:text-lg">
-                      Referred By: {data?.referrerId?.fname || ""}
+                      Referred By: {data?.referrerId?.fname || "NA"}
                     </p>
                   </div>
                 </div>

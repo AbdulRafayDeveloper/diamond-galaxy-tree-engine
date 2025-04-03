@@ -68,7 +68,9 @@ const Page = () => {
         Cookies.set("token", token, { expires: 7 });
 
         toast.success("Login successful!");
-        router.push("/users/dashboard");
+        setTimeout(() => {
+          router.push("/users/dashboard");
+        }, 2000);
       } else {
         setLoading(false);
         throw new Error("Unexpected response");
