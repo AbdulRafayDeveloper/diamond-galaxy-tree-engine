@@ -41,6 +41,7 @@ const Page = () => {
     e.preventDefault();
     setErrors({});
     let newError = {};
+    setLoading(true);
 
     if (!formData.email) newError.email = "Email is required.";
     else if (!validateEmail(formData.email))

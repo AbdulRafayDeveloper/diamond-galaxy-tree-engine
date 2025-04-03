@@ -10,6 +10,7 @@ const Page = () => {
   const sidebarRef = useRef(null);
   const buttonRef = useRef(null);
   const [refData, setData] = useState({});
+  const [loading, setLoading] = useState(false);
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -37,6 +38,7 @@ const Page = () => {
   useEffect(() => {
     const getData = async () => {
       try {
+        setLoading(true);
         const token = Cookies.get("token");
 
         const response = await axios.get("/api/frontend/references", {
@@ -47,8 +49,10 @@ const Page = () => {
 
         const userData = response.data.data;
         setData(userData);
+        setLoading(false);
         console.log(userData);
       } catch (e) {
+        setLoading(false);
         console.error("Failed to fetch user:", e);
       } finally {
       }
@@ -57,32 +61,6 @@ const Page = () => {
     getData();
   }, []);
 
-  const data = [
-    {
-      username: "Dummy1",
-      name: "Fatima",
-      email: "abcd1234@gail.com",
-      joinDate: "23-02-2025 3:00 PM",
-    },
-    {
-      username: "Dummy1",
-      name: "Fatima",
-      email: "abcd1234@gail.com",
-      joinDate: "23-02-2025 3:00 PM",
-    },
-    {
-      username: "Dummy1",
-      name: "Fatima",
-      email: "abcd1234@gail.com",
-      joinDate: "23-02-2025 3:00 PM",
-    },
-    {
-      username: "Dummy1",
-      name: "Fatima",
-      email: "abcd1234@gail.com",
-      joinDate: "23-02-2025 3:00 PM",
-    },
-  ];
   const maskEmail = (email) => {
     const [first, domain] = email.split("@"); // Split the email
     const masked = first.charAt(0) + "*".repeat(first.length - 1); // Mask the username
@@ -140,7 +118,11 @@ const Page = () => {
         <div className="bg-white">
           <div className="md:p-4 p-2">
             <div className="grid md:grid-cols-2 grid-cols-1  gap-5">
-              {Array.isArray(refData) && refData.length > 0 ? (
+              {loading ? (
+                <div className="flex justify-center items-center col-span-2">
+                  <div className="w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                </div>
+              ) : Array.isArray(refData) && refData.length > 0 ? (
                 refData.map((el, idx) => (
                   <div
                     key={idx}
@@ -153,7 +135,7 @@ const Page = () => {
                     <div className="grid grid-cols-2 bg-white shadow-md p-2 mb-1">
                       <div>Name</div>
                       <div>
-                        {el.firstName} {el.lastName}
+                        {el.fname} {el.lname}
                       </div>
                     </div>
                     <div className="grid grid-cols-2 bg-white shadow-md p-2 mb-1">
@@ -167,7 +149,9 @@ const Page = () => {
                   </div>
                 ))
               ) : (
-                <p className="text-gray-500 text-sm">No referrals found.</p>
+                <p className="text-gray-500 text-sm col-span-2">
+                  No referrals found.
+                </p>
               )}
             </div>
           </div>

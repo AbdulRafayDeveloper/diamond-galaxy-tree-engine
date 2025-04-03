@@ -147,7 +147,7 @@ const Page = () => {
                     </p>
 
                     <p className="text-[9px] md:text-lg">
-                      Member Grade : Top Level
+                      Member Grade : {data.grade || ""}
                     </p>
                   </div>
                   <div className="flex flex-row md:text-md text-sm gap-4 justify-center item-center text-center mt-5">

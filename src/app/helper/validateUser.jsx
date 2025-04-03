@@ -28,7 +28,7 @@ const userSchema = Joi.object({
     .required()
     .messages({
       "string.pattern.base":
-        "Username can include any letters, numbers, or special characters except spaces (3-30 characters).",
+        "Username can be (3 to 30) words long except spaces",
       "string.empty": "Username is required.",
     }),
 
