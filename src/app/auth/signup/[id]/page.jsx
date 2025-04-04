@@ -395,7 +395,8 @@ const Page = () => {
                           value={formData.country}
                           onChange={handleChange}
                           required
-                          className="bg-gray-50 w-full text-sm text-gray-800 px-4 py-3.5 pl-9 rounded-md outline-blue-800 focus:bg-transparent"
+                          disabled
+                          className="bg-gray-50 w-full text-sm text-gray-500 px-4 py-3.5 pl-9 rounded-md outline-blue-800 focus:bg-transparent"
                           placeholder="Country"
                         />
                       </div>

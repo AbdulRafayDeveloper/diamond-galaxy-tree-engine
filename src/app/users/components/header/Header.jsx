@@ -17,9 +17,7 @@ const Header = ({ appear, title }) => {
   // const buttonRef = useRef(null);
   const router = useRouter();
 
-  const handleLogout = (e) => {
-    e.preventDefault(); // Prevent the default link action
-
+  const handleLogout = () => {
     Swal.fire({
       title: "Are you sure?",
       text: "Do you really want to log out?",
@@ -31,8 +29,8 @@ const Header = ({ appear, title }) => {
       cancelButtonText: "Cancel",
     }).then((result) => {
       if (result.isConfirmed) {
-        Cookies.remove("token"); // Remove auth token
-        router.push("/auth/signin"); // Redirect to login page
+        Cookies.remove("token");
+        router.push("/auth/signin");
       }
     });
   };
@@ -42,13 +40,9 @@ const Header = ({ appear, title }) => {
     setIsOpen(false);
   };
 
-
-
   useEffect(() => {
     setIsDropdownAppear(appear);
   }, [appear]); // Updates state when appear prop changes
-
-
 
   const handleClickOutside = useCallback((event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -119,7 +113,6 @@ const Header = ({ appear, title }) => {
       href: "/auth/signup",
     },
   ];
-  console.log("drop down: ", isDropdownAppear);
 
   return (
     <>
@@ -332,7 +325,8 @@ const Header = ({ appear, title }) => {
                           <img
                             src="/icons/person.png"
                             className="size-3"
-                            fill="black" stroke="black"
+                            fill="black"
+                            stroke="black"
                             alt="Profile"
                           />
                           <div className="flex flex-col">
@@ -346,7 +340,13 @@ const Header = ({ appear, title }) => {
                       </li>
                       <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                         <div className="flex items-center gap-x-2">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="black" stroke="black" className="size-3">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 448 512"
+                            fill="black"
+                            stroke="black"
+                            className="size-3"
+                          >
                             <path d="M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z" />
                           </svg>
                           <div className="flex flex-col">
@@ -358,18 +358,24 @@ const Header = ({ appear, title }) => {
                           </div>
                         </div>
                       </li>
-                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                        <div className="flex items-center gap-x-2">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="black" stroke="black" className="size-3">
+                      {/*<li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                        <button
+                          onClick={handleLogout}
+                          className="flex items-center gap-x-2 w-full text-left text-xs text-gray-800"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 512 512"
+                            fill="black"
+                            stroke="black"
+                            className="size-3"
+                          >
                             <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z" />
                           </svg>
-                          <div className="flex flex-col">
-                            <a href="#" onClick={handleLogout}>
-                              <span className="text-xs text-gray-800">Logout</span>
-                            </a>
-                          </div>
-                        </div>
-                      </li>
+                          <span>Logout</span>
+                        </button>
+                      </li>*/}
+
                       {/* <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                         <div className="flex items-center gap-x-2">
                           <img
