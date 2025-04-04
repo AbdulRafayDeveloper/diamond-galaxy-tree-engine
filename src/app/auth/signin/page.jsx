@@ -111,7 +111,7 @@ const Page = () => {
                 </button>
               </div>
             </div>
-            <div className="mx-auto flex justify-center items-center">
+            {/* <div className="mx-auto flex justify-center items-center">
               <form>
                 <div className="p-3 m-4">
                   <div className="flex justify-center items-center text-center">
@@ -209,7 +209,94 @@ const Page = () => {
                 </div>
               </form>
               <ToastContainer position="top-right" autoClose={3000} />
+            </div> */}
+            <div className="flex justify-center items-center min-h-screen px-4">
+              <form className="w-full max-w-md  p-6 rounded-lg">
+                {/* Header */}
+                <div className="text-center mb-6">
+                  <h3 className="text-[#22405c] font-calibri text-3xl font-extrabold">
+                    Login
+                  </h3>
+                  <p className="text-sm text-gray-600 mt-1">Continue to your account</p>
+                </div>
+
+                {/* Email Field */}
+                <div className="mb-4 relative">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512"
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2 fill-gray-400 w-4 h-5"
+                  >
+                    <path d="M48 64C21.5 64 0 85.5 0 112..."></path>
+                  </svg>
+                  <input
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    autoComplete="email"
+                    required
+                    className="w-full pl-9 pr-4 py-3.5 text-sm text-gray-800 rounded-md bg-gray-50 outline-blue-800 focus:bg-transparent"
+                    placeholder="Email"
+                  />
+                  <span className="text-sm text-red-500">{errors.email}</span>
+                </div>
+
+                {/* Password Field */}
+                <div className="mb-4 relative">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 448 512"
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2 fill-gray-400 w-4 h-5"
+                  >
+                    <path d="M144 144l0 48 160..."></path>
+                  </svg>
+                  <input
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                    autoComplete="current-password"
+                    className="w-full pl-9 pr-10 py-3.5 text-sm text-gray-800 rounded-md bg-gray-50 outline-blue-800 focus:bg-transparent"
+                    placeholder="Password"
+                  />
+                  <button
+                    type="button"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? "👁️" : "👁‍🗨"}
+                  </button>
+                  <p className="text-sm text-red-500">{errors.password}</p>
+                </div>
+
+                {/* Submit Button */}
+                <div className="mt-6">
+                  <button
+                    type="button"
+                    onClick={handleSubmit}
+                    className={`w-full shadow-xl py-2.5 px-4 text-sm font-semibold rounded bg-[#22405c] text-white focus:outline-none ${loading ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
+                  >
+                    Login
+                  </button>
+                </div>
+
+                {/* Register Link */}
+                <p className="text-sm mt-4 text-gray-800 text-center">
+                  Don't have an account?{" "}
+                  <a
+                    href="/auth/signup"
+                    className="text-[#22405c] font-semibold hover:underline"
+                  >
+                    Register here
+                  </a>
+                </p>
+              </form>
+              <ToastContainer position="top-right" autoClose={3000} />
             </div>
+
           </div>
         </div>
       </div>

@@ -110,9 +110,8 @@ const Page = () => {
           <aside
             ref={sidebarRef}
             id="separator-sidebar"
-            className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${
-              isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-            } sm:translate-x-0`}
+            className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+              } sm:translate-x-0`}
             aria-label="Sidebar"
           >
             <SideBar section={section} />
@@ -135,7 +134,7 @@ const Page = () => {
           <div className="bg-white">
             <div className="bg-white p-4">
               <div className="w-full bg-white shadow-xl border border-[#22405c] p-4 justify-center rounded-md">
-                <div className="flex flex-row text-[#22405c]  gap-6 justify-between">
+                {/* <div className="flex flex-row text-[#22405c]  gap-6 justify-between">
                   <div>
                     <img
                       className="w-[70px] h-[55px] rounded-[300px] object-cover"
@@ -144,30 +143,134 @@ const Page = () => {
                     />
                   </div>
                   <div className="flex flex-row md:text-md text-sm gap-4 justify-center item-center text-center mt-5">
-                    <p className="text-[9px] md:text-lg">
+                    <p className="text-[12px] md:text-lg">
                       Member Name: {data.fname}
                     </p>
 
-                    <p className="text-[9px] md:text-lg">
+                    <p className="text-[12px] md:text-lg">
                       Member Grade : {data.grade || ""}
                     </p>
                   </div>
                   <div className="flex flex-row md:text-md text-sm gap-4 justify-center item-center text-center mt-5">
-                    <p className="text-[9px] md:text-lg">
+                    <p className="text-[12px] md:text-lg">
                       Country Name: {data.country}
                     </p>
-                    <p className="text-[9px] md:text-lg">
+                    <p className="text-[12px] md:text-lg">
                       Referred By: {data?.referrerId?.fname || "NA"}
                     </p>
                   </div>
+                </div> */}
+                {/* <div className="flex flex-col md:flex-row text-[#22405c] gap-4 md:gap-6">
+                  <div className="flex justify-center md:justify-start">
+                    <img
+                      className="w-[70px] h-[55px] rounded-[300px] object-cover"
+                      src="/logoImg.avif"
+                      alt="Rounded avatar"
+                    />
+                  </div>
+
+                  <div className="flex flex-wrap gap-4 justify-center md:justify-start md:items-center mt-4 md:mt-0 w-full text-center align-middle">
+
+                    <div className="w-full md:w-1/2 flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                      <p className="text-[12px] md:text-lg">
+                        Member Name: {data.fname}
+                      </p>
+                      <p className="text-[12px] md:text-lg">
+                        Member Grade: {data.grade || ""}
+                      </p>
+                    </div>
+
+                    <div className="w-full md:w-1/2 flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                      <p className="text-[12px] md:text-lg">
+                        Country Name: {data.country}
+                      </p>
+                      <p className="text-[12px] md:text-lg">
+                        Referred By: {data?.referrerId?.fname || "NA"}
+                      </p>
+                    </div>
+
+                  </div>
+                </div> */}
+
+                {/* <div className="flex flex-col lg:flex-row items-start lg:items-center text-[#22405c] gap-4 lg:gap-10 p-4">
+
+                  
+                  <div className="flex justify-center lg:justify-start sm:text-center sm:align-middle md:justify-center md:text-center sm:align-middle md:justify-center">
+                    <img
+                      className="w-[70px] h-[55px] rounded-full object-cover "
+                      src="/logoImg.avif"
+                      alt="Rounded avatar"
+                    />
+                  </div>
+
+                  
+                  <div className="flex flex-wrap w-full gap-4 text-center lg:text-left justify-center lg:justify-start">
+
+                    <div className="w-full md:w-1/2 flex flex-col md:flex-row md:items-center gap-2 md:gap-6">
+                      <p className="text-[13px] lg:text-base font-medium">
+                        Member Name: <span className="font-normal">{data.fname}</span>
+                      </p>
+                      <p className="text-[13px] lg:text-base font-medium">
+                        Member Grade: <span className="font-normal">{data.grade || ""}</span>
+                      </p>
+                    </div>
+
+                    <div className="w-full md:w-1/2 flex flex-col md:flex-row md:items-center gap-2 md:gap-6">
+                      <p className="text-[13px] lg:text-base font-medium">
+                        Country Name: <span className="font-normal">{data.country}</span>
+                      </p>
+                      <p className="text-[13px] lg:text-base font-medium">
+                        Referred By: <span className="font-normal">{data?.referrerId?.fname || "NA"}</span>
+                      </p>
+                    </div>
+
+                  </div>
+                </div> */}
+
+                <div className="flex flex-col lg:flex-row items-center lg:items-start text-[#22405c] gap-4 lg:gap-10 p-4">
+
+                  {/* Image */}
+                  <div className="w-full lg:w-auto flex justify-center lg:justify-start">
+                    <img
+                      className="w-[70px] h-[55px] rounded-full object-cover"
+                      src="/logoImg.avif"
+                      alt="Rounded avatar"
+                    />
+                  </div>
+
+                  {/* Info Section */}
+                  <div className="flex flex-wrap w-full gap-4 text-center lg:text-left justify-center lg:justify-start">
+
+                    {/* Block 1 */}
+                    <div className="w-full md:w-1/2 flex flex-col md:flex-row md:items-center gap-2 md:gap-6">
+                      <p className="text-[13px] lg:text-base font-medium">
+                        Member Name: <span className="font-normal">{data.fname}</span>
+                      </p>
+                      <p className="text-[13px] lg:text-base font-medium">
+                        Member Grade: <span className="font-normal">{data.grade || ""}</span>
+                      </p>
+                    </div>
+
+                    {/* Block 2 */}
+                    <div className="w-full md:w-1/2 flex flex-col md:flex-row md:items-center gap-2 md:gap-6">
+                      <p className="text-[13px] lg:text-base font-medium">
+                        Country Name: <span className="font-normal">{data.country}</span>
+                      </p>
+                      <p className="text-[13px] lg:text-base font-medium">
+                        Referred By: <span className="font-normal">{data?.referrerId?.fname || "NA"}</span>
+                      </p>
+                    </div>
+
+                  </div>
                 </div>
+
 
                 <p className="mt-4 text-[#22405c] font-bold">Personal Link</p>
                 <div
                   onClick={handleCopy}
                   className="cursor-pointer w-full p-2 rounded-md bg-[#22405c] flex items-center justify-between text-white hover:bg-[#2a4e6d] transition-colors"
                 >
-                  <span className="underline underline-offset-2 ml-2">
+                  <span className="underline underline-offset-2 ml-2 text-sm break-all whitespace-normal overflow-hidden">
                     {data.referenceUrl}
                   </span>
                   <svg

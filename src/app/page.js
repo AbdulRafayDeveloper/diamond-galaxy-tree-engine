@@ -9,6 +9,7 @@ export default function Home() {
   useEffect(() => {
     router.replace("/auth/signin");
   }, []);
+  
 
   return null;
 }

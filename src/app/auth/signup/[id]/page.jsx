@@ -6,6 +6,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
+// import { useSearchParams } from "next/router";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { isValidPhoneNumber } from "libphonenumber-js";
@@ -16,18 +17,19 @@ const Page = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const router = useRouter();
   const [errors, setErrors] = useState({});
-  const fullPhone = "+" + formData.phoneNo;
   const [formData, setFormData] = useState({
     fname: "",
     lname: "",
     referrerCode: "",
     phoneNo: "",
-    country: "",
+    country: "Pakistan",
     username: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
+  const fullPhone = "+" + formData.phoneNo;
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -502,9 +504,8 @@ const Page = () => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className={`bg-[#22405c] w-full text-white py-3.5 rounded-md font-bold text-sm flex justify-center ${
-                      loading ? "opacity-50 cursor-not-allowed" : ""
-                    } `}
+                    className={`bg-[#22405c] w-full text-white py-3.5 rounded-md font-bold text-sm flex justify-center ${loading ? "opacity-50 cursor-not-allowed" : ""
+                      } `}
                   >
                     {loading ? "Processing..." : "Register"}
                   </button>
