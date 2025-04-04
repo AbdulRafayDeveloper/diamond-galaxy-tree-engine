@@ -9,8 +9,8 @@ const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
   const buttonRef = useRef(null);
-  const [refData, setData] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [refData, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -122,7 +122,7 @@ const Page = () => {
                 <div className="flex justify-center items-center col-span-2">
                   <div className="w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
                 </div>
-              ) : Array.isArray(refData) && refData.length > 0 ? (
+              ) : refData && Array.isArray(refData) && refData.length > 0 ? (
                 refData.map((el, idx) => (
                   <div
                     key={idx}

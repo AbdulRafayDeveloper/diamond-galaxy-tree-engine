@@ -5,6 +5,9 @@ import Link from "next/link";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import { isValidPhoneNumber } from "libphonenumber-js";
 
 const Page = () => {
   const [loading, setLoading] = useState(false);
@@ -17,23 +20,14 @@ const Page = () => {
     lname: "",
     referrerCode: "",
     phoneNo: "",
-    country: "",
+    country: "Pakistan",
     username: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
 
-  console.log(
-    formData.fname,
-    formData.lname,
-    formData.referrerCode,
-    formData.phoneNo,
-    formData.country,
-    formData.username,
-    formData.email,
-    formData.password
-  );
+  const fullPhone = "+" + formData.phoneNo;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -56,6 +50,13 @@ const Page = () => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
 
     // Validations
+
+    if (!formData.phoneNo) {
+      newErrors.phoneNo = "Phone number is required!";
+    } else if (!isValidPhoneNumber(fullPhone)) {
+      newErrors.phoneNo = "Invalid phone number.";
+    }
+
     if (!formData.fname) {
       newErrors.fname = "First name is required!";
     } else if (formData.fname.length < 3) {
@@ -84,6 +85,8 @@ const Page = () => {
 
     if (!formData.username) {
       newErrors.username = "Username is required!";
+    } else if (formData.username.length > 15) {
+      newErrors.username = "Username must only be 15 characters long.";
     } else if (formData.username.length < 3) {
       newErrors.username = "Username must be at least 3 characters";
     } else if (/\s/.test(formData.username)) {
@@ -93,14 +96,6 @@ const Page = () => {
     if (!formData.email) newErrors.email = "Email is required!";
     else if (!emailRegex.test(formData.email))
       newErrors.email = "Invalid email format.";
-
-    if (!formData.phoneNo) {
-      newErrors.phoneNo = "Phone number is required!";
-    } else if (/[a-zA-Z]/.test(formData.phoneNo)) {
-      newErrors.phoneNo = "Phone number must not contain alphabets.";
-    } else if (!/^\d{10}$/.test(formData.phoneNo)) {
-      newErrors.phoneNo = "Phone number must be exactly 10 digits.";
-    }
 
     if (!formData.country) newErrors.country = "Please select a country.";
 
@@ -320,30 +315,31 @@ const Page = () => {
                   {/* Phone & Country */}
                   <div className="grid grid-cols-2 gap-4">
                     <div className="flex flex-col">
-                      <div className="relative">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 512 512"
-                          fill="currentColor"
-                          className="absolute left-3 top-1/2 transform -translate-y-1/2 fill-gray-400  w-5 h-4"
-                        >
-                          <path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z" />
-                        </svg>
+                      <PhoneInput
+                        country={"pk"}
+                        value={formData.phoneNo}
+                        onChange={(phone, countryData) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            phoneNo: phone,
+                            country: countryData.name,
+                          }))
+                        }
+                        inputProps={{
+                          name: "phoneNo",
+                          required: true,
+                        }}
+                        inputClass="!w-full !text-sm !pl-12 !py-6 !rounded-md !bg-gray-50 !text-gray-800 !outline-blue-800 !border-none"
+                        containerClass="relative"
+                      />
 
-                        <input
-                          name="phoneNo"
-                          type="tel"
-                          value={formData.phoneNo}
-                          onChange={handleChange}
-                          // required
-                          className="bg-gray-50 w-full text-sm text-gray-800 px-4 py-3.5 pl-9 rounded-md outline-blue-800 focus:bg-transparent"
-                          placeholder="Phone Number"
-                        />
-                      </div>
                       {errors.phoneNo && (
-                        <p className="text-red-500 text-xs">{errors.phoneNo}</p>
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors.phoneNo}
+                        </p>
                       )}
                     </div>
+
                     <div className="flex flex-col">
                       <div className="relative">
                         <svg

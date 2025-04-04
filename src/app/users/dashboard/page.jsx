@@ -57,6 +57,7 @@ const Page = () => {
   useEffect(() => {
     const getData = async () => {
       try {
+        setLoading(true);
         const token = Cookies.get("token");
 
         const response = await axios.get("/api/frontend/user", {
@@ -68,6 +69,7 @@ const Page = () => {
         const userData = response.data.data;
         setData(userData);
         setLoading(false);
+        console.log(userData);
       } catch (e) {
         console.error("Failed to fetch user:", e);
       } finally {
