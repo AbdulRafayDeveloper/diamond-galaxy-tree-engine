@@ -82,7 +82,7 @@ const Page = () => {
 
   return (
     <div className="overflow-y-auto scrollbar-hidden">
-      <div className="grid grid-cols-3 md:flex  p-2">
+      <div className="grid grid-cols-3 md:flex  p-2 w-full">
         <div>
           <button
             ref={buttonRef}
@@ -122,7 +122,7 @@ const Page = () => {
             Diamond Galaxy
           </p>
         </div>
-        <div className="flex justify-end md:ml-[150px] xl:ml-[730px] lg:ml-[400px]">
+        <div className="flex justify-end md:ml-[150px] xl:ml-[730px] lg:ml-[400px] ">
           <Header appear={true} />
         </div>
       </div>
