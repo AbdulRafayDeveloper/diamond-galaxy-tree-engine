@@ -43,9 +43,11 @@ const SideBar = ({ section }) => {
                 Deposit
               </button>
             </Link>
-            <button className="p-2 rounded-md text-sm text-black bg-[#F6F1DE]">
-              Withdraw
-            </button>
+           <Link href="/users/withdraw">
+              <button className="p-2 rounded-md text-sm text-black bg-[#F6F1DE]">
+                Withdraw
+              </button>
+           </Link>
           </div>
         </li>
         <Link
@@ -165,7 +167,7 @@ const SideBar = ({ section }) => {
             : "hover:bg-[#F6F1DE] hover:text-black "
             }`}
         >
-          <a
+          <Link
             href="#"
             className={`flex items-center p-2  group ${section === "Activate"
               ? "bg-[#F6F1DE] text-black"
@@ -186,7 +188,7 @@ const SideBar = ({ section }) => {
                 Activate
               </span>
             </div>
-          </a>
+          </Link>
         </li>
         <li
           className={`pb-2 text-white ${section === "Slotes"
@@ -194,7 +196,7 @@ const SideBar = ({ section }) => {
             : "hover:bg-[#F6F1DE] hover:text-black "
             }`}
         >
-          <a
+          <Link
             href="#"
             className={`flex items-center p-2  group ${section === "Slotes"
               ? "bg-[#F6F1DE] text-black"
@@ -215,7 +217,7 @@ const SideBar = ({ section }) => {
                 Slotes
               </span>
             </div>
-          </a>
+          </Link>
         </li>
         {/*  */}
         <li
@@ -311,7 +313,7 @@ const SideBar = ({ section }) => {
             : "hover:bg-[#F6F1DE] hover:text-black "
             }`}
         >
-          <a
+          <Link
             href="/users/my_refferals"
             className={`flex items-center p-2 group ${section === "My Refferal"
               ? "bg-[#F6F1DE] text-black"
@@ -332,7 +334,7 @@ const SideBar = ({ section }) => {
                 My Referral
               </span>
             </div>
-          </a>
+          </Link>
         </li>
         <li
           className={`pb-2 text-white ${section === "Education"
@@ -427,7 +429,7 @@ const SideBar = ({ section }) => {
             : "hover:bg-[#F6F1DE] hover:text-black "
             }`}
         >
-          <a
+          <Link
             href="/users/my_team"
             className={`flex items-center p-2  group ${section === "My Team"
               ? "bg-[#F6F1DE] text-black"
@@ -448,7 +450,7 @@ const SideBar = ({ section }) => {
                 My Team
               </span>
             </div>
-          </a>
+          </Link>
         </li>
         <li
           className={`pb-2 text-white ${section === "Fingure Print"

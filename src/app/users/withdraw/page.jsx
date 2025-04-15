@@ -1,9 +1,9 @@
 "use client";
-import { id } from "date-fns/locale";
+import { id, se } from "date-fns/locale";
 import Header from "../components/header/Header";
 import SideBar from "../components/sidebar/SideBar";
 import { useState, useRef, useEffect, use } from "react";
-import Link from "next/link";
+import { object } from "joi";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -11,15 +11,15 @@ const Page = () => {
   const dropdownRef=useRef();
   const sidebarRef = useRef(null);
   const buttonRef = useRef(null);
-  const [selected,setSelected]=useState("Trust Wallet")
-  const[formSubmitData,setFormSubmitData]=useState(false);
-  const [submittedData, setSubmittedData] = useState(null); 
   const [errors,setErrors]=useState({});
+  const [selected,setSelected]=useState("Trust Wallet");
 
   const[formData,setFormData]=useState({
     coin:" CoinPayements - USDT",
     paymentGateway:"",
-    Amount:""
+    Amount:"",
+    Id:"",
+    Address:""
   });
   const options=["Trust Wallet", "Binance"]
   const handleChange=(e)=>{
@@ -30,28 +30,25 @@ const Page = () => {
     }))
   }
   const handleSubmit=(e)=>{
-    const newErrors={};
     e.preventDefault();
-    if(!formData.Amount || isNaN(formData.Amount) || Number(formData.Amount) < 0){
-      newErrors.Amount="Please enter a valid number";
+    // Validation Apply 
+    const newErrors={};
+    if(!formData.Amount || isNaN(formData.Amount) || Number(formData.Amount)< 0){
+      newErrors.Amount ="Please enter a valid amount";
     }
-    if(Object.keys(newErrors).length>0){
+    if(selected=="Binance" && (!formData.Id || isNaN(formData.Id))){
+      newErrors.Id="Please enter a valid Id for Binance";
+    }
+    if (selected === "Trust Wallet" && (!formData.Address || formData.Address.trim() === "")) {
+      newErrors.Address = "Please enter a valid Address";
+    }
+    if(Object.keys(newErrors).length > 0){
       setErrors(newErrors);
-      return;
+      return ;
     }
     console.log(formData);
-    setSubmittedData(formData);
-    setFormSubmitData(true);
     setErrors({});
   }
-   const handleCopy = async () => {
-      try {
-        await navigator.clipboard.writeText("0x94c7eDf20A6B16B0F8870DFc4DCe9730F5A8C9bf");
-        toast.success("Referral link copied to clipboard!");
-      } catch (err) {
-        toast.error("Failed to copy link.");
-      }
-    };
 
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -68,7 +65,7 @@ const Page = () => {
     }
   };
 
-  const section = "Deposit";
+  const section = "Withdraw";
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
@@ -108,7 +105,7 @@ const Page = () => {
 
           {/* Title */}
           <p className="text-[12px] md:text-xl md:font-semibold ml-4 md:ml-64 lg:ml-64">
-            Deposit
+            Withdraw
           </p>
 
           {/* Header component */}
@@ -131,13 +128,13 @@ const Page = () => {
       <div className="md:ml-64">
         <div className="bg-white">
           <div className="p-2">
-            <div className="bg-[#22405c] flex flex-col justify-center items-center p-2 rounded-md h-[500px]">
+            <div className="bg-[#22405c] flex flex-col justify-center items-center p-2 rounded-md h-[550px]">
                 <div className="flex justify-center items-center text-center mt-4">
-                    <p className="text-3xl font-thick text-md text-white">Deposit Funds</p>
+                    <p className="text-3xl font-thick text-md text-white">Withdraw Funds</p>
                 </div>
-                <div className="mt-10 p-2 flex justify-center items-center gap-3" >
+                <div className="mt-6 p-2 flex justify-center items-center gap-3" >
                     <form onSubmit={handleSubmit}>
-                        <div className="grid lg:grid-cols-1 md:grid-cols-1 grid-cols-1 rounded-md gap-5 bg-[#F6F1DE]  p-5 h-[340px] lg:w-[500px] ">
+                        <div className="grid lg:grid-cols-1 md:grid-cols-1 grid-cols-1 rounded-md gap-5 bg-[#F6F1DE]  p-5 h-[460px] lg:w-[500px] ">
                             <div className="">
                                 <div>
                                     <label htmlFor="" className="ml-1">Coin</label>
@@ -148,7 +145,7 @@ const Page = () => {
                             </div>
                             <div className="">
                               <div>
-                                <label htmlFor="" className="ml-1">Payment Gateways</label>
+                                <label htmlFor="" className="ml-1">Withdraw Gateways</label>
                               </div>
                               <div className="relative inline-block w-[230px] lg:w-[450px]" ref={dropdownRef}>
                                 {/* Selected Option */}
@@ -192,12 +189,56 @@ const Page = () => {
                                 <div>
                                     <input type="number" value={formData.Amount} name="Amount" 
                                     placeholder="enter the amount"  
-                                    className="p-1 rounded-md  lg:w-[450px] w-[230px]  outline-none pl-1" 
+                                    className="p-1 rounded-md  lg:w-[450px] w-[230px]  outline-none pl-1"
                                     onChange={handleChange}
                                     />
                                 </div>
-                                {errors.Amount && <span className="text-red-500 text-sm">{errors.Amount}</span>}
+                                {errors.Amount && <p className="text-red-500 text-sm">{errors.Amount}</p>}
                             </div>
+                            {/* Conditionally Render Id (for Binance) */}
+                            {selected === "Binance" &&  (
+                              <div>
+                                <div>
+                                  <label htmlFor="Id" className="ml-1">
+                                    Id
+                                  </label>
+                                </div>
+                                <div>
+                                  <input
+                                    type="number"
+                                    value={formData.Id}
+                                    name="Id"
+                                    placeholder="enter the id"
+                                    className="p-1 rounded-md lg:w-[450px] w-[230px] outline-none pl-1"
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                                {errors.Id && <p className="text-red-500 text-sm">{errors.Id}</p>}
+                              </div>
+                            )}
+
+                            {/* Conditionally Render Address (for Trust Wallet) */}
+                            {selected === "Trust Wallet" && (
+                              <div>
+                                <div>
+                                  <label htmlFor="Address" className="ml-1">
+                                    Address
+                                  </label>
+                                </div>
+                                <div>
+                                  <input
+                                    type="text"
+                                    value={formData.Address}
+                                    name="Address"
+                                    placeholder="enter the address"
+                                    className="p-1 rounded-md lg:w-[450px] w-[230px] outline-none pl-1"
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                                {errors.Address && <p className="text-red-500 text-sm">{errors.Address}</p>}
+                              </div>
+                            )}
+
                             <div className="mt-3">
                               <button type="submit" className="p-2 flex w-full rounded-md justify-center items-center text-center bg-[#22405c] text-white">
                                 Submit 
@@ -209,7 +250,7 @@ const Page = () => {
             </div>
 
             {/* show the submitted data */}
-            {formSubmitData && submittedData && (
+            {/* {formSubmitData && submittedData && (
               <div className="p-4 mt-5 flex flex-col justify-center items-center bg-[#F6F1DE] rounded-md max-h-screen">
                 <div className="flex justify-center items-center text-center">
                   <h1 className="text-lg font-thick mt-4">Payment Preview</h1>
@@ -235,7 +276,7 @@ const Page = () => {
                   </button>
                 </div>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>
