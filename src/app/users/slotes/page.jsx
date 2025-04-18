@@ -180,7 +180,7 @@ const Page = () => {
           </svg>
         </div>
         <div>
-          <button className="p-1 w-full text-white bg-[#22405c] rounded-lg w-[300px]">
+          <button className="p-1 text-white bg-[#22405c] rounded-lg w-[300px]">
             Activate
           </button>
         </div>

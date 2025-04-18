@@ -109,7 +109,7 @@ const SideBar = ({ section }) => {
             }`}
         >
           <Link
-            href="#"
+            href="/users/lucky_draw"
             className={`flex items-center p-2  group ${section === "Lucky Draw"
               ? "bg-[#F6F1DE] text-black"
               : "hover:bg-[#F6F1DE] hover:text-black "
