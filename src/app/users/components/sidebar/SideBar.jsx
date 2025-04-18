@@ -138,7 +138,7 @@ const SideBar = ({ section }) => {
             }`}
         >
           <Link
-            href="#"
+            href="/users/registration"
             className={`flex items-center p-2 group ${section === "Registration"
               ? "bg-[#F6F1DE] text-black"
               : "hover:bg-[#F6F1DE] hover:text-black"
@@ -168,7 +168,7 @@ const SideBar = ({ section }) => {
             }`}
         >
           <Link
-            href="#"
+            href="/users/activate"
             className={`flex items-center p-2  group ${section === "Activate"
               ? "bg-[#F6F1DE] text-black"
               : "hover:bg-[#F6F1DE] hover:text-black "
@@ -197,7 +197,7 @@ const SideBar = ({ section }) => {
             }`}
         >
           <Link
-            href="#"
+            href="/users/slotes"
             className={`flex items-center p-2  group ${section === "Slotes"
               ? "bg-[#F6F1DE] text-black"
               : "hover:bg-[#F6F1DE] hover:text-black "
@@ -226,8 +226,8 @@ const SideBar = ({ section }) => {
             : "hover:bg-[#F6F1DE] hover:text-black "
             }`}
         >
-          <a
-            href="#"
+          <Link
+            href="/users/monthly_gifts"
             className={`flex items-center p-2  group ${section === "Monthly Gifts"
               ? "bg-[#F6F1DE] text-black"
               : "hover:bg-[#F6F1DE] hover:text-black "
@@ -247,7 +247,7 @@ const SideBar = ({ section }) => {
                 Monthly Gifts
               </span>
             </div>
-          </a>
+          </Link>
         </li>
         <li
           className={`pb-2 text-white ${section === "Grades"
@@ -255,8 +255,8 @@ const SideBar = ({ section }) => {
             : "hover:bg-[#F6F1DE] hover:text-black "
             }`}
         >
-          <a
-            href="#"
+          <Link
+            href="/users/grades"
             className={`flex items-center p-2  group ${section === "Grades"
               ? "bg-[#F6F1DE] text-black"
               : "hover:bg-[#F6F1DE] hover:text-black "
@@ -276,7 +276,7 @@ const SideBar = ({ section }) => {
                 Grades
               </span>
             </div>
-          </a>
+          </Link>
         </li>
         <li
           className={`pb-2 text-white ${section === "Rewards"
@@ -284,8 +284,8 @@ const SideBar = ({ section }) => {
             : "hover:bg-[#F6F1DE] hover:text-black "
             }`}
         >
-          <a
-            href="#"
+          <Link
+            href="/users/rewards"
             className={`flex items-center p-2 group ${section === "Rewards"
               ? "bg-[#F6F1DE] text-black"
               : "hover:bg-[#F6F1DE] hover:text-black "
@@ -305,7 +305,7 @@ const SideBar = ({ section }) => {
                 Rewards
               </span>
             </div>
-          </a>
+          </Link>
         </li>
         <li
           className={`pb-2 text-white ${section === "My Refferal"
@@ -342,8 +342,8 @@ const SideBar = ({ section }) => {
             : "hover:bg-[#F6F1DE] hover:text-black "
             }`}
         >
-          <a
-            href="#"
+          <Link
+            href="/users/education"
             className={`flex items-center p-2  group ${section === "Education"
               ? "bg-[#F6F1DE] text-black"
               : "hover:bg-[#F6F1DE] hover:text-black "
@@ -363,7 +363,7 @@ const SideBar = ({ section }) => {
                 Education
               </span>
             </div>
-          </a>
+          </Link>
         </li>
         <li
           className={`pb-2 text-white ${section === "Salary"
@@ -371,8 +371,8 @@ const SideBar = ({ section }) => {
             : "hover:bg-[#F6F1DE] hover:text-black "
             }`}
         >
-          <a
-            href="#"
+          <Link
+            href="/users/salary"
             className={`flex items-center p-2  group ${section === "Salary"
               ? "bg-[#F6F1DE] text-black"
               : "hover:bg-[#F6F1DE] hover:text-black "
@@ -392,7 +392,7 @@ const SideBar = ({ section }) => {
                 Salary
               </span>
             </div>
-          </a>
+          </Link>
         </li>
         <li
           className={`pb-2 text-white ${section === "Transaction"
@@ -400,8 +400,8 @@ const SideBar = ({ section }) => {
             : "hover:bg-[#F6F1DE] hover:text-black "
             }`}
         >
-          <a
-            href="#"
+          <Link
+            href="/users/transactions"
             className={`flex items-center p-2  group ${section === "Transaction"
               ? "bg-[#F6F1DE] text-black"
               : "hover:bg-[#F6F1DE] hover:text-black "
@@ -421,7 +421,7 @@ const SideBar = ({ section }) => {
                 Transaction
               </span>
             </div>
-          </a>
+          </Link>
         </li>
         <li
           className={`pb-2 text-white ${section === "My Team"
@@ -452,7 +452,7 @@ const SideBar = ({ section }) => {
             </div>
           </Link>
         </li>
-        <li
+        {/* <li
           className={`pb-2 text-white ${section === "Fingure Print"
             ? "bg-[#F6F1DE] text-black"
             : "hover:bg-[#F6F1DE] hover:text-black "
@@ -480,7 +480,7 @@ const SideBar = ({ section }) => {
               </span>
             </div>
           </a>
-        </li>
+        </li> */}
         <li
           className={`pb-2 text-white ${section === "Change Profile"
             ? "bg-[#F6F1DE] text-black"

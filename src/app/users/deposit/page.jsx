@@ -52,6 +52,20 @@ const Page = () => {
         toast.error("Failed to copy link.");
       }
     };
+    const [imagePreview, setImagePreview] = useState(null);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert("Please upload a valid image file (jpg, png, jpeg, webp)");
+    }
+  };
 
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -228,11 +242,30 @@ const Page = () => {
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 448 512"
-                      className="size-7 fill-blue-800 mt-4 ml-2 text-left flex items-end"
+                      className="size-7 fill-[#22405c] mt-4 ml-2 text-left flex items-end"
                     >
                       <path d="M208 0L332.1 0c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9L448 336c0 26.5-21.5 48-48 48l-192 0c-26.5 0-48-21.5-48-48l0-288c0-26.5 21.5-48 48-48zM48 128l80 0 0 64-64 0 0 256 192 0 0-32 64 0 0 48c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 176c0-26.5 21.5-48 48-48z" />
                     </svg>
                   </button>
+                </div>
+                <div className="flex flex-col items-center justify-center p-4 gap-4">
+                  <label className="cursor-pointer bg-[#22405c] text-white font-semibold py-2 px-4 rounded">
+                    Upload Transcript
+                    <input
+                      type="file"
+                      accept=".jpg,.jpeg,.png,.webp"
+                      onChange={handleImageChange}
+                      className="hidden"
+                    />
+                  </label>
+
+                  {imagePreview && (
+                    <img
+                      src={imagePreview}
+                      alt="Uploaded"
+                      className="w-[300px] h-auto rounded shadow"
+                    />
+                  )}
                 </div>
               </div>
             )}
