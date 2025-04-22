@@ -7,6 +7,9 @@ const Carousel = () => {
   const slides = [
     // "/carousel/image4.jpg",
     "/carousel/image5.webp",
+    "/carousel/image2.jpeg",
+    "/carousel/image3.jpg",
+
     // "/carousel/image6.jpg",
 
   ];

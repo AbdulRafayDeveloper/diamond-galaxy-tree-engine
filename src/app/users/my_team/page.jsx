@@ -1,6 +1,6 @@
 "use client";
 import { id } from "date-fns/locale";
-import Header from "../components/header/Header";
+import Header from "../components/header/page";
 import SideBar from "../components/sidebar/SideBar";
 import { useState, useRef, useEffect } from "react";
 

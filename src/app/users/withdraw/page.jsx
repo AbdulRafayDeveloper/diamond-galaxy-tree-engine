@@ -1,9 +1,11 @@
 "use client";
 import { id, se } from "date-fns/locale";
-import Header from "../components/header/Header";
+import Header from "../components/header/page";
 import SideBar from "../components/sidebar/SideBar";
 import { useState, useRef, useEffect, use } from "react";
 import { object } from "joi";
+import Image from "next/image";
+import Link from "next/link";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -128,10 +130,17 @@ const Page = () => {
       <div className="md:ml-64">
         <div className="bg-white">
           <div className="p-2">
-            <div className="bg-[#22405c] flex flex-col justify-center items-center p-2 rounded-md h-[550px]">
-                <div className="flex justify-center items-center text-center mt-4">
-                    <p className="text-3xl font-thick text-md text-white">Withdraw Funds</p>
+          <div className="bg-[#22405c] flex flex-col  p-2 rounded-md h-[600px]">
+              <div className="flex flex-row justify-between">
+                <div className="flex mt-4">
+                  <p className="text-2xl font-thick text-md text-white">Withdraw Funds</p>
                 </div>
+                <div className="flex mt-2 rounded-md">
+                  <Link href="/users/withdraw/withdraw_history">
+                    <Image src="/icons/historyLogo.png" alt="History Icon" width={40} height={40} />
+                  </Link>
+                </div>
+              </div>
                 <div className="mt-6 p-2 flex justify-center items-center gap-3" >
                     <form onSubmit={handleSubmit}>
                         <div className="grid lg:grid-cols-1 md:grid-cols-1 grid-cols-1 rounded-md gap-5 bg-[#F6F1DE]  p-5 h-[460px] lg:w-[500px] ">

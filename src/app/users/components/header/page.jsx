@@ -2,40 +2,14 @@
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { useCallback } from "react";
-import Swal from "sweetalert2";
-import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
 
-const Header = ({ appear, title }) => {
+const Page = ({ appear, title }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenAvatar, setIsOpenAvatar] = useState(false);
   const [isDropdownAppear, setIsDropdownAppear] = useState(false);
   const dropdownRef = useRef(null);
-  // const buttonRef = useRef(null);
-  const router = useRouter();
 
-  const handleLogout = () => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "Do you really want to log out?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, Logout",
-      cancelButtonText: "Cancel",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Cookies.remove("token");
-        router.push("/auth/signin");
-      }
-    });
-  };
 
-  const handleChange = (option) => {
-    setSelectOpion(option);
-    setIsOpen(false);
-  };
 
   useEffect(() => {
     setIsDropdownAppear(appear);
@@ -131,7 +105,7 @@ const Header = ({ appear, title }) => {
                         </div>
                       </li>
                       <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                        <div className="flex items-center gap-x-2">
+                        <Link href="/users/update_password" className="flex items-center gap-x-2">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 448 512"
@@ -142,14 +116,12 @@ const Header = ({ appear, title }) => {
                             <path d="M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z" />
                           </svg>
                           <div className="flex flex-col">
-                            <Link href="/users/profile_settings">
-                              <span className="text-xs  text-gray-800">
-                                Update Password
-                              </span>
-                            </Link>
+                            <span className="text-xs text-gray-800">Update Password</span>
                           </div>
-                        </div>
+                        </Link>
                       </li>
+
+
                     </ul>
                   </div>
                 )}
@@ -162,4 +134,4 @@ const Header = ({ appear, title }) => {
   );
 };
 
-export default Header;
+export default Page;

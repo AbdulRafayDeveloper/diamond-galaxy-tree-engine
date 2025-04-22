@@ -4,10 +4,10 @@ const Page = () => {
   return (
     <>
       <div className="conatiner mt-3 ">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1">
           <div className="flex flex-col bg-[#F6F1DE] rounded-xl h-[200px] gap-4 p-3 justify-center items-center">
             <div className="flex flex-row gap-2">
-              <h1 className="text-black text-3xl">Partners</h1>
+              <h1 className="text-black text-3xl">My Refferals</h1>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 448 512"
@@ -42,7 +42,7 @@ const Page = () => {
             </div>
           </div>
           {/* col 2 */}
-          <div className="flex flex-col bg-[#22405c] rounded-xl gap-4 p-3 justify-center items-center">
+          {/* <div className="flex flex-col bg-[#22405c] rounded-xl gap-4 p-3 justify-center items-center">
             <div className="flex flex-row gap-2">
               <h1 className="text-white text-3xl">Team</h1>
               <svg
@@ -77,7 +77,7 @@ const Page = () => {
                 />
               </button>
             </div>
-          </div>
+          </div> */}
           {/* <div className="flex flex-col bg-[#F6F1DE] rounded-xl h-[200px] gap-4 p-3 justify-center items-center">
                        <div className="flex flex-row gap-2">
                             <h1 className="text-black">Individual</h1>
