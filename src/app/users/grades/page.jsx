@@ -110,7 +110,7 @@ const Page = () => {
                     <h1 className="text-lg mb-4 font-thin text-center">Star Grade ✨</h1>
                     <h1 className="text-lg mb-4 font-thin text-center">Royal Grade 👑</h1>
                 </div>
-                <div>
+                <div className="bg-[#22405c] p-1 rounded-md text-white">
                     <h1 className="text-xl mb-4 font-Bold text-center"><strong>Your Grade is</strong> : Gold Grade 🥇</h1>
                 </div>
             </div>

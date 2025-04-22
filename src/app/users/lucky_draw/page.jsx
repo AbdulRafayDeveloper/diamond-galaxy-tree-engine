@@ -135,7 +135,7 @@ const Page = () => {
                 <div className="flex flex-col gap-4 text-sm sm:text-base">
                 {/* Lottery Price */}
                 <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 font-semibold text-purple-600">
+                    <div className="flex items-center gap-2 font-semibold text-[#22405c]">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 576 512"
@@ -152,7 +152,7 @@ const Page = () => {
 
                 {/* Winning Price */}
                 <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 font-semibold text-blue-600">
+                    <div className="flex items-center gap-2 font-semibold text-[#22405c]">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 576 512"
@@ -169,7 +169,7 @@ const Page = () => {
 
                 {/* Date of Announcement */}
                 <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 font-semibold text-green-600">
+                    <div className="flex items-center gap-2 font-semibold text-[#22405c]">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="#5CB338" stroke="bg-green-600"className="size-5">
                                 <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/>
                             </svg>
