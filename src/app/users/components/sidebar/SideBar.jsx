@@ -487,8 +487,8 @@ const SideBar = ({ section }) => {
             : "hover:bg-[#F6F1DE] hover:text-black "
             }`}
         >
-          <a
-            href="#"
+          <Link
+            href="/users/profile-update"
             className={`flex items-center p-2  group ${section === "Change Profile"
               ? "bg-[#F6F1DE] text-black"
               : "hover:bg-[#F6F1DE] hover:text-black "
@@ -508,7 +508,7 @@ const SideBar = ({ section }) => {
                 Change Profile
               </span>
             </div>
-          </a>
+          </Link>
         </li>
         <li
           className={`pb-2 text-white ${section === "Change Password"
@@ -516,8 +516,8 @@ const SideBar = ({ section }) => {
             : "hover:bg-[#F6F1DE] hover:text-black "
             }`}
         >
-          <a
-            href="#"
+          <Link
+            href="/users/password-change"
             className={`flex items-center p-2  group ${section === "Change Password"
               ? "bg-[#F6F1DE] text-black"
               : "hover:bg-[#F6F1DE] hover:text-black "
@@ -537,7 +537,7 @@ const SideBar = ({ section }) => {
                 Change Password
               </span>
             </div>
-          </a>
+          </Link>
         </li>
         <li
           className={`pb-2 text-white ${section === "Logout"

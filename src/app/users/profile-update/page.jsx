@@ -82,7 +82,7 @@ const Page = () => {
         }
     };
 
-    const section = "Change Password";
+    const section = "Change Profile";
 
     useEffect(() => {
         document.addEventListener("click", handleClickOutside);
@@ -130,7 +130,7 @@ const Page = () => {
 
                     {/* Title */}
                     <p className="text-[12px] md:text-xl md:font-semibold ml-4 md:ml-64 lg:ml-64">
-                        Update Password
+                    Update Profile
                     </p>
 
                     {/* Header component */}
