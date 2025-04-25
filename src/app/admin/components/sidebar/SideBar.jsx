@@ -120,6 +120,94 @@ const SideBar = ({ section }) => {
             </div>
           </Link>
         </li>
+        <li
+          className={`pb-2  text-white ${section === "Lucky Draw"
+            ? "bg-[#F6F1DE] text-black"
+            : "hover:bg-[#F6F1DE] hover:text-black "
+            }`}
+        >
+          <Link
+            href="/admin/lucky_draw"
+            className={`flex items-center p-2  group ${section === "Lucky Draw"
+              ? "bg-[#F6F1DE] text-black"
+              : "hover:bg-[#F6F1DE] hover:text-black "
+              }`}
+          >
+            <div className="flex flex-row pl-10 justify-center items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 448 512"
+                fill="currentColor"
+                stroke="currentColor"
+                className="size-4 "
+              >
+                <path d="M216.6 49.9C205.1 38.5 189.5 32 173.3 32C139.4 32 112 59.4 112 93.3l0 4.9c0 12 3.3 23.7 9.4 34l18.8 31.3c1.1 1.8 1.2 3.1 1 4.2c-.2 1.2-.8 2.5-2 3.6s-2.4 1.8-3.6 2c-1 .2-2.4 .1-4.2-1l-31.3-18.8c-10.3-6.2-22-9.4-34-9.4l-4.9 0C27.4 144 0 171.4 0 205.3c0 16.2 6.5 31.8 17.9 43.3l1.2 1.2c3.4 3.4 3.4 9 0 12.4l-1.2 1.2C6.5 274.9 0 290.5 0 306.7C0 340.6 27.4 368 61.3 368l4.9 0c12 0 23.7-3.3 34-9.4l31.3-18.8c1.8-1.1 3.1-1.2 4.2-1c1.2 .2 2.5 .8 3.6 2s1.8 2.4 2 3.6c.2 1 .1 2.4-1 4.2l-18.8 31.3c-6.2 10.3-9.4 22-9.4 34l0 4.9c0 33.8 27.4 61.3 61.3 61.3c16.2 0 31.8-6.5 43.3-17.9l1.2-1.2c3.4-3.4 9-3.4 12.4 0l1.2 1.2c11.5 11.5 27.1 17.9 43.3 17.9c33.8 0 61.3-27.4 61.3-61.3l0-4.9c0-12-3.3-23.7-9.4-34l-18.8-31.3c-1.1-1.8-1.2-3.1-1-4.2c.2-1.2 .8-2.5 2-3.6s2.4-1.8 3.6-2c1-.2 2.4-.1 4.2 1l31.3 18.8c10.3 6.2 22 9.4 34 9.4l4.9 0c33.8 0 61.3-27.4 61.3-61.3c0-16.2-6.5-31.8-17.9-43.3l-1.2-1.2c-3.4-3.4-3.4-9 0-12.4l1.2-1.2c11.5-11.5 17.9-27.1 17.9-43.3c0-33.8-27.4-61.3-61.3-61.3l-4.9 0c-12 0-23.7 3.3-34 9.4l-31.3 18.8c-1.8 1.1-3.1 1.2-4.2 1c-1.2-.2-2.5-.8-3.6-2s-1.8-2.4-2-3.6c-.2-1-.1-2.4 1-4.2l18.8-31.3c6.2-10.3 9.4-22 9.4-34l0-4.9C336 59.4 308.6 32 274.7 32c-16.2 0-31.8 6.5-43.3 17.9l-1.2 1.2c-3.4 3.4-9 3.4-12.4 0l-1.2-1.2z" />
+              </svg>
+              <span className="flex-1 ms-3 whitespace-nowrap font-normal  text-sm">
+                Lucky Draw
+              </span>
+            </div>
+          </Link>
+        </li>
+        <li
+          className={`pb-2 text-white ${section === "Register Users"
+            ? "bg-[#F6F1DE] text-black"
+            : "hover:bg-[#F6F1DE] hover:text-black"
+            }`}
+        >
+          <Link
+            href="/admin/register_users"
+            className={`flex items-center p-2 group ${section === "Register Users"
+              ? "bg-[#F6F1DE] text-black"
+              : "hover:bg-[#F6F1DE] hover:text-black"
+              }`}
+          >
+            <div className="flex flex-row pl-10 justify-center items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 576 512"
+                stroke="currentColor"
+                fill="currentColor"
+                className="size-4 "
+              >
+                <path d="M0 96l576 0c0-35.3-28.7-64-64-64L64 32C28.7 32 0 60.7 0 96zm0 32L0 416c0 35.3 28.7 64 64 64l448 0c35.3 0 64-28.7 64-64l0-288L0 128zM64 405.3c0-29.5 23.9-53.3 53.3-53.3l117.3 0c29.5 0 53.3 23.9 53.3 53.3c0 5.9-4.8 10.7-10.7 10.7L74.7 416c-5.9 0-10.7-4.8-10.7-10.7zM176 192a64 64 0 1 1 0 128 64 64 0 1 1 0-128zm176 16c0-8.8 7.2-16 16-16l128 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-128 0c-8.8 0-16-7.2-16-16zm0 64c0-8.8 7.2-16 16-16l128 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-128 0c-8.8 0-16-7.2-16-16zm0 64c0-8.8 7.2-16 16-16l128 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-128 0c-8.8 0-16-7.2-16-16z" />
+              </svg>
+
+              <span className="flex-1 ms-3 whitespace-nowrap font-normal  text-sm">
+                Registration Users
+              </span>
+            </div>
+          </Link>
+        </li>
+        <li
+          className={`pb-2 text-white ${section === "Activate Users"
+            ? "bg-[#F6F1DE] text-black"
+            : "hover:bg-[#F6F1DE] hover:text-black "
+            }`}
+        >
+          <Link
+            href="/admin/activated_users"
+            className={`flex items-center p-2  group ${section === "Activate Users"
+              ? "bg-[#F6F1DE] text-black"
+              : "hover:bg-[#F6F1DE] hover:text-black "
+              }`}
+          >
+            <div className="flex flex-row pl-10 justify-center items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 512 512"
+                className="size-4 "
+                fill="currentColor"
+                stroke="currentColor"
+              >
+                <path d="M64 64c0-17.7-14.3-32-32-32S0 46.3 0 64L0 400c0 44.2 35.8 80 80 80l400 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L80 416c-8.8 0-16-7.2-16-16L64 64zm406.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L320 210.7l-57.4-57.4c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L240 221.3l57.4 57.4c12.5 12.5 32.8 12.5 45.3 0l128-128z" />
+              </svg>
+              <span className="flex-1 ms-3 whitespace-nowrap font-normal  text-sm">
+                Activate Users
+              </span>
+            </div>
+          </Link>
+        </li>
       </ul>
     </div>
   );
