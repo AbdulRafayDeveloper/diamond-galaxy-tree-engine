@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { useCallback } from "react";
 
-const Page = ({ appear, title }) => {
+const Header = ({ appear, title }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenAvatar, setIsOpenAvatar] = useState(false);
   const [isDropdownAppear, setIsDropdownAppear] = useState(false);
@@ -134,4 +134,4 @@ const Page = ({ appear, title }) => {
   );
 };
 
-export default Page;
+export default Header;

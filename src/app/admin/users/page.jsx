@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Header from "@/app/admin/components/header/page";
+import Header from "@/app/admin/components/header/Header";
 import SideBar from "@/app/admin/components/sidebar/SideBar";
 import Table from "@/app/admin/components/itemTable/Table";
-import Pagination from "../components/pagination/page";
+import Pagination from "../components/pagination/Pagination";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

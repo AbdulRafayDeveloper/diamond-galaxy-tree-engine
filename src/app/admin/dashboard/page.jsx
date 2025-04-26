@@ -1,9 +1,8 @@
 "use client";
-import Header from "@/app/admin/components/header/page";
+import Header from "@/app/admin/components/header/Header";
 import SideBar from "@/app/admin/components/sidebar/SideBar";
 import { useState, useRef, useEffect } from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

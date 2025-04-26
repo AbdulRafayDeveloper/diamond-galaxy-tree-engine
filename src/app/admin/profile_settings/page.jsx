@@ -4,7 +4,6 @@ import { useState, useRef } from "react";
 import Sidebar from "@/app/admin/components/sidebar/SideBar";
 import Header from "@/app/admin/components/header/Header";
 
-
 export default function SettingForm() {
   const sidebarRef = useRef(null);
   const buttonRef = useRef(null);
