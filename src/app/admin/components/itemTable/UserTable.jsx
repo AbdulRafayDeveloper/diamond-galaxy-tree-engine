@@ -2,41 +2,69 @@
 import Swal from "sweetalert2";
 import { useState, useEffect, useRef } from "react";
 
-const Table = ({ products }) => {
+const UsersTable = ({ products }) => {
   const sidebarRef = useRef(null);
   const buttonRef = useRef(null);
   const dropdownRefs = useRef([]);
+  const dropdownRefsSlot = useRef([])
   const [searchTerm, setSearchTerm] = useState("");
   const [openDropdownIndex, setOpenDropdownIndex] = useState(null);
+  const [openDropdownIndexSlots, setOpenDropdownIndexSlots] = useState(null);
+
   const [selectedOptions, setSelectedOptions] = useState(
-    products.map(() => "Gold") // Default "Gold" for all rows
+    products.map(() => "Gold")
+  );
+  const [selectedOptionsSlots, setSelectedOptionsSlots] = useState(
+    products.map(() => "Slot1")
   );
 
+
   const handleClickOutside = (event) => {
+    const clickedInsideGradeDropdown = dropdownRefs.current.some(ref =>
+      ref?.contains(event.target)
+    );
+    const clickedInsideSlotDropdown = dropdownRefsSlot.current.some(ref =>
+      ref?.contains(event.target)
+    );
+
     if (
       sidebarRef.current &&
       !sidebarRef.current.contains(event.target) &&
       buttonRef.current &&
       !buttonRef.current.contains(event.target)
     ) {
-      const isClickInsideDropdown = dropdownRefs.current.some((ref) =>
-        ref?.contains(event.target)
-      );
-      if (!isClickInsideDropdown) {
+      if (!clickedInsideGradeDropdown) {
         setOpenDropdownIndex(null);
+      }
+      if (!clickedInsideSlotDropdown) {
+        setOpenDropdownIndexSlots(null);
       }
     }
   };
 
-  const handleSelect = (option, index) => {
+
+  const handleSelectGrade = (option, index) => {
     const updated = [...selectedOptions];
     updated[index] = option;
     setSelectedOptions(updated);
     setOpenDropdownIndex(null);
   };
 
+  const handleSelectSlot = (option, index) => {
+    const updated = [...selectedOptionsSlots];
+    updated[index] = option;
+    setSelectedOptionsSlots(updated);
+    setOpenDropdownIndexSlots(null);
+  };
+
+
   const toggleDropdown = (index) => {
     setOpenDropdownIndex(openDropdownIndex === index ? null : index);
+  };
+
+  // 
+  const toggleDropdownSlots = (index) => {
+    setOpenDropdownIndexSlots(openDropdownIndexSlots === index ? null : index);
   };
 
   const DeleteRecorde = () => {
@@ -100,16 +128,54 @@ const Table = ({ products }) => {
     closeModal();
   };
 
+  const handleUnregister = () => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to register this user?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, Register',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Call your API or function to unregister
+        console.log('User Register!');
+        Swal.fire('Register!', 'The user has been Register.', 'success');
+      }
+    });
+  };
+  const handleDeactivate = () => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to Activate this user?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, Activate',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Call your API or function to unregister
+        console.log('User Activated!');
+        Swal.fire('Activated!', 'The user has been Activated.', 'success');
+      }
+    });
+  };
   return (
     <div className="relative overflow-x-auto scrollbar-none pt-12">
       <table className="w-full text-sm text-left text-gray-500 p-3">
         <thead className="text-center text-base text-gray-700 font-light bg-white">
           <tr>
             <th className="px-6 py-3">Name</th>
-            <th className="px-6 py-3">Property Address</th>
-            <th className="px-6 py-3">Date Added</th>
+            <th className="px-6 py-3">Email</th>
+            <th className="px-6 py-3">Date</th>
             <th className="px-6 py-3">Grades</th>
+            <th className="px-6 py-3">Salary</th>
             <th className="px-6 py-3">Deposit</th>
+            <th className="px-6 py-3">Reg. Status</th>
+            <th className="px-6 py-3">Act. Status</th>
+            <th className="px-6 py-3">Slots</th>
             <th className="px-6 py-3">Actions</th>
           </tr>
         </thead>
@@ -119,10 +185,10 @@ const Table = ({ products }) => {
               key={index}
               className="odd:bg-[#F6F1DE] even:bg-white border-b text-center"
             >
-              <td className="px-6 py-4">{product.name}</td>
-              <td className="px-6 py-4">{product.propertyAddress}</td>
-              <td className="px-6 py-4">{product.date}</td>
-              <td className="px-6 py-4">
+              <td className="px-6 py-4 ">{product.name}</td>
+              <td className="px-6 py-4 ">{product.propertyAddress}</td>
+              <td className="px-6 py-4 ">{product.date}</td>
+              <td className="px-6 py-4 ">
                 <div className="relative inline-block">
                   <button
                     onClick={() => toggleDropdown(index)}
@@ -155,7 +221,7 @@ const Table = ({ products }) => {
                           (option) => (
                             <li key={option}>
                               <button
-                                onClick={() => handleSelect(option, index)}
+                                onClick={() => handleSelectGrade(option, index)}
                                 className="block w-full text-left px-4 py-2 hover:bg-gray-100"
                               >
                                 {option}
@@ -168,7 +234,8 @@ const Table = ({ products }) => {
                   )}
                 </div>
               </td>
-              <td className="px-6 py-4">
+              <td className="px-6 py-4 ">{product.salary}</td>
+              <td className="px-6 py-4 ">
                 <button
                   className="bg-[#22405c] text-white px-4 py-2 rounded"
                   onClick={openModal}
@@ -206,7 +273,87 @@ const Table = ({ products }) => {
                   </div>
                 )}
               </td>
-              <td className="px-6 py-4 flex justify-center gap-2">
+              <td className="px-6 py-4">
+                <button
+                  className="bg-[#22405c] text-white px-4 py-2 rounded"
+                  onClick={handleUnregister}
+                >
+                  Register
+                </button>
+              </td>
+              <td className="px-6 py-4">
+                <button
+                  className="bg-[#22405c] text-white px-4 py-2 rounded"
+                  onClick={handleDeactivate}
+                >
+                  Activate
+                </button>
+              </td>
+              <td className="px-6 py-4 ">
+                <div className="relative inline-block">
+                  <button
+                    onClick={() => toggleDropdownSlots(index)}
+                    className="flex items-center justify-between text-black font-medium rounded-full text-sm px-3 py-1 border border-gray-300 w-40"
+                    type="button"
+                    ref={(el) => (dropdownRefsSlot.current[index] = el)}
+                  >
+                    <span className="text-[#777777] truncate w-24">
+                      {selectedOptionsSlots[index]}
+                    </span>
+                    <svg
+                      className={`w-2.5 h-2.5 ml-2 transition-transform ${openDropdownIndexSlots === index ? "rotate-180" : "rotate-0"
+                        }`}
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="#777777"
+                      viewBox="0 0 10 6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="m1 1 4 4 4-4"
+                      />
+                    </svg>
+                  </button>
+                  {openDropdownIndexSlots === index && (
+                    <div className="absolute z-10 bg-white border rounded-lg shadow-sm mt-2 w-40">
+                      <ul className="py-2 text-sm text-gray-700">
+                        <ul className="py-2 text-sm text-gray-700">
+                          {["Slot1", "Slot2", "Slot3", "Slot4", "Slot5", "Slot6", "Slot7", "Slot8", "Slot9", "Slot10", "Slot11"].map(
+                            (option) => (
+                              <li key={option}>
+                                <button
+                                  onClick={() => {
+                                    Swal.fire({
+                                      title: 'Are you sure?',
+                                      text: "Do you want to change the slot?",
+                                      icon: 'warning',
+                                      showCancelButton: true,
+                                      confirmButtonColor: '#3085d6',
+                                      cancelButtonColor: '#d33',
+                                      confirmButtonText: 'Yes, change it!',
+                                    }).then((result) => {
+                                      if (result.isConfirmed) {
+                                        handleSelectSlot(option, index);
+                                        Swal.fire('Changed!', 'The slot has been updated.', 'success');
+                                      }
+                                    });
+                                  }}
+                                  className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                                >
+                                  {option}
+                                </button>
+                              </li>
+                            )
+                          )}
+                        </ul>
+
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </td>
+              <td className="px-6 py-4  flex justify-center gap-2">
                 <button className="text-gray-800 hover:text-blue-800" onClick={ResetPassword}>
                   {/* View Icon */}
                   🔏
@@ -240,4 +387,4 @@ const Table = ({ products }) => {
   );
 };
 
-export default Table;
+export default UsersTable;

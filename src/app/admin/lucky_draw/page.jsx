@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Header from "@/app/admin/components/header/Header";
 import SideBar from "@/app/admin/components/sidebar/SideBar";
-import Table from "@/app/admin/components/luckydrawTable/Table";
+import Table from "@/app/admin/components/luckydrawTable/luckyDrawTable";
 import Pagination from "../components/pagination/Pagination";
 import Link from "next/link";
 
@@ -92,7 +92,7 @@ const section="Lucky Draw"
           </button>
 
           {/* Title */}
-          <p className="text-[12px] md:text-xl md:font-semibold ml-4 md:ml-64 lg:ml-64">
+          <p className="text-[12px] md:text-xl md:font-semibold ml-4 md:ml-64 lg:ml-64 p-5">
            Lucky Draw
           </p>
 

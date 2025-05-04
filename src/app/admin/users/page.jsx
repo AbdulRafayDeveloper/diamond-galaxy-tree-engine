@@ -3,8 +3,10 @@
 import { useState, useEffect, useRef } from "react";
 import Header from "@/app/admin/components/header/Header";
 import SideBar from "@/app/admin/components/sidebar/SideBar";
-import Table from "@/app/admin/components/itemTable/Table";
+import Table from "@/app/admin/components/itemTable/UserTable";
 import Pagination from "../components/pagination/Pagination";
+import Link from "next/link";
+
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -29,33 +31,38 @@ const Page = () => {
   const products = [
     {
       name: "Ali",
-      propertyAddress: "111 W Main St Gamer, NC 27529",
+      propertyAddress: "abcd12@gmail.com",
       status: "Active",
       date: "15/may/2024",
+      salary:"100$"
     },
     {
       name: "Rafy",
-      propertyAddress: "111 W Main St Gamer, NC 27529",
+      propertyAddress: "abcd12@gmail.com",
       status: "Pending",
       date: "15/may/2024",
+      salary:"100$"
     },
     {
       name: "Abbas",
-      propertyAddress: "111 W Main St Gamer, NC 27529",
+      propertyAddress: "abcd12@gmail.com",
       status: "Expire",
       date: "15/may/2024",
+      salary:"100$"
     },
     {
       name: "Husnain",
-      propertyAddress: "111 W Main St Gamer, NC 27529",
+      propertyAddress: "abcd12@gmail.com",
       status: "Active",
       date: "15/may/2024",
+      salary:"100$"
     },
     {
       name: "Qasim",
-      propertyAddress: "111 W Main St Gamer, NC 27529",
+      propertyAddress: "abcd12@gmail.com",
       status: "Active",
       date: "15/may/2024",
+      salary:"100$"
     },
   ];
 
@@ -96,7 +103,7 @@ const section="Users"
           </button>
 
           {/* Title */}
-          <p className="text-[12px] md:text-xl md:font-semibold ml-4 md:ml-64 lg:ml-64">
+          <p className="text-[12px] md:text-xl md:font-semibold ml-4 md:ml-64 lg:ml-64 p-5">
            Users
           </p>
 

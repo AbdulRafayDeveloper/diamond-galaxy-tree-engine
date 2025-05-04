@@ -87,7 +87,7 @@ const Page = () => {
           </button>
 
           {/* Title */}
-          <p className="text-[12px] md:text-xl md:font-semibold ml-4 md:ml-64 lg:ml-64">
+          <p className="text-[12px] md:text-xl md:font-semibold ml-4 md:ml-64 lg:ml-64 p-5">
            Packages
           </p>
 
@@ -157,11 +157,11 @@ const Page = () => {
                 <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-4">
                   {/* Gold */}
                   <div className="flex flex-col">
+                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[210px] lg:w-[220px] xl:min-w-[320px] h-[400px] rounded-md">
                     <div>
-                      <button className="p-2 text-white bg-[#22405c] md:w-[210px] lg:w-[220px] xl:min-w-[320px] w-[250px] rounded-md text-md font-bold">Gold</button>
+                      <p className="text-2xl font-bold">Gold</p>
                     </div>
-                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[210px] lg:w-[220px] xl:min-w-[320px] h-[300px]">
-                      <div>
+                    <div>
                         <p className="mb-3">Date of Announcement</p>
                         <input type="date" name="goldDate" value={formData.goldDate} onChange={handleChange} className=" w-[180px] border border-gray-400 outline-none rounded-md" />
                       </div>
@@ -169,14 +169,17 @@ const Page = () => {
                         <p>Price</p>
                         <input type="number" placeholder="$" name="goldPrice" value={formData.goldPrice} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md"  />
                       </div>
+                      <div>
+                        <button className="p-2  min-w-[200px] bg-[#22405c] text-white rounded-md">Submit</button>
+                      </div>
                     </div>
                   </div>
                   {/* Diamond */}
                   <div className="flex flex-col">
+                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[210px] lg:w-[220px] xl:min-w-[320px] h-[400px]">
                     <div>
-                      <button className="p-2 text-white bg-[#22405c] md:w-[210px] lg:w-[220px] xl:min-w-[320px] w-[250px] rounded-md text-md font-bold">Daimond</button>
+                      <p className="text-2xl font-bold">Diamind</p>
                     </div>
-                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[210px] lg:w-[220px] xl:min-w-[320px] h-[300px]">
                       <div>
                         <p className="mb-3">Date of Announcement</p>
                         <input type="date" name="daimondDate" value={formData.daimondDate} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md" />
@@ -185,15 +188,19 @@ const Page = () => {
                         <p>Price</p>
                         <input type="number" placeholder="$" name="daimondPrice" value={formData.daimondPrice} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md"  />
                       </div>
+                      <div>
+                        <button className="p-2  min-w-[200px] bg-[#22405c] text-white rounded-md">Submit</button>
+                      </div>
                       
                     </div>
                   </div>
                   {/* Silver */}
                   <div className="flex flex-col">
-                    <div>
-                      <button className="p-2 text-white bg-[#22405c] md:w-[210px] lg:w-[220px] xl:min-w-[320px] w-[250px] rounded-md text-md font-bold">Silver</button>
-                    </div>
-                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[210px] lg:w-[220px] xl:min-w-[320px] h-[300px]">
+                    
+                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[210px] lg:w-[220px] xl:min-w-[320px] h-[400px]">
+                      <div>
+                        <p className="text-2xl font-bold">Silver</p>
+                      </div>
                       <div>
                         <p className="mb-3">Date of Announcement</p>
                         <input type="date" name="silverDate" value={formData.silverDate} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md" />
@@ -202,14 +209,17 @@ const Page = () => {
                         <p>Price</p>
                         <input type="number" placeholder="$" name="silverPrice" value={formData.silverPrice} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md"  />
                       </div>
+                      <div>
+                        <button className="p-2  min-w-[200px] bg-[#22405c] text-white rounded-md">Submit</button>
+                      </div>
                     </div>
                   </div>
                   {/* Star */}
                   <div className="flex flex-col">
+                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[210px] lg:w-[220px] xl:min-w-[320px] h-[400px]">
                     <div>
-                      <button className="p-2 text-white bg-[#22405c] md:w-[210px] lg:w-[220px] xl:min-w-[320px] w-[250px] rounded-md text-md font-bold">Star</button>
+                      <p className="text-2xl font-bold">Star</p>
                     </div>
-                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[210px] lg:w-[220px] xl:min-w-[320px] h-[300px]">
                       <div>
                         <p className="mb-3">Date of Announcement</p>
                         <input type="date" name="starDate" value={formData.starDate} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md" />
@@ -218,15 +228,18 @@ const Page = () => {
                         <p>Price</p>
                         <input type="number" placeholder="$" name="starPrice" value={formData.starPrice} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md"  />
                       </div>
+                      <div>
+                        <button className="p-2  min-w-[200px] bg-[#22405c] text-white rounded-md">Submit</button>
+                      </div>
                       
                     </div>
                   </div>
                   {/* Royal */}
                   <div className="flex flex-col">
+                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[210px] lg:w-[220px] xl:min-w-[320px] h-[400px]">
                     <div>
-                      <button className="p-2 text-white bg-[#22405c] md:w-[210px] lg:w-[220px] xl:min-w-[320px] w-[250px] rounded-md text-md font-bold">Royal</button>
+                      <p className="text-2xl font-bold">Royal</p>
                     </div>
-                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[210px] lg:w-[220px] xl:min-w-[320px] h-[300px]">
                       <div>
                         <p className="mb-3">Date of Announcement</p>
                         <input type="date" name="royalDate" value={formData.royalDate} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md" />
@@ -234,6 +247,9 @@ const Page = () => {
                       <div>
                         <p>Price</p>
                         <input type="number" placeholder="$" name="royalPrice" value={formData.royalPrice} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md"  />
+                      </div>
+                      <div>
+                        <button className="p-2 min-w-[200px] bg-[#22405c] text-white rounded-md">Submit</button>
                       </div>
                     </div>
                   </div>

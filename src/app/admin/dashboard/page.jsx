@@ -127,7 +127,7 @@ const Page = () => {
 
           {/* Title */}
           <p className="text-[12px] md:text-xl md:font-semibold ml-4 md:ml-64 lg:ml-64">
-            Welcome Jack!
+            Welcome Shahzaib!
           </p>
 
           {/* Header component */}

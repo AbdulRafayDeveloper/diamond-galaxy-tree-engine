@@ -2,7 +2,7 @@
 import Swal from "sweetalert2";
 import { useState, useEffect, useRef } from "react";
 
-const Table = ({ products }) => {
+const RegisteruserTable = ({ products }) => {
   const sidebarRef = useRef(null);
   const buttonRef = useRef(null);
   const dropdownRefs = useRef([]);
@@ -55,7 +55,23 @@ const Table = ({ products }) => {
     console.log("Deposited Amount:", amount);
     closeModal();
   };
-
+  const handleUnregister = () => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to unregister this user?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, Unregister',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Call your API or function to unregister
+        console.log('User unregistered!');
+        Swal.fire('Unregistered!', 'The user has been unregistered.', 'success');
+      }
+    });
+  };
   return (
     <div className="relative overflow-x-auto scrollbar-none pt-12">
       <table className="w-full text-sm text-left text-gray-500 p-3">
@@ -63,6 +79,7 @@ const Table = ({ products }) => {
           <tr>
             <th className="px-6 py-3">Username</th>
             <th className="px-6 py-3">Email</th>
+            <th className="px-6 py-3">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -74,7 +91,16 @@ const Table = ({ products }) => {
               <td className="px-6 py-4">{product.username}</td>
               <td className="px-6 py-4">{product.email}</td>
               
-              
+              <td className="px-6 py-4">
+                <button
+                  className="bg-[#22405c] text-white px-4 py-2 rounded"
+                  onClick={handleUnregister}
+                >
+                  Unregister
+                </button>
+              </td>
+
+
             </tr>
           ))}
         </tbody>
@@ -83,4 +109,4 @@ const Table = ({ products }) => {
   );
 };
 
-export default Table;
+export default RegisteruserTable;

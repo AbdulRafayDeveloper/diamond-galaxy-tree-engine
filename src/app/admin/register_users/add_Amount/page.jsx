@@ -8,7 +8,8 @@ import Link from "next/link";
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [formData,setFormData]=useState({
-    price:""
+    price:"",
+    CommissionPrice:""
   });
   const handleChange=(e)=>{
     const {name,value}=e.target;
@@ -75,7 +76,7 @@ const Page = () => {
           </button>
 
           {/* Title */}
-          <p className="text-[12px] md:text-xl md:font-semibold ml-4 md:ml-64 lg:ml-64">
+          <p className="text-[12px] md:text-xl md:font-semibold ml-4 md:ml-64 lg:ml-64 p-5">
             Add Amount
           </p>
 
@@ -107,6 +108,12 @@ const Page = () => {
                     <label htmlFor="">Price:</label>
                     <input type="number" name="price" value={formData.price}
                         id="" placeholder="Enter the price" className="min-w-[250px] p-1 outline-none rounded-md"
+                        onChange={handleChange} />
+                </div>
+                <div className="flex flex-col gap-1">
+                    <label htmlFor="">Company Commission:</label>
+                    <input type="number" name="CommissionPrice" value={formData.CommissionPrice}
+                        id="" placeholder="Enter the Commission price" className="min-w-[250px] p-1 outline-none rounded-md"
                         onChange={handleChange} />
                 </div>
                 <div>
