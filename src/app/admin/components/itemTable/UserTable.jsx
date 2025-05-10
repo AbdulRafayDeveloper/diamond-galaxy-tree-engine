@@ -114,6 +114,7 @@ const UsersTable = ({ products }) => {
   );
   const [isOpen, setIsOpen] = useState(false);
   const [amount, setAmount] = useState("");
+  const [description,setDescription]=useState("")
 
   const openModal = () => setIsOpen(true);
   const closeModal = () => {
@@ -172,10 +173,13 @@ const UsersTable = ({ products }) => {
             <th className="px-6 py-3">Date</th>
             <th className="px-6 py-3">Grades</th>
             <th className="px-6 py-3">Salary</th>
+            <th className="px-6 py-3">Salary Deposit</th>
             <th className="px-6 py-3">Deposit</th>
+            <th className="px-6 py-3">Reward Deposit</th>
             <th className="px-6 py-3">Reg. Status</th>
             <th className="px-6 py-3">Act. Status</th>
             <th className="px-6 py-3">Slots</th>
+            <th className="px-6 py-3">Monthly Gift Deposit</th>
             <th className="px-6 py-3">Actions</th>
           </tr>
         </thead>
@@ -235,6 +239,7 @@ const UsersTable = ({ products }) => {
                 </div>
               </td>
               <td className="px-6 py-4 ">{product.salary}</td>
+              {/* salary deposit */}
               <td className="px-6 py-4 ">
                 <button
                   className="bg-[#22405c] text-white px-4 py-2 rounded"
@@ -255,6 +260,95 @@ const UsersTable = ({ products }) => {
                         onChange={(e) => setAmount(e.target.value)}
                         className="w-full border border-gray-300 p-2 rounded mb-4"
                       />
+                      <div className="flex justify-end gap-2">
+                        <button
+                          className="bg-[#F6F1DE] px-4 py-2 rounded"
+                          onClick={closeModal}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          className="bg-[#22405c] text-white px-4 py-2 rounded "
+                          onClick={handleSubmit}
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </td>
+              {/*  */}
+              <td className="px-6 py-4 ">
+                <button
+                  className="bg-[#22405c] text-white px-4 py-2 rounded"
+                  onClick={openModal}
+                >
+                  Add
+                </button>
+
+                {/* Modal */}
+                {isOpen && (
+                  <div className="fixed inset-0 bg-black bg-opacity-20 z-50 flex justify-center items-center">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-80">
+                      <h2 className="text-xl font-semibold mb-4 text-center">Enter Amount</h2>
+                      <input
+                        type="number"
+                        placeholder="Enter amount"
+                        value={amount}
+                        onChange={(e) => setAmount(e.target.value)}
+                        className="w-full border border-gray-300 p-2 rounded mb-4"
+                      />
+                      <div className="flex justify-end gap-2">
+                        <button
+                          className="bg-[#F6F1DE] px-4 py-2 rounded"
+                          onClick={closeModal}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          className="bg-[#22405c] text-white px-4 py-2 rounded "
+                          onClick={handleSubmit}
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </td>
+              {/* reward deposit */}
+              <td className="px-6 py-4 ">
+                <button
+                  className="bg-[#22405c] text-white px-4 py-2 rounded"
+                  onClick={openModal}
+                >
+                  Add
+                </button>
+
+                {/* Modal */}
+                {isOpen && (
+                  <div className="fixed inset-0 bg-black bg-opacity-20 z-50 flex justify-center items-center">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-80">
+                      <h2 className="text-xl font-semibold mb-4 text-center">Enter Amount</h2>
+                      <input
+                        type="number"
+                        name="amount"
+                        placeholder="Enter amount"
+                        value={amount}
+                        onChange={(e) => setAmount(e.target.value)}
+                        className="w-full border border-gray-300 p-2 rounded mb-4"
+                      />
+                      <h2 className="text-xl font-semibold mb-4 text-center">Enter Description</h2>
+                      <input
+                        type="text"
+                        placeholder="Enter Descripion"
+                        name="description"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        className="w-full border border-gray-300 p-2 rounded mb-4"
+                      />
+                      
                       <div className="flex justify-end gap-2">
                         <button
                           className="bg-[#F6F1DE] px-4 py-2 rounded"
@@ -352,6 +446,45 @@ const UsersTable = ({ products }) => {
                     </div>
                   )}
                 </div>
+              </td>
+              {/* monthly gift deposit */}
+              <td className="px-6 py-4 ">
+                <button
+                  className="bg-[#22405c] text-white px-4 py-2 rounded"
+                  onClick={openModal}
+                >
+                  Add
+                </button>
+
+                {/* Modal */}
+                {isOpen && (
+                  <div className="fixed inset-0 bg-black bg-opacity-20 z-50 flex justify-center items-center">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-80">
+                      <h2 className="text-xl font-semibold mb-4 text-center">Enter Amount</h2>
+                      <input
+                        type="number"
+                        placeholder="Enter amount"
+                        value={amount}
+                        onChange={(e) => setAmount(e.target.value)}
+                        className="w-full border border-gray-300 p-2 rounded mb-4"
+                      />
+                      <div className="flex justify-end gap-2">
+                        <button
+                          className="bg-[#F6F1DE] px-4 py-2 rounded"
+                          onClick={closeModal}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          className="bg-[#22405c] text-white px-4 py-2 rounded "
+                          onClick={handleSubmit}
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </td>
               <td className="px-6 py-4  flex justify-center gap-2">
                 <button className="text-gray-800 hover:text-blue-800" onClick={ResetPassword}>

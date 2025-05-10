@@ -7,6 +7,7 @@ import Table from "@/app/admin/components/luckydrawTable/luckyDrawTable";
 import Pagination from "../components/pagination/Pagination";
 import Link from "next/link";
 import Spinner from "../components/luckyDrawSpinner/Spinner";
+import QualifiedTable from "../components/qualifiedTable/qualifiedTable";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -32,27 +33,27 @@ const Page = () => {
     {
       username: "Ali",
       email: "abcd1234@gmail.com",
-      lucky: "Gold",
+      address: "DHA Phase I",
     },
     {
         username: "Rafy",
         email: "abcd1234@gmail.com",
-        lucky: "Diamond",
+        address: "DHA Phase I",
     },
     {
         username: "Abbas",
         email: "abcd1234@gmail.com",
-        lucky: "Gold",
+        address: "DHA Phase I",
     },
     {
         username: "Qasim",
         email: "abcd1234@gmail.com",
-        lucky: "Gold",
+        address: "DHA Phase I",
     },
     {
         username: "Hussnain",
         email: "abcd1234@gmail.com",
-        lucky: "Silver",
+        address: "DHA Phase I",
     },
   ];
 
@@ -116,7 +117,8 @@ const section="Qualified for Rewards"
 
       <div className="sm:ml-64">
         {/* <Header appear={false} title={"All Users"} /> */}
-        <Spinner/>
+        {/* <Spinner/> */}
+        <QualifiedTable products={products}/>
       </div>
     </div>
   );

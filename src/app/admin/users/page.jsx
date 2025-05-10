@@ -34,35 +34,35 @@ const Page = () => {
       propertyAddress: "abcd12@gmail.com",
       status: "Active",
       date: "15/may/2024",
-      salary:"100$"
+      salary:"0$"
     },
     {
       name: "Rafy",
       propertyAddress: "abcd12@gmail.com",
       status: "Pending",
       date: "15/may/2024",
-      salary:"100$"
+      salary:"0$"
     },
     {
       name: "Abbas",
       propertyAddress: "abcd12@gmail.com",
       status: "Expire",
       date: "15/may/2024",
-      salary:"100$"
+      salary:"0$"
     },
     {
       name: "Husnain",
       propertyAddress: "abcd12@gmail.com",
       status: "Active",
       date: "15/may/2024",
-      salary:"100$"
+      salary:"0$"
     },
     {
       name: "Qasim",
       propertyAddress: "abcd12@gmail.com",
       status: "Active",
       date: "15/may/2024",
-      salary:"100$"
+      salary:"0$"
     },
   ];
 

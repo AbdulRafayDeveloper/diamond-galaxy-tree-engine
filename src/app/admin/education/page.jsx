@@ -3,11 +3,10 @@
 import { useState, useEffect, useRef } from "react";
 import Header from "@/app/admin/components/header/Header";
 import SideBar from "@/app/admin/components/sidebar/SideBar";
-import Table from "@/app/admin/components/luckydrawTable/luckyDrawTable";
+import Table from "@/app/admin/components/gradesTable/gradeTable";
 import Pagination from "../components/pagination/Pagination";
 import Link from "next/link";
-import Spinner from "../components/luckyDrawSpinner/Spinner";
-import MonthlyGiftTable from "../components/monthlyGift/monthlyGiftTable";
+import EducationTable from "../components/educationTable/educationTable";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -32,28 +31,28 @@ const Page = () => {
   const products = [
     {
       username: "Ali",
-      email: "abcd1234@gmail.com",
-      address: "DHA Phase I",
+      link: "https://www.youtube.com/",
+      description: "Currently, Working on Daimond Galaxy project in next.js",
     },
     {
         username: "Rafy",
-        email: "abcd1234@gmail.com",
-        address: "DHA Phase I",
+        link: "https://www.youtube.com/",
+        description: "Currently, Working on Daimond Galaxy project in next.js",
     },
     {
         username: "Abbas",
-        email: "abcd1234@gmail.com",
-        address: "DHA Phase I",
+        link: "https://www.youtube.com/",
+        description: "Currently, Working on Daimond Galaxy project in next.js",
     },
     {
         username: "Qasim",
-        email: "abcd1234@gmail.com",
-        address: "DHA Phase I",
+        link: "https://www.youtube.com/",
+        description: "Currently, Working on Daimond Galaxy project in next.js",
     },
     {
         username: "Hussnain",
-        email: "abcd1234@gmail.com",
-        address: "DHA Phase I",
+        link: "https://www.youtube.com/",
+        description: "Currently, Working on Daimond Galaxy project in next.js",
     },
   ];
 
@@ -64,7 +63,7 @@ const Page = () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-const section="Monthly Gifts"
+const section="Education"
   return (
     <div className="overflow-y-auto scrollbar-hidden">
       <div className="p-2 w-full">
@@ -95,7 +94,7 @@ const section="Monthly Gifts"
 
           {/* Title */}
           <p className="text-[12px] md:text-xl md:font-semibold ml-4 md:ml-64 lg:ml-64 p-5">
-          Monthly Gifts
+           Education
           </p>
 
           {/* Header component */}
@@ -117,8 +116,13 @@ const section="Monthly Gifts"
 
       <div className="sm:ml-64">
         {/* <Header appear={false} title={"All Users"} /> */}
-        {/* <Spinner/> */}
-        <MonthlyGiftTable products={products} />
+        <div className="p-6 bg-white">
+          <div className="mx-auto bg-white">
+            {/* Table of items */}
+            <EducationTable products={products} />
+            <Pagination/>
+          </div>
+        </div>
       </div>
     </div>
   );

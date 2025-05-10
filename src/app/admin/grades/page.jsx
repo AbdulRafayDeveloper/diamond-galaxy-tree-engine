@@ -31,27 +31,27 @@ const Page = () => {
     {
       username: "Ali",
       email: "abcd1234@gmail.com",
-      lucky: "Gold",
+      members: "1",
     },
     {
         username: "Rafy",
         email: "abcd1234@gmail.com",
-        lucky: "Diamond",
+        members: "4",
     },
     {
         username: "Abbas",
         email: "abcd1234@gmail.com",
-        lucky: "Gold",
+        members: "2",
     },
     {
         username: "Qasim",
         email: "abcd1234@gmail.com",
-        lucky: "Gold",
+        members: "3",
     },
     {
         username: "Hussnain",
         email: "abcd1234@gmail.com",
-        lucky: "Silver",
+        members: "2",
     },
   ];
 
@@ -62,7 +62,7 @@ const Page = () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-const section="Lucky Draw"
+const section="Grades"
   return (
     <div className="overflow-y-auto scrollbar-hidden">
       <div className="p-2 w-full">
@@ -93,7 +93,7 @@ const section="Lucky Draw"
 
           {/* Title */}
           <p className="text-[12px] md:text-xl md:font-semibold ml-4 md:ml-64 lg:ml-64 p-5">
-           Lucky Draw
+           Grades
           </p>
 
           {/* Header component */}

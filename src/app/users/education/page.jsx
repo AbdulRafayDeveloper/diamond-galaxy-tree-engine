@@ -12,14 +12,14 @@ const eduData=[
         name: "How to earn from youtube (Urdu/ Hindi)",
         url:"https://youtube.com/shorts/UvM8OUlZ2xA?si=7CbmUcqiDBjuBQGE",
         description:"In this video you Learn about detail how to earn money without investment",
-        date:"20-02-2025 08:05 PM",
+        
     },
     {
         id:2,
         name: "How to earn from youtube (Urdu/ Hindi)",
         url:"https://youtube.com/shorts/UvM8OUlZ2xA?si=7CbmUcqiDBjuBQGE",
         description:"In this video you Learn about detail how to earn money without investment",
-        date:"20-02-2025 08:05 PM",
+        
     },
 ];
 
@@ -162,10 +162,6 @@ const Page = () => {
                     <div className="grid grid-cols-2 bg-white shadow-md p-2 mb-1">
                       <div className="font-bold">Description</div>
                       <div className="flex justify-end items-end text-[13px]">{el.description}</div>
-                    </div>
-                    <div className="grid grid-cols-2 bg-white shadow-md p-2 mb-1">
-                      <div className="font-bold">Date</div>
-                      <div className="flex justify-end items-end text-[13px]">{el.date}</div>
                     </div>
                   </div>
                 ))
