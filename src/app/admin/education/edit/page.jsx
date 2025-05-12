@@ -1,19 +1,30 @@
 "use client";
-
-import { useState, useEffect, useRef } from "react";
+import { id } from "date-fns/locale";
 import Header from "@/app/admin/components/header/Header";
 import SideBar from "@/app/admin/components/sidebar/SideBar";
-import Table from "@/app/admin/components/luckydrawTable/luckyDrawTable";
-import Pagination from "../components/pagination/Pagination";
+import { useState, useRef, useEffect, use } from "react";
 import Link from "next/link";
-import Spinner from "../components/luckyDrawSpinner/Spinner";
-import QualifiedTable from "../components/qualifiedTable/qualifiedTable";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [formData,setFormData]=useState({
+    name:"",
+    link:"",
+    description:""
+  });
+  const handleChange=(e)=>{
+    const {name,value}=e.target;
+    setFormData((prev)=>({
+        ...prev,
+        [name]: value,
+    }))
+  }
+  const handleSubmit=(e)=>{
+    e.preventDefault();
+    console.log(formData);
+  }
   const sidebarRef = useRef(null);
   const buttonRef = useRef(null);
-  const [searchTerm, setSearchTerm] = useState("");
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -29,42 +40,14 @@ const Page = () => {
     }
   };
 
-  const products = [
-    {
-      username: "Ali",
-      email: "abcd1234@gmail.com",
-      address: "DHA Phase I",
-    },
-    {
-        username: "Rafy",
-        email: "abcd1234@gmail.com",
-        address: "DHA Phase I",
-    },
-    {
-        username: "Abbas",
-        email: "abcd1234@gmail.com",
-        address: "DHA Phase I",
-    },
-    {
-        username: "Qasim",
-        email: "abcd1234@gmail.com",
-        address: "DHA Phase I",
-    },
-    {
-        username: "Hussnain",
-        email: "abcd1234@gmail.com",
-        address: "DHA Phase I",
-    },
-  ];
+  const section = "Education";
 
- 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-const section="Qualified for Rewards"
   return (
     <div className="overflow-y-auto scrollbar-hidden">
       <div className="p-2 w-full">
@@ -94,8 +77,8 @@ const section="Qualified for Rewards"
           </button>
 
           {/* Title */}
-          <p className="text-[10px] md:text-xl md:font-semibold ml-4 md:ml-64 lg:ml-64 p-5">
-          Qualified for Rewards
+          <p className="text-[12px] md:text-xl md:font-semibold ml-4 md:ml-64 lg:ml-64 p-5">
+            Update Course
           </p>
 
           {/* Header component */}
@@ -114,11 +97,40 @@ const section="Qualified for Rewards"
           <SideBar section={section} />
         </aside>
       </div>
-
-      <div className="sm:ml-64">
-        {/* <Header appear={false} title={"All Users"} /> */}
-        {/* <Spinner/> */}
-        <QualifiedTable products={products}/>
+      {/* body part */}
+      <div className="md:ml-64">
+        <div className="flex justify-center items-center items-center min-h-[500px] p-2 ">
+          <div className="p-3 md:w-[500px] lg:w-[600px] sm:[400px] w-[310px] min-h-[400px] bg-[#F6F1DE] p-3 rounded-md shadow-md ">
+            <div className="flex flex-col jutify-center items-center gap-5  p-8 ">
+                <div className="flex flex-col justify-center items-center border-b-2 border-gray-400 gap-3 pb-2">
+                    <h1 className="text-xl mb-4 font-bold text-center">Update the Courses for Education</h1>
+                </div>
+                <div className="flex flex-col gap-1">
+                    <label htmlFor="">Name :</label>
+                    <input type="text" name="name" value={formData.name}
+                        id="" placeholder="Enter the name" className="min-w-[250px] p-1 outline-none rounded-md"
+                        onChange={handleChange} />
+                </div>
+                <div className="flex flex-col gap-1">
+                    <label htmlFor="">Link :</label>
+                    <input type="text" name="link" value={formData.link}
+                        id="" placeholder="Enter the url" className="min-w-[250px] p-1 outline-none rounded-md"
+                        onChange={handleChange} />
+                </div>
+                <div className="flex flex-col gap-1">
+                    <label htmlFor="">Description :</label>
+                    <input type="text" name="description" value={formData.description}
+                        id="" placeholder="Enter the description" className="min-w-[250px] p-1 outline-none rounded-md"
+                        onChange={handleChange} />
+                </div>
+                <div>
+                    <button className="p-1 w-full text-white bg-[#22405c] rounded-lg min-w-[250px]" onClick={handleSubmit} > 
+                        Update
+                    </button>
+                </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

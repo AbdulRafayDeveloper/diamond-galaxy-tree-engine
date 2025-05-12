@@ -1,17 +1,30 @@
 "use client";
-
-import { useState, useEffect, useRef } from "react";
+import { id } from "date-fns/locale";
 import Header from "@/app/admin/components/header/Header";
 import SideBar from "@/app/admin/components/sidebar/SideBar";
-import Table from "@/app/admin/components/registeruserTable/registerUserTable";
-import Pagination from "../components/pagination/Pagination";
+import { useState, useRef, useEffect, use } from "react";
 import Link from "next/link";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [formData,setFormData]=useState({
+    name:"",
+    link:"",
+    description:""
+  });
+  const handleChange=(e)=>{
+    const {name,value}=e.target;
+    setFormData((prev)=>({
+        ...prev,
+        [name]: value,
+    }))
+  }
+  const handleSubmit=(e)=>{
+    e.preventDefault();
+    console.log(formData);
+  }
   const sidebarRef = useRef(null);
   const buttonRef = useRef(null);
-  const [searchTerm, setSearchTerm] = useState("");
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -27,37 +40,14 @@ const Page = () => {
     }
   };
 
-  const products = [
-    {
-      username: "Ali",
-      email: "abcd1234@gmail.com",
-    },
-    {
-        username: "Rafy",
-        email: "abcd1234@gmail.com",
-    },
-    {
-        username: "Abbas",
-        email: "abcd1234@gmail.com",
-    },
-    {
-        username: "Qasim",
-        email: "abcd1234@gmail.com",
-    },
-    {
-        username: "Hussnain",
-        email: "abcd1234@gmail.com",
-    },
-  ];
+  const section = "Education";
 
- 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-const section="Register Users"
   return (
     <div className="overflow-y-auto scrollbar-hidden">
       <div className="p-2 w-full">
@@ -88,7 +78,7 @@ const section="Register Users"
 
           {/* Title */}
           <p className="text-[12px] md:text-xl md:font-semibold ml-4 md:ml-64 lg:ml-64 p-5">
-          Register Users
+            Add Course
           </p>
 
           {/* Header component */}
@@ -107,42 +97,38 @@ const section="Register Users"
           <SideBar section={section} />
         </aside>
       </div>
-
-      <div className="sm:ml-64">
-        {/* <Header appear={false} title={"All Users"} /> */}
-        <div className="p-6 bg-white">
-          <div className="mx-auto bg-white">
-            <div className="flex flex-col sm:flex-row gap-4 w-full pt-1 justify-end items-center">
-              {/* Search Bar */}
-              <div className="relative w-full sm:w-64">
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 pr-4 py-[5px] w-full border border-gray-300 rounded-full focus:outline-none focus:ring-1 focus:ring-[#FF9100] text-sm"
-                />
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 size-5"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
-              <Link href="/admin/register_users/add_Amount">
-                <button className="p-2 bg-[#22405c] text-white rounded-md w-[80px]">➕ Add</button>
-              </Link>
+      {/* body part */}
+      <div className="md:ml-64">
+        <div className="flex justify-center items-center items-center min-h-[500px] p-2 ">
+          <div className="p-3 md:w-[500px] lg:w-[600px] sm:[400px] w-[310px] min-h-[400px] bg-[#F6F1DE] p-3 rounded-md shadow-md ">
+            <div className="flex flex-col jutify-center items-center gap-5  p-8 ">
+                <div className="flex flex-col justify-center items-center border-b-2 border-gray-400 gap-3 pb-2">
+                    <h1 className="text-xl mb-4 font-bold text-center">Add the Courses for Education</h1>
+                </div>
+                <div className="flex flex-col gap-1">
+                    <label htmlFor="">Name :</label>
+                    <input type="text" name="name" value={formData.name}
+                        id="" placeholder="Enter the name" className="min-w-[250px] p-1 outline-none rounded-md"
+                        onChange={handleChange} />
+                </div>
+                <div className="flex flex-col gap-1">
+                    <label htmlFor="">Link :</label>
+                    <input type="text" name="link" value={formData.link}
+                        id="" placeholder="Enter the url" className="min-w-[250px] p-1 outline-none rounded-md"
+                        onChange={handleChange} />
+                </div>
+                <div className="flex flex-col gap-1">
+                    <label htmlFor="">Description :</label>
+                    <input type="text" name="description" value={formData.description}
+                        id="" placeholder="Enter the description" className="min-w-[250px] p-1 outline-none rounded-md"
+                        onChange={handleChange} />
+                </div>
+                <div>
+                    <button className="p-1 w-full text-white bg-[#22405c] rounded-lg min-w-[250px]" onClick={handleSubmit} > 
+                        Submit
+                    </button>
+                </div>
             </div>
-
-            {/* Table of items */}
-            <Table products={products} />
-            <Pagination/>
           </div>
         </div>
       </div>

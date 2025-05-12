@@ -6,13 +6,13 @@ import SideBar from "@/app/users/components/sidebar/SideBar";
 import Link from "next/link";
 import Carousel from "../components/carousel/page";
 import Card from "../components/cards/page";
-import WithDraw from "../components/with_draw/page";
+import WithDraw from "../components/with-draw/page";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
-import RevenueGraph from "../components/revenue_graph/page";
+import RevenueGraph from "../components/revenue-graph/page";
 const revenueData = [
   { month: "Jan", revenue: 1200 },
   { month: "Feb", revenue: 2100 },

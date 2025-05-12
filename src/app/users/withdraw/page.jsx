@@ -136,7 +136,7 @@ const Page = () => {
                   <p className="text-2xl font-thick text-md text-white">Withdraw Funds</p>
                 </div>
                 <div className="flex mt-2 rounded-md">
-                  <Link href="/users/withdraw/withdraw_history">
+                  <Link href="/users/withdraw/withdraw-history">
                     <Image src="/icons/historyLogo.png" alt="History Icon" width={40} height={40} />
                   </Link>
                 </div>

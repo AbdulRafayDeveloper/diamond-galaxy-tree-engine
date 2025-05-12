@@ -151,7 +151,7 @@ const Page = () => {
                   <p className="text-2xl font-thick text-md text-white">Deposit Funds</p>
                 </div>
                 <div className="flex mt-2 rounded-md">
-                  <Link href="/users/deposit/deposit_history">
+                  <Link href="/users/deposit/deposit-history">
                     < Image src="/icons/historyLogo.png" alt="History Icon" width={40} height={40} />
                   </Link>
                 </div>
@@ -220,7 +220,7 @@ const Page = () => {
                       {errors.Amount && <span className="text-red-500 text-sm">{errors.Amount}</span>}
                     </div>
                     <div className="mt-3">
-                      <Link href="/users/deposit/deposit_details">
+                      <Link href="/users/deposit/deposit-details">
                         <button type="submit" className="p-2 flex w-full rounded-md justify-center items-center text-center bg-[#22405c] text-white">
                           Submit
                         </button>

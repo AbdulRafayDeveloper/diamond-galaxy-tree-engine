@@ -99,7 +99,7 @@ const Page = () => {
       {/* body part */}
       <div className="md:ml-64">
         <div className="flex justify-center items-center items-center min-h-[500px] p-2 ">
-          <div className="p-3 md:w-[500px] lg:w-[600px] sm:[400px] w-[310px] h-[300px] bg-[#F6F1DE] p-3 rounded-md shadow-md ">
+          <div className="p-3 md:w-[500px] lg:w-[600px] sm:[400px] w-[310px] min-h-[300px] bg-[#F6F1DE] p-3 rounded-md shadow-md ">
             <div className="flex flex-col jutify-center items-center gap-5  p-8 ">
                 <div className="flex flex-col justify-center items-center border-b-2 border-gray-400 gap-3 pb-2">
                     <h1 className="text-xl mb-4 font-bold text-center">Add the Amount for user Registration</h1>

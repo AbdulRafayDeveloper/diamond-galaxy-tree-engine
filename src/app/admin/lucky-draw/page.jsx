@@ -6,12 +6,20 @@ import SideBar from "@/app/admin/components/sidebar/SideBar";
 import Table from "@/app/admin/components/luckydrawTable/luckyDrawTable";
 import Pagination from "../components/pagination/Pagination";
 import Link from "next/link";
+import Spinner from "../components/luckyDrawSpinner/Spinner";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
   const buttonRef = useRef(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [cardLoading,setCardLoading]=useState(null);
+  const [isClose,setisClose]=useState(false);
+
+  const handleCardClick=(type)=>{
+    setCardLoading(type);
+    
+  }
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -26,7 +34,15 @@ const Page = () => {
       setIsSidebarOpen(false);
     }
   };
+ 
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
+  
   const products = [
     {
       username: "Ali",
@@ -55,13 +71,8 @@ const Page = () => {
     },
   ];
 
- 
-  useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
+  // cards data
+  const cardData = ["Gold", "Silver", "Royal", "Star", "Diamond", "Total Users"];
 const section="Lucky Draw"
   return (
     <div className="overflow-y-auto scrollbar-hidden">
@@ -117,8 +128,8 @@ const section="Lucky Draw"
         {/* <Header appear={false} title={"All Users"} /> */}
         <div className="p-6 bg-white">
           <div className="mx-auto bg-white">
-            <div className="flex flex-col sm:flex-row gap-4 w-full pt-1 justify-end items-center">
-              {/* Search Bar */}
+            {/* <div className="flex flex-col sm:flex-row gap-4 w-full pt-1 justify-end items-center">
+              
               <div className="relative w-full sm:w-64">
                 <input
                   type="text"
@@ -143,11 +154,39 @@ const section="Lucky Draw"
               <Link href="/admin/lucky_draw/packages">
                 <button className="p-2 bg-[#22405c] text-white rounded-md w-[80px]">➕ Add</button>
               </Link>
-            </div>
+            </div> */}
 
             {/* Table of items */}
-            <Table products={products} />
-            <Pagination/>
+            {/* <Table products={products} /> */}
+            {/* <Pagination/> */}
+            <div className="p-3 mx-auto mt-5">
+              <div className="flex justify-center items-center p-2">
+                <div className="flex flex-wrap justify-center items-center gap-4">
+                  
+                  {
+                    cardData.map((type,idx)=>(
+                      <div key={idx} onClick={()=>handleCardClick(type)} className="flex flex-col justify-center items-center bg-[#F6F1DE] rounded-md min-w-[300px] min-h-[200px]">
+                        <p className="text-2xl font-bold">{type}</p>
+                        {
+                          cardLoading===type && (
+                            <div className="absolute inset-0 flex flex-col justify-center items-center bg-[#f6f1de]/80 rounded-md">
+                              <div onClick={()=>setTimeout(()=>{
+                                setCardLoading(null),1000
+                              })} className="cursor-pointer">
+                                ❌
+                              </div>
+                              <Spinner />
+
+                            </div>
+                          )
+                        }
+                      </div>
+                    ))
+                  }
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
       </div>

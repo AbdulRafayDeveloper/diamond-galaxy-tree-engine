@@ -109,7 +109,7 @@ const SideBar = ({ section }) => {
             }`}
         >
           <Link
-            href="/users/lucky_draw"
+            href="/users/lucky-draw"
             className={`flex items-center p-2  group ${section === "Lucky Draw"
               ? "bg-[#F6F1DE] text-black"
               : "hover:bg-[#F6F1DE] hover:text-black "
@@ -227,7 +227,7 @@ const SideBar = ({ section }) => {
             }`}
         >
           <Link
-            href="/users/monthly_gifts"
+            href="/users/monthly-gifts"
             className={`flex items-center p-2  group ${section === "Monthly Gifts"
               ? "bg-[#F6F1DE] text-black"
               : "hover:bg-[#F6F1DE] hover:text-black "
@@ -314,7 +314,7 @@ const SideBar = ({ section }) => {
             }`}
         >
           <Link
-            href="/users/my_refferals"
+            href="/users/my-refferals"
             className={`flex items-center p-2 group ${section === "My Refferal"
               ? "bg-[#F6F1DE] text-black"
               : "hover:bg-[#F6F1DE] hover:text-black "
@@ -430,7 +430,7 @@ const SideBar = ({ section }) => {
             }`}
         >
           <Link
-            href="/users/my_team"
+            href="/users/my-team"
             className={`flex items-center p-2  group ${section === "My Team"
               ? "bg-[#F6F1DE] text-black"
               : "hover:bg-[#F6F1DE] hover:text-black "
