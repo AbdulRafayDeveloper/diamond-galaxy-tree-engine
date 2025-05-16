@@ -166,7 +166,7 @@ const Page = () => {
                   {/* Block 1 */}
                     <div className="w-full md:w-1/2 flex flex-col md:flex-row md:items-center gap-2 md:gap-6">
                       <p className="text-[13px] lg:text-base font-medium">
-                        Member Name: <span className="font-normal">{data.fname}</span>
+                        Member Name: <span className="font-normal">{data.fname || ""}</span>
                       </p>
                       <p className="text-[13px] lg:text-base font-medium">
                         Member Grade: <span className="font-normal">{data.grade || ""}</span>

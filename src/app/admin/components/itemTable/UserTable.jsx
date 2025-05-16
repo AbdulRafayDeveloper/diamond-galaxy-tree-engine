@@ -372,7 +372,7 @@ const UsersTable = ({ products }) => {
                   className="bg-[#22405c] text-white px-4 py-2 rounded"
                   onClick={handleUnregister}
                 >
-                  Register
+                  Unregister
                 </button>
               </td>
               <td className="px-6 py-4">
@@ -380,7 +380,7 @@ const UsersTable = ({ products }) => {
                   className="bg-[#22405c] text-white px-4 py-2 rounded"
                   onClick={handleDeactivate}
                 >
-                  Activate
+                  InActive
                 </button>
               </td>
               <td className="px-6 py-4 ">

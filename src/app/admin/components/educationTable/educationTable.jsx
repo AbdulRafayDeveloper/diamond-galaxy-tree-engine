@@ -37,7 +37,7 @@ const EducationTable = ({ products }) => {
     }, []);
 
     const filteredProperties = products.filter((property) =>
-        property.username.toLowerCase().includes(searchTerm.toLowerCase())
+        property.courseName.toLowerCase().includes(searchTerm.toLowerCase())
     );
     const [isOpen, setIsOpen] = useState(false);
     const [amount, setAmount] = useState("");
@@ -54,13 +54,30 @@ const EducationTable = ({ products }) => {
         console.log("Deposited Amount:", amount);
         closeModal();
     };
+      const deleteCourse = () => {
+        Swal.fire({
+          title: 'Are you sure?',
+          text: 'Do you want to delete this course?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: 'Yes, Delete',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Call your API or function to unregister
+            console.log('Course Deleted!');
+            Swal.fire('Deleted!', 'The course has been Deleted.', 'success');
+          }
+        });
+      };
 
     return (
         <div className="relative overflow-x-auto scrollbar-none pt-12">
             <table className="w-full text-sm text-left text-gray-500 p-3">
                 <thead className="text-center text-base text-gray-700 font-light bg-white">
                     <tr>
-                        <th className="px-6 py-3">Username</th>
+                        <th className="px-6 py-3">Course Name</th>
                         <th className="px-6 py-3">Link</th>
                         <th className="px-6 py-3">Description</th>
                         <th className="px-6 py-3">Action</th>
@@ -72,7 +89,7 @@ const EducationTable = ({ products }) => {
                             key={index}
                             className="odd:bg-[#F6F1DE] even:bg-white border-b text-center"
                         >
-                            <td className="px-6 py-4">{product.username}</td>
+                            <td className="px-6 py-4">{product.courseName}</td>
                             <td className="px-6 py-4">
                                 <Link href={`${product.link}`} target="_blank">
                                     <button
@@ -84,6 +101,7 @@ const EducationTable = ({ products }) => {
                             <td className="px-6 py-4">{product.description}</td>
                             <td>
                                 <div className="flex justify-center items-center text-center gap-2">
+                                   <Link href={`/admin/education/edit`}>
                                     <button
                                         className="text-red-600 hover:text-red-800"
                                     //   onClick={DeleteRecorde}
@@ -92,9 +110,10 @@ const EducationTable = ({ products }) => {
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="size-5" stroke="#22405c" fill="#22405c">
                                             <path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z" /></svg>
                                     </button>
+                                   </Link>
                                     <button
                                         className="text-red-600 hover:text-red-800"
-                                    //   onClick={DeleteRecorde}
+                                      onClick={deleteCourse}
                                     >
                                         {/* Delete Icon */}
                                         <svg

@@ -6,7 +6,7 @@ import { useState, useRef, useEffect } from "react";
 const levelConfigs = {
     activated: { label: "Activated Levels", fields: 7, placeholder: "%" },
     slots: { label: "Slots Levels", fields: 7, placeholder: "%" },
-    registration: { label: "Registration Levels", fields: 2, placeholder: "Users" },
+    registration: { label: "Registration Levels", fields: 2, placeholder: "%" },
 };
 
 const Page = () => {

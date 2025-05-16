@@ -166,20 +166,8 @@ const section="Lucky Draw"
                   {
                     cardData.map((type,idx)=>(
                       <div key={idx} onClick={()=>handleCardClick(type)} className="flex flex-col justify-center items-center bg-[#F6F1DE] rounded-md min-w-[300px] min-h-[200px]">
-                        <p className="text-2xl font-bold">{type}</p>
-                        {
-                          cardLoading===type && (
-                            <div className="absolute inset-0 flex flex-col justify-center items-center bg-[#f6f1de]/80 rounded-md">
-                              <div onClick={()=>setTimeout(()=>{
-                                setCardLoading(null),1000
-                              })} className="cursor-pointer">
-                                ❌
-                              </div>
-                              <Spinner />
-
-                            </div>
-                          )
-                        }
+                        <Link href="../../admin/lucky-draw/find-person"><p className="text-2xl font-bold">{type}</p></Link>
+                        
                       </div>
                     ))
                   }
