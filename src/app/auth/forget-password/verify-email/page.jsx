@@ -27,7 +27,7 @@ const Page = () => {
       const response = await axios.post(`/api/forget-password`, { email });
 
       console.log("Response:", response);
-      console.log("Response Data:", response.data.data);
+      console.log("Response Data:", response.data);
       const { otpToken, set_Email } = response.data.data;
       console.log(response.data.data);
 
@@ -74,22 +74,6 @@ const Page = () => {
       <div className="min-h-screen flex flex-col items-center justify-center">
         {/* Background Image */}
         <div className="absolute top-0 left-0 w-full h-full bg-cover bg-center"></div>
-
-        {/* Main Form Card */}
-        {/* <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-0">
-          <svg
-            viewBox="0 0 1440 320"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="block w-full lg:h-[50vh] h-[200hv] " // Make the wave take 50% of screen height
-            style={{ transform: "translateY(10%)" }} // Shift wave upward to cover half the form
-          >
-            <path
-              fill="white"
-              d="M0,192L80,176C160,160,320,128,480,138.7C640,149,800,203,960,192C1120,181,1280,107,1360,69.3L1440,32L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
-            ></path>
-          </svg>
-        </div> */}
         <main className="w-full max-w-lg p-8  relative z-10 bg-white bg-opacity-50">
           {/* Title */}
           <div className="text-center mb-2">
@@ -131,9 +115,8 @@ const Page = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full text-white border bg-[#22405c]  font-medium rounded-lg text-sm px-5 py-2.5 text-center  ${
-                loading ? "bg-gray-400 cursor-not-allowed" : "bg-[#22405c]"
-              }`}
+              className={`w-full text-white border bg-[#22405c]  font-medium rounded-lg text-sm px-5 py-2.5 text-center  ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-[#22405c]"
+                }`}
             >
               {loading ? (
                 <div className="flex justify-center items-center space-x-2">
@@ -145,20 +128,20 @@ const Page = () => {
               )}
             </button>
             <div className="mt-4">
-            <p className="md:text-sm text-[12px] text-gray-600">
-              Remember your password?{" "}
-              <Link
-                href="../../../auth/signin"
-                className="text-[10px] font-semibold text-[#A0A0A0CC]"
-              >
-                Login here
-              </Link>
-            </p>
-          </div>
+              <p className="md:text-sm text-[12px] text-gray-600">
+                Remember your password?{" "}
+                <Link
+                  href="../../../auth/signin"
+                  className="text-[10px] font-semibold text-[#A0A0A0CC]"
+                >
+                  Login here
+                </Link>
+              </p>
+            </div>
           </form>
 
           {/* Footer Links */}
-          
+
         </main>
       </div>
     </>

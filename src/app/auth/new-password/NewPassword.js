@@ -105,8 +105,12 @@ const NewPassword = () => {
         }
       );
 
+      console.log("Response:", response);
+      console.log("Response Data:", response.data);
+      console.log("Status:", response.status);
+      console.log("Status:", response.data.status);
       if (response.data.status === 200) {
-        Cookies.remove("set_Email");
+        // Cookies.remove("set_Email");
         toast.success(
           response.data.message || "Password updated successfully!"
         );

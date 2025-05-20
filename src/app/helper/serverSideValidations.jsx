@@ -11,6 +11,101 @@ import {
 const JWT_SECRET = process.env.JWT_SECRET;
 
 const serverSideValidations = {
+  verifyOtpToken: function (req) {
+    const authHeader = req.headers.get("authorization");
+
+    console.log("authHeader:", authHeader);
+
+    if (!authHeader) {
+      return badRequestResponse(
+        "You're not logged in. Please sign in to continue.",
+        null
+      );
+    }
+
+    const parts = authHeader.split(" ");
+
+    if (parts.length === 2 && parts[0] === "Bearer") {
+      const decoded = jwt.verify(parts[1], process.env.FORGET_PASSWORD_TOKEN);
+
+      console.log("decoded:", decoded);
+      const { email, otp } = decoded;
+      console.log("email:", email);
+      console.log("otp:", otp);
+      if (!email || !otp) {
+        return badRequestResponse("Invalid token data", null);
+      }
+      req.otpData = decoded;
+      // next();
+
+      return decoded;
+    } else if (parts.length === 1) {
+      // return parts[0];
+      const decoded = jwt.verify(parts[0], process.env.FORGET_PASSWORD_TOKEN);
+
+      console.log("decoded:", decoded);
+      const { email, otp } = decoded;
+      console.log("email:", email);
+      console.log("otp:", otp);
+      if (!email || !otp) {
+        return badRequestResponse("Invalid token data", null);
+      }
+      req.otpData = decoded;
+      // next();
+
+      return decoded;
+    } else {
+      return badRequestResponse(
+        "Your session is invalid. Please log in again.",
+        null
+      );
+    }
+  },
+
+  verifyEmailToken: function (req) {
+    const authHeader = req.headers.get("authorization");
+
+    if (!authHeader) {
+      return badRequestResponse(
+        "You're not logged in. Please sign in to continue.",
+        null
+      );
+    }
+
+    const parts = authHeader.split(" ");
+
+    if (parts.length === 2 && parts[0] === "Bearer") {
+      const decoded = jwt.verify(parts[1], process.env.RESET_PASSWORD_TOKEN);
+
+      console.log("decoded:", decoded);
+      const { email } = decoded;
+      console.log("email:", email);
+      if (!email) {
+        return badRequestResponse("Invalid token data", null);
+      }
+      req.emailData = decoded;
+
+      return decoded;
+    } else if (parts.length === 1) {
+      const decoded = jwt.verify(parts[0], process.env.RESET_PASSWORD_TOKEN);
+
+      console.log("decoded:", decoded);
+      const { email } = decoded;
+      console.log("email:", email);
+      if (!email) {
+        return badRequestResponse("Invalid token data", null);
+      }
+      req.otpData = decoded;
+
+      return decoded;
+    } else {
+      return badRequestResponse(
+        "Your session is invalid. Please log in again.",
+        null
+      );
+    }
+  },
+
   checkTokenValidationStyle: function (req) {
     const authHeader = req.headers.get("authorization");
 

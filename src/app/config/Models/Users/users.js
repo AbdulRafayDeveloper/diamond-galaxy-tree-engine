@@ -33,6 +33,18 @@ const userSchema = new mongoose.Schema(
       default: "Silver Grade",
       required: true,
     },
+    otp: {
+      type: String,
+      required: false,
+    },
+    otpCreatedAt: {
+      type: Date,
+      required: false,
+    },
+    otpExpiresAt: {
+      type: Date,
+      required: false,
+    },
   },
   {
     timestamps: true,
