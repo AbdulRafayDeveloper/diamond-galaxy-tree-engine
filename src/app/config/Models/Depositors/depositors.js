@@ -7,7 +7,7 @@ const depositorSchema = new mongoose.Schema(
     image: { type: String, required: true },
     status: {
       type: String,
-      enum: ["pending", "approved", "rejected"],
+      enum: ["pending", "accepted", "rejected"],
       default: "pending",
     },
     user_id: {

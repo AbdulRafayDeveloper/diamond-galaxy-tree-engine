@@ -13,6 +13,7 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
 const Page = () => {
+  const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef();

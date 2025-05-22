@@ -191,7 +191,7 @@ const Page = () => {
                 </div>
               ) : Data.length === 0 ? (
                 <div className="text-center py-10 text-sm text-gray-500">
-                  No deposit history found.
+                  No withdraw history found.
                 </div>
               ) : (
                 Data.map((el) => (

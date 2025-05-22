@@ -2,13 +2,32 @@
 import React from "react";
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-  const pageNumbers = [1,2,3,4]
+  const generatePageNumbers = () => {
+    const pages = [];
+    const maxVisible = 5;
+    const half = Math.floor(maxVisible / 2);
+    let start = Math.max(currentPage - half, 1);
+    let end = Math.min(start + maxVisible - 1, totalPages);
+
+    if (end - start < maxVisible - 1) {
+      start = Math.max(end - maxVisible + 1, 1);
+    }
+
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+
+    return pages;
+  };
+
+  const pageNumbers = generatePageNumbers();
 
   return (
     <div className="p-6 mt-7">
       <div className="flex flex-row justify-end items-end">
         <nav aria-label="Page navigation">
           <ul className="flex items-center -space-x-px h-8 text-sm rounded-xl">
+            {/* Previous Button */}
             <li>
               <button
                 onClick={() => onPageChange(currentPage - 1)}
@@ -38,6 +57,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
               </button>
             </li>
 
+            {/* Page Numbers */}
             {pageNumbers.map((number) => (
               <li key={number}>
                 <button
@@ -53,6 +73,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
               </li>
             ))}
 
+            {/* Next Button */}
             <li>
               <button
                 onClick={() => onPageChange(currentPage + 1)}
