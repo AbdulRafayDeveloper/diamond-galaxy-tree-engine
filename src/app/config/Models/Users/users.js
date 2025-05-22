@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema(
     referrerId: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
     referralPath: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }],
     referenceUrl: { type: String, required: true },
+    accountBalance: { type: Number, default: 0 },
     referralChain: {
       type: [mongoose.Schema.Types.ObjectId],
       default: [],

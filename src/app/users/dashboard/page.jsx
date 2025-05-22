@@ -28,7 +28,6 @@ const revenueData = [
   { month: "Dec", revenue: 4000 },
 ];
 
-
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
@@ -137,8 +136,9 @@ const Page = () => {
         <aside
           ref={sidebarRef}
           id="separator-sidebar"
-          className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-            } sm:translate-x-0`}
+          className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${
+            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } sm:translate-x-0`}
           aria-label="Sidebar"
         >
           <SideBar section={section} />
@@ -163,22 +163,28 @@ const Page = () => {
                   </div>
                   {/* Info Section */}
                   <div className="flex flex-wrap w-full gap-4 text-center lg:text-left justify-center lg:justify-start">
-                  {/* Block 1 */}
+                    {/* Block 1 */}
                     <div className="w-full md:w-1/2 flex flex-col md:flex-row md:items-center gap-2 md:gap-6">
                       <p className="text-[13px] lg:text-base font-medium">
-                        Member Name: <span className="font-normal">{data.fname || ""}</span>
+                        Member Name:{" "}
+                        <span className="font-normal">{data?.fname || ""}</span>
                       </p>
                       <p className="text-[13px] lg:text-base font-medium">
-                        Member Grade: <span className="font-normal">{data.grade || ""}</span>
+                        Member Grade:{" "}
+                        <span className="font-normal">{data?.grade || ""}</span>
                       </p>
                     </div>
                     {/* Block 2 */}
                     <div className="w-full md:w-1/2 flex flex-col md:flex-row md:items-center gap-2 md:gap-6">
                       <p className="text-[13px] lg:text-base font-medium">
-                        Country Name: <span className="font-normal">{data.country}</span>
+                        Country Name:{" "}
+                        <span className="font-normal">{data?.country}</span>
                       </p>
                       <p className="text-[13px] lg:text-base font-medium">
-                        Referred By: <span className="font-normal">{data?.referrerId?.fname || "NA"}</span>
+                        Referred By:{" "}
+                        <span className="font-normal">
+                          {data?.referrerId?.fname || "NA"}
+                        </span>
                       </p>
                     </div>
                   </div>
@@ -189,7 +195,7 @@ const Page = () => {
                   className="cursor-pointer w-full p-2 rounded-md bg-[#22405c] flex items-center justify-between text-white hover:bg-[#2a4e6d] transition-colors"
                 >
                   <span className="underline underline-offset-2 ml-2 text-sm break-all whitespace-normal overflow-hidden">
-                    {data.referenceUrl}
+                    {data?.referenceUrl}
                   </span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

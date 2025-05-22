@@ -6,8 +6,14 @@ import { useState, useRef, useEffect, use } from "react";
 import { object } from "joi";
 import Image from "next/image";
 import Link from "next/link";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
+  const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef();
@@ -22,27 +28,34 @@ const Page = () => {
     Amount: "",
     Id: "",
     Address: "",
-    file: ""
+    file: "",
   });
-  const options = ["Trust Wallet", "Binance"]
+  const options = ["Trust Wallet", "Binance"];
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value
-    }))
-  }
-  const handleSubmit = (e) => {
+      [name]: value,
+    }));
+  };
+  /*const handleSubmit = (e) => {
     e.preventDefault();
-    // Validation Apply 
+    // Validation Apply
     const newErrors = {};
-    if (!formData.Amount || isNaN(formData.Amount) || Number(formData.Amount) < 0) {
+    if (
+      !formData.Amount ||
+      isNaN(formData.Amount) ||
+      Number(formData.Amount) < 0
+    ) {
       newErrors.Amount = "Please enter a valid amount";
     }
     if (selected == "Binance" && (!formData.Id || isNaN(formData.Id))) {
       newErrors.Id = "Please enter a valid Id for Binance";
     }
-    if (selected === "Trust Wallet" && (!formData.Address || formData.Address.trim() === "")) {
+    if (
+      selected === "Trust Wallet" &&
+      (!formData.Address || formData.Address.trim() === "")
+    ) {
       newErrors.Address = "Please enter a valid Address";
     }
     if (Object.keys(newErrors).length > 0) {
@@ -51,8 +64,8 @@ const Page = () => {
     }
     console.log(formData);
     setErrors({});
-  }
-
+  };
+*/
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -77,6 +90,85 @@ const Page = () => {
     };
   }, []);
 
+  const uploadScreenshot = async (file) => {
+    const imageForm = new FormData();
+    imageForm.append("image", file);
+
+    const uploadRes = await axios.post("/api/upload", imageForm);
+    return uploadRes.data.imageUrl;
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith("image/")) {
+      setFormData((prev) => ({ ...prev, file }));
+    } else {
+      toast.error("Please upload a valid image file.");
+    }
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const newErrors = {};
+
+    if (
+      !formData.Amount ||
+      isNaN(formData.Amount) ||
+      Number(formData.Amount) <= 0
+    ) {
+      newErrors.Amount = "Please enter a valid amount";
+    }
+
+    if (
+      selected === "Binance" &&
+      (!formData.Address || isNaN(formData.Address))
+    ) {
+      newErrors.Id = "Please enter a valid Id for Binance";
+    }
+
+    if (
+      selected === "Trust Wallet" &&
+      (!formData.Address || formData.Address.trim() === "")
+    ) {
+      newErrors.Address = "Please enter a valid Address";
+    }
+
+    if (!formData.file) {
+      newErrors.file = "Screenshot is required";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    try {
+      const token = Cookies.get("token");
+      const form = new FormData();
+
+      form.append("withdrawGateways", selected);
+      form.append("amount", formData.Amount);
+      form.append("address", formData.Address);
+
+      form.append("screenshot", formData.file);
+
+      const response = await axios.post("/api/frontend/withdrawers", form, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log(response);
+      if (response.data.status == 200) {
+        toast.success("Deposit submitted successfully!");
+        router.push("/users/dashboard");
+      } else {
+        toast.error(response.data.message || "Submission failed.");
+      }
+    } catch (error) {
+      toast.error("Error submitting deposit.");
+      console.error("Submit error:", error);
+    }
+  };
 
   return (
     <div className="overflow-y-auto scrollbar-hidden">
@@ -119,8 +211,9 @@ const Page = () => {
         <aside
           ref={sidebarRef}
           id="separator-sidebar"
-          className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-            } sm:translate-x-0`}
+          className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${
+            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } sm:translate-x-0`}
           aria-label="Sidebar"
         >
           <SideBar section={section} />
@@ -133,30 +226,50 @@ const Page = () => {
             <div className="bg-[#22405c] flex flex-col  p-2 rounded-md h-[600px]">
               <div className="flex flex-row justify-between">
                 <div className="flex mt-4">
-                  <p className="text-2xl font-thick text-md text-white">Withdraw Funds</p>
+                  <p className="text-2xl font-thick text-md text-white">
+                    Withdraw Funds
+                  </p>
                 </div>
                 <div className="flex mt-2 rounded-md">
                   <Link href="/users/withdraw/withdraw-history">
-                    <Image src="/icons/historyLogo.png" alt="History Icon" width={40} height={40} />
+                    <Image
+                      src="/icons/historyLogo.png"
+                      alt="History Icon"
+                      width={40}
+                      height={40}
+                    />
                   </Link>
                 </div>
               </div>
-              <div className="my-6 p-2 flex justify-center items-center gap-3" >
+              <div className="my-6 p-2 flex justify-center items-center gap-3">
                 <form onSubmit={handleSubmit}>
-                  <div className="grid lg:grid-cols-1 md:grid-cols-1 grid-cols-1 rounded-md gap-5 bg-[#F6F1DE]  p-5 h-[460px] lg:w-[500px] ">
+                  <div className="grid lg:grid-cols-1 md:grid-cols-1 grid-cols-1 rounded-md gap-5 bg-[#F6F1DE] p-5 lg:w-[500px]">
                     <div className="">
                       <div>
-                        <label htmlFor="" className="ml-1">Coin</label>
+                        <label htmlFor="" className="ml-1">
+                          Coin
+                        </label>
                       </div>
                       <div>
-                        <input type="text" value={formData.coin} name="coin" disabled className="p-1 rounded-md bg-white text-gray-300 lg:w-[450px] w-[230px]" />
+                        <input
+                          type="text"
+                          value={formData.coin}
+                          name="coin"
+                          disabled
+                          className="p-1 rounded-md bg-white text-gray-300 lg:w-[450px] w-[230px]"
+                        />
                       </div>
                     </div>
                     <div className="">
                       <div>
-                        <label htmlFor="" className="ml-1">Withdraw Gateways</label>
+                        <label htmlFor="" className="ml-1">
+                          Withdraw Gateways
+                        </label>
                       </div>
-                      <div className="relative inline-block w-[230px] lg:w-[450px]" ref={dropdownRef}>
+                      <div
+                        className="relative inline-block w-[230px] lg:w-[450px]"
+                        ref={dropdownRef}
+                      >
                         {/* Selected Option */}
                         <div
                           className="p-1 rounded-md border border-gray-300 cursor-pointer flex items-center justify-between bg-white"
@@ -193,16 +306,23 @@ const Page = () => {
                     </div>
                     <div className="">
                       <div>
-                        <label htmlFor="" className="ml-1">Amount</label>
+                        <label htmlFor="" className="ml-1">
+                          Amount
+                        </label>
                       </div>
                       <div>
-                        <input type="number" value={formData.Amount} name="Amount"
+                        <input
+                          type="number"
+                          value={formData.Amount}
+                          name="Amount"
                           placeholder="enter the amount"
                           className="p-1 rounded-md  lg:w-[450px] w-[230px]  outline-none pl-1"
                           onChange={handleChange}
                         />
                       </div>
-                      {errors.Amount && <p className="text-red-500 text-sm">{errors.Amount}</p>}
+                      {errors.Amount && (
+                        <p className="text-red-500 text-sm">{errors.Amount}</p>
+                      )}
                     </div>
                     {/* Conditionally Render Id (for Binance) */}
                     {selected === "Binance" && (
@@ -215,14 +335,16 @@ const Page = () => {
                         <div>
                           <input
                             type="number"
-                            value={formData.Id}
-                            name="Id"
+                            value={formData.Address}
+                            name="Address"
                             placeholder="enter the id"
                             className="p-1 rounded-md lg:w-[450px] w-[230px] outline-none pl-1"
                             onChange={handleChange}
                           />
                         </div>
-                        {errors.Id && <p className="text-red-500 text-sm">{errors.Id}</p>}
+                        {errors.Id && (
+                          <p className="text-red-500 text-sm">{errors.Id}</p>
+                        )}
                       </div>
                     )}
 
@@ -244,27 +366,41 @@ const Page = () => {
                             onChange={handleChange}
                           />
                         </div>
-                        {errors.Address && <p className="text-red-500 text-sm">{errors.Address}</p>}
+                        {errors.Address && (
+                          <p className="text-red-500 text-sm">
+                            {errors.Address}
+                          </p>
+                        )}
                       </div>
                     )}
 
                     <div className="">
                       <div>
-                        <label htmlFor="" className="ml-1">Screenshot of Address/Id</label>
+                        <label htmlFor="" className="ml-1">
+                          Screenshot of Address/Id
+                        </label>
                       </div>
                       <div>
-                        <input type="file" value={formData.file} name="file"
+                        <input
+                          type="file"
+                          name="file"
                           placeholder="Select the screenshot"
                           accept="image/*"
                           className="p-1 rounded-md  lg:w-[450px] w-[230px]  outline-none pl-1 cursor-pointer bg-white"
-                          onChange={handleChange}
+                          onChange={handleFileChange}
                         />
                       </div>
-                      {errors.Amount && <p className="text-red-500 text-sm">{errors.Amount}</p>}
+                      {errors.file && (
+                        <p className="text-red-500 text-sm">{errors.file}</p>
+                      )}
                     </div>
 
                     <div className="">
-                      <button type="submit" className="p-2 flex w-full rounded-md justify-center items-center text-center bg-[#22405c] text-white">
+                      <button
+                        type="submit"
+                        onClick={handleSubmit}
+                        className="p-2 flex w-full rounded-md justify-center items-center text-center bg-[#22405c] text-white"
+                      >
                         Submit
                       </button>
                     </div>
@@ -272,6 +408,19 @@ const Page = () => {
                 </form>
               </div>
             </div>
+
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
 
             {/* show the submitted data */}
             {/* {formSubmitData && submittedData && (

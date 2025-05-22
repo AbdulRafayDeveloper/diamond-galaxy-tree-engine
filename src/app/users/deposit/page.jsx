@@ -2,9 +2,10 @@
 import { id } from "date-fns/locale";
 import Header from "../components/header/page";
 import SideBar from "../components/sidebar/SideBar";
-import { useState, useRef, useEffect, use } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -12,28 +13,33 @@ const Page = () => {
   const dropdownRef = useRef();
   const sidebarRef = useRef(null);
   const buttonRef = useRef(null);
-  const [selected, setSelected] = useState("Trust Wallet")
+  const [selected, setSelected] = useState("Trust Wallet");
   const [formSubmitData, setFormSubmitData] = useState(false);
   const [submittedData, setSubmittedData] = useState(null);
   const [errors, setErrors] = useState({});
+  const router = useRouter();
 
   const [formData, setFormData] = useState({
     coin: " CoinPayements - USDT",
     paymentGateway: "",
-    Amount: ""
+    Amount: "",
   });
-  const options = ["Trust Wallet", "Binance"]
+  const options = ["Trust Wallet", "Binance"];
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value
-    }))
-  }
+      [name]: value,
+    }));
+  };
   const handleSubmit = (e) => {
     const newErrors = {};
     e.preventDefault();
-    if (!formData.Amount || isNaN(formData.Amount) || Number(formData.Amount) < 0) {
+    if (
+      !formData.Amount ||
+      isNaN(formData.Amount) ||
+      Number(formData.Amount) < 0
+    ) {
       newErrors.Amount = "Please enter a valid number";
     }
     if (Object.keys(newErrors).length > 0) {
@@ -44,10 +50,19 @@ const Page = () => {
     setSubmittedData(formData);
     setFormSubmitData(true);
     setErrors({});
-  }
+
+    const payload = {
+      ...formData,
+      paymentMethod: selected,
+    };
+    const encodedPayload = encodeURIComponent(JSON.stringify(payload));
+    router.push(`/users/deposit/deposit-details?data=${encodedPayload}`);
+  };
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText("0x94c7eDf20A6B16B0F8870DFc4DCe9730F5A8C9bf");
+      await navigator.clipboard.writeText(
+        "0x94c7eDf20A6B16B0F8870DFc4DCe9730F5A8C9bf"
+      );
       toast.success("Referral link copied to clipboard!");
     } catch (err) {
       toast.error("Failed to copy link.");
@@ -92,7 +107,6 @@ const Page = () => {
     };
   }, []);
 
-
   return (
     <div className="overflow-y-auto scrollbar-hidden">
       <div className="p-2 w-full">
@@ -134,8 +148,9 @@ const Page = () => {
         <aside
           ref={sidebarRef}
           id="separator-sidebar"
-          className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-            } sm:translate-x-0`}
+          className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${
+            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } sm:translate-x-0`}
           aria-label="Sidebar"
         >
           <SideBar section={section} />
@@ -148,30 +163,50 @@ const Page = () => {
             <div className="bg-[#22405c] flex flex-col  p-2 rounded-md h-[500px]">
               <div className="flex flex-row justify-between">
                 <div className="flex mt-4">
-                  <p className="text-2xl font-thick text-md text-white">Deposit Funds</p>
+                  <p className="text-2xl font-thick text-md text-white">
+                    Deposit Funds
+                  </p>
                 </div>
                 <div className="flex mt-2 rounded-md">
                   <Link href="/users/deposit/deposit-history">
-                    < Image src="/icons/historyLogo.png" alt="History Icon" width={40} height={40} />
+                    <Image
+                      src="/icons/historyLogo.png"
+                      alt="History Icon"
+                      width={40}
+                      height={40}
+                    />
                   </Link>
                 </div>
               </div>
-              <div className="mt-10 p-2 flex justify-center items-center gap-3" >
+              <div className="mt-10 p-2 flex justify-center items-center gap-3">
                 <form onSubmit={handleSubmit}>
                   <div className="grid lg:grid-cols-1 md:grid-cols-1 grid-cols-1 rounded-md gap-5 bg-[#F6F1DE]  p-5 h-[340px] lg:w-[500px] ">
                     <div className="">
                       <div>
-                        <label htmlFor="" className="ml-1">Coin</label>
+                        <label htmlFor="" className="ml-1">
+                          Coin
+                        </label>
                       </div>
                       <div>
-                        <input type="text" value={formData.coin} name="coin" disabled className="p-1 rounded-md bg-white text-gray-300 lg:w-[450px] w-[230px]" />
+                        <input
+                          type="text"
+                          value={formData.coin}
+                          name="coin"
+                          disabled
+                          className="p-1 rounded-md bg-white text-gray-300 lg:w-[450px] w-[230px]"
+                        />
                       </div>
                     </div>
                     <div className="">
                       <div>
-                        <label htmlFor="" className="ml-1">Payment Gateways</label>
+                        <label htmlFor="" className="ml-1">
+                          Payment Gateways
+                        </label>
                       </div>
-                      <div className="relative inline-block w-[230px] lg:w-[450px]" ref={dropdownRef}>
+                      <div
+                        className="relative inline-block w-[230px] lg:w-[450px]"
+                        ref={dropdownRef}
+                      >
                         {/* Selected Option */}
                         <div
                           className="p-1 rounded-md border border-gray-300 cursor-pointer flex items-center justify-between bg-white"
@@ -208,23 +243,33 @@ const Page = () => {
                     </div>
                     <div className="">
                       <div>
-                        <label htmlFor="" className="ml-1">Amount</label>
+                        <label htmlFor="" className="ml-1">
+                          Amount
+                        </label>
                       </div>
                       <div>
-                        <input type="number" value={formData.Amount} name="Amount"
+                        <input
+                          type="number"
+                          value={formData.Amount}
+                          name="Amount"
                           placeholder="enter the amount"
                           className="p-1 rounded-md  lg:w-[450px] w-[230px]  outline-none pl-1"
                           onChange={handleChange}
                         />
                       </div>
-                      {errors.Amount && <span className="text-red-500 text-sm">{errors.Amount}</span>}
+                      {errors.Amount && (
+                        <span className="text-red-500 text-sm">
+                          {errors.Amount}
+                        </span>
+                      )}
                     </div>
                     <div className="mt-3">
-                      <Link href="/users/deposit/deposit-details">
-                        <button type="submit" className="p-2 flex w-full rounded-md justify-center items-center text-center bg-[#22405c] text-white">
-                          Submit
-                        </button>
-                      </Link>
+                      <button
+                        type="submit"
+                        className="p-2 flex w-full rounded-md justify-center items-center text-center bg-[#22405c] text-white"
+                      >
+                        Submit
+                      </button>
                     </div>
                   </div>
                 </form>

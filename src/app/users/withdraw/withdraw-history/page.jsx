@@ -3,18 +3,19 @@ import Image from "next/image";
 import Header from "../../components/header/page";
 import SideBar from "../../components/sidebar/SideBar";
 import { useState, useRef, useEffect } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [expandedId, setExpandedId] = useState(null); // instead of isOpen
   const sidebarRef = useRef(null);
   const buttonRef = useRef(null);
+  const [loading, setLoading] = useState(true);
 
   const handleToggle = (id) => {
     setExpandedId(expandedId === id ? null : id);
   };
-
-
 
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -40,54 +41,92 @@ const Page = () => {
     };
   }, []);
 
-  const Data=[
+  /*const Data = [
     {
-        id:1,
-        name:"Withdraw",
-        time:"Jan 20 2025 1:58: pm",
-        address:"#GYYIOIREREDCJKI",
-        amount:"0.00 USD",
-        balance:"0.00 USD",
-        details:"Dear Leader Congrats to win Monthly Leadership Gifting be Enoy with grow more network regards CEO marquis dawait",
+      id: 1,
+      name: "Withdraw",
+      time: "Jan 20 2025 1:58: pm",
+      address: "#GYYIOIREREDCJKI",
+      amount: "0.00 USD",
+      balance: "0.00 USD",
+      details:
+        "Dear Leader Congrats to win Monthly Leadership Gifting be Enoy with grow more network regards CEO marquis dawait",
     },
     {
-        id:2,
-        name:"Withdraw",
-        time:"Jan 20 2025 8:58: pm",
-        address:"aMYYIOIREREDCJKI",
-        amount:"0.00 USD",
-        balance:"0.00 USD",
-        details:"Dear Leader Congrats to win Monthly Leadership Gifting be Enoy with grow more network regards CEO marquis dawait",
+      id: 2,
+      name: "Withdraw",
+      time: "Jan 20 2025 8:58: pm",
+      address: "aMYYIOIREREDCJKI",
+      amount: "0.00 USD",
+      balance: "0.00 USD",
+      details:
+        "Dear Leader Congrats to win Monthly Leadership Gifting be Enoy with grow more network regards CEO marquis dawait",
     },
     {
-        id:3,
-        name:"Withdraw",
-        time:"Jan 20 2025 10:58: pm",
-        address:"aMYYIOIREREDCJKI",
-        amount:"0.00 USD",
-        balance:"0.00 USD",
-        details:"Dear Leader Congrats to win Monthly Leadership Gifting be Enoy with grow more network regards CEO marquis dawait",
+      id: 3,
+      name: "Withdraw",
+      time: "Jan 20 2025 10:58: pm",
+      address: "aMYYIOIREREDCJKI",
+      amount: "0.00 USD",
+      balance: "0.00 USD",
+      details:
+        "Dear Leader Congrats to win Monthly Leadership Gifting be Enoy with grow more network regards CEO marquis dawait",
     },
     {
-        id:4,
-        name:"Withdraw",
-        time:"Jan 20 2025 2:58: pm",
-        address:"aMYYIOIREREDCJKI",
-        amount:"0.00 USD",
-        balance:"0.00 USD",
-        details:"Dear Leader Congrats to win Monthly Leadership Gifting be Enoy with grow more network regards CEO marquis dawait",
+      id: 4,
+      name: "Withdraw",
+      time: "Jan 20 2025 2:58: pm",
+      address: "aMYYIOIREREDCJKI",
+      amount: "0.00 USD",
+      balance: "0.00 USD",
+      details:
+        "Dear Leader Congrats to win Monthly Leadership Gifting be Enoy with grow more network regards CEO marquis dawait",
     },
     {
-        id:5,
-        name:"Withdraw",
-        time:"Jan 20 2025 7:8: am",
-        address:"aMYYIOIREREDCJKI",
-        amount:"0.00 USD",
-        balance:"0.00 USD",
-        details:"Dear Leader Congrats to win Monthly Leadership Gifting be Enoy with grow more network regards CEO marquis dawait",
+      id: 5,
+      name: "Withdraw",
+      time: "Jan 20 2025 7:8: am",
+      address: "aMYYIOIREREDCJKI",
+      amount: "0.00 USD",
+      balance: "0.00 USD",
+      details:
+        "Dear Leader Congrats to win Monthly Leadership Gifting be Enoy with grow more network regards CEO marquis dawait",
     },
-  ]
+  ];*/
 
+  const [Data, setData] = useState([]);
+  const [balance, setBalance] = useState(0);
+
+  useEffect(() => {
+    const fetchUserDeposits = async () => {
+      try {
+        setLoading(true);
+        const token = Cookies.get("token");
+
+        const res = await axios.get("/api/frontend/withdrawers", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        console.log("Deposits:", res.data.data);
+        const { accountBalance, withdrawals } = res.data.data;
+        setData(withdrawals);
+        setBalance(accountBalance);
+        setLoading(false);
+        return res.data.data;
+      } catch (error) {
+        console.error("Error fetching deposits:", error);
+        toast.error(
+          error.response?.data?.message ||
+            "Failed to fetch your deposit history."
+        );
+        setLoading(false);
+        return [];
+      }
+    };
+    fetchUserDeposits();
+  }, []);
 
   return (
     <div className="overflow-y-auto scrollbar-hidden">
@@ -143,57 +182,87 @@ const Page = () => {
         <div className="mt-6">
           <div className="container p-2">
             <div className="grid grid-cols-1 gap-4">
-            {
-            Data.map((el) => (
-              <div key={el.id} className="flex flex-col bg-[#F6F1DE] rounded-md shadow-md p-2 text-sm text-gray-800">
-                <div
-                  className="grid grid-cols-2 cursor-pointer "
-                  onClick={() => handleToggle(el.id)}
-                >
-                  <div className="flex flex-row gap-2">
-                    <div className="mt-3">
-                      <Image src="/icons/down.png" width={30} height={30} alt="down arrow" />
-                    </div>
-                    <div className="flex flex-col">
-                      <h1 className="text-md font-bold">{el.name}</h1>
-                      <p className="text-[12px]">{el.time}</p>
-                      <p className="text-[12px]">{el.address}</p>
-                    </div>
-                  </div>
-                  <div className="flex flex-col items-end">
-                    <h1 className="font-bold">{el.amount}</h1>
-                    <p className="text-[12px]">Balance: {el.balance}</p>
+              {loading ? (
+                <div className="flex items-center justify-center h-screen text-gray-500 text-sm">
+                  <div className="flex flex-col items-center">
+                    <div className="w-8 h-8 border-4 border-gray-300 border-t-[#22405c] rounded-full animate-spin mb-2"></div>
+                    Loading...
                   </div>
                 </div>
+              ) : Data.length === 0 ? (
+                <div className="text-center py-10 text-sm text-gray-500">
+                  No withdraw history found.
+                </div>
+              ) : (
+                Data.map((el) => (
+                  <div
+                    key={el._id}
+                    className="flex flex-col bg-[#F6F1DE] rounded-md shadow-md p-2 text-sm text-gray-800"
+                  >
+                    <div
+                      className="grid grid-cols-2 cursor-pointer "
+                      onClick={() => handleToggle(el._id)}
+                    >
+                      <div className="flex flex-row gap-2">
+                        <div className="mt-3">
+                          <Image
+                            src="/icons/down.png"
+                            width={30}
+                            height={30}
+                            alt="down arrow"
+                          />
+                        </div>
+                        <div className="flex flex-col">
+                          <h1 className="text-md font-bold">{el.name}</h1>
+                          <p className="text-[12px]">
+                            {new Date(el.createdAt).toLocaleString()}
+                          </p>
+                          <p className="text-[12px]">{el.address}</p>
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-end">
+                        <h1 className="font-bold">{el.amount}</h1>
+                        <p className="text-[12px]">Balance: {balance}</p>
+                      </div>
+                    </div>
 
-                {/* Conditionally show details below the selected box */}
-                {expandedId === el.id && (
-                  <div className="p-6 bg-white">
-                    <table className="w-full ">
-                    <tbody>
-                      <tr className="border-b border-gray-300">
-                        <td className="py-1 pr-4"><strong>Charge:</strong></td>
-                        <td className="py-1"><p>{el.amount}</p></td>
-                      </tr>
-                      <tr className="border-b border-gray-300">
-                        <td className="py-1 pr-4"><strong>Post Balance:</strong></td>
-                        <td className="py-1"><p>{el.balance}</p></td>
-                      </tr>
-                      <tr >
-                        <td className="py-1 pr-4"><strong>Details:</strong></td>
-                        <td className="py-1"><p>{el.details}</p></td>
-                      </tr>
-                    </tbody>
-                  </table>
+                    {/* Conditionally show details below the selected box */}
+                    {expandedId === el._id && (
+                      <div className="p-6 bg-white">
+                        <table className="w-full ">
+                          <tbody>
+                            <tr className="border-b border-gray-300">
+                              <td className="py-1 pr-4">
+                                <strong>Charge:</strong>
+                              </td>
+                              <td className="py-1">
+                                <p>{el.amount}</p>
+                              </td>
+                            </tr>
+                            <tr className="border-b border-gray-300">
+                              <td className="py-1 pr-4">
+                                <strong>Post Balance:</strong>
+                              </td>
+                              <td className="py-1">
+                                <p>{balance}</p>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="py-1 pr-4">
+                                <strong>Details:</strong>
+                              </td>
+                              <td className="py-1">
+                                <p>N/A</p>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
                   </div>
-                
-                )}
-              </div>
-            ))
-          }
-
+                ))
+              )}
             </div>
-
           </div>
         </div>
       </div>
