@@ -53,7 +53,7 @@ const Page = () => {
         console.log(userData);
       } catch (e) {
         setLoading(false);
-        console.error("Failed to fetch user:", e);
+        console.log("Failed to fetch user:", e);
       } finally {
       }
     };

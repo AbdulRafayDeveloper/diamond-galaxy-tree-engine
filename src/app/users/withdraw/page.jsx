@@ -120,7 +120,7 @@ const Page = () => {
 
     if (
       selected === "Binance" &&
-      (!formData.Address || isNaN(formData.Address))
+      (!formData.Address || formData.Address.trim() === "")
     ) {
       newErrors.Id = "Please enter a valid Id for Binance";
     }
@@ -159,14 +159,18 @@ const Page = () => {
 
       console.log(response);
       if (response.data.status == 200) {
-        toast.success("Deposit submitted successfully!");
-        router.push("/users/dashboard");
+        toast.success(
+          `Your withdraw request of $${formData.Amount} through ${formData.paymentGateway} has been submitted successfully.`
+        );
+        setTimeout(() => {
+          router.push("/users/dashboard");
+        }, 2000);
       } else {
         toast.error(response.data.message || "Submission failed.");
       }
     } catch (error) {
       toast.error("Error submitting deposit.");
-      console.error("Submit error:", error);
+      console.log("Submit error:", error);
     }
   };
 
@@ -334,7 +338,7 @@ const Page = () => {
                         </div>
                         <div>
                           <input
-                            type="number"
+                            type="text"
                             value={formData.Address}
                             name="Address"
                             placeholder="enter the id"

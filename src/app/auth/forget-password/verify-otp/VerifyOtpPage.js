@@ -32,7 +32,7 @@ const VerifyOtpPage = () => {
         setEmail(payload.email);
         console.log("Email from token:", payload.email);
       } catch (err) {
-        console.error("JWT Verify error:", err);
+        console.log("JWT Verify error:", err);
         toast.error("Invalid or expired token.");
       }
     };
@@ -104,7 +104,6 @@ const VerifyOtpPage = () => {
     } catch (err) {
       // setLoading(false);
       toast.error(err.response?.data?.message || "Failed to resend OTP.");
-
     }
   };
 
@@ -157,7 +156,7 @@ const VerifyOtpPage = () => {
       setLoading(false);
       toast.error(
         err.response?.data?.message ||
-        "Invalid OTP or expired. Please try again."
+          "Invalid OTP or expired. Please try again."
       );
     }
   };
@@ -206,13 +205,11 @@ const VerifyOtpPage = () => {
               )}
             </div> */}
 
-
-
             <button
               type="submit"
-              className={`w-full my-8 text-white border bg-[#22405c] hover:bg-[#22405c]  font-medium rounded-lg text-sm px-5 py-2.5 text-center  ${otpExpired ? "bg-gray-400 cursor-not-allowed" : "bg-[#22405c]"
-                } ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-[#22405c]"
-                }`}
+              className={`w-full my-8 text-white border bg-[#22405c] hover:bg-[#22405c]  font-medium rounded-lg text-sm px-5 py-2.5 text-center  ${
+                otpExpired ? "bg-gray-400 cursor-not-allowed" : "bg-[#22405c]"
+              } ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-[#22405c]"}`}
               disabled={otpExpired}
             >
               {loading ? (
@@ -236,8 +233,10 @@ const VerifyOtpPage = () => {
               </div>
             ) : (
               <div className="my-2 w-full flex justify-end">
-                Resend OTP in {" "}
-                <span className="font-semibold text-[#22405c] pl-1">{timer}s</span>
+                Resend OTP in{" "}
+                <span className="font-semibold text-[#22405c] pl-1">
+                  {timer}s
+                </span>
               </div>
             )}
           </form>

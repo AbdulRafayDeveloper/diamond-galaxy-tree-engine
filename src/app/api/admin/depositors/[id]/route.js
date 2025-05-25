@@ -2,7 +2,9 @@ import { NextResponse } from "next/server";
 import connectDB from "@/app/config/db";
 import { Depositors } from "@/app/config/Models/Depositors/depositors";
 import { Users } from "@/app/config/Models/Users/users";
+import { Commissions } from "@/app/config/Models/Commission/commission";
 import serverSideValidations from "@/app/helper/serverSideValidations";
+import sendEmail from "@/app/helper/sendEmail";
 import {
   successResponse,
   badRequestResponse,
@@ -10,6 +12,7 @@ import {
   conflictResponse,
   notFoundResponse,
 } from "@/app/helper/apiResponseHelpers";
+const commission = process.env.COMMISSION;
 
 export async function PUT(req, { params }) {
   try {
@@ -51,12 +54,61 @@ export async function PUT(req, { params }) {
     }
 
     if (status === "accepted") {
-      user.accountBalance += deposit.amount;
+      const currentBalance = user.accountBalance;
+
+      const commissionRate = commission;
+      const commissionAmount = parseFloat(
+        (deposit.amount * commissionRate).toFixed(2)
+      );
+      const creditedAmount = parseFloat(
+        (deposit.amount - commissionAmount).toFixed(2)
+      );
+
+      await Commissions.create({
+        user_id: user._id,
+        request_id: deposit._id,
+        amount: commissionAmount,
+        originalAmount: deposit.amount,
+        rate: commissionRate,
+        source: "deposit",
+      });
+
+      user.accountBalance += creditedAmount;
       await user.save();
+      deposit.postBalance = user.accountBalance;
+    } else {
+      deposit.postBalance = user.accountBalance;
     }
 
     deposit.status = status;
     await deposit.save();
+
+    const formattedStatus = status.charAt(0).toUpperCase() + status.slice(1);
+    const emailHTML = `
+      <div style="font-family: Arial, sans-serif; font-size: 16px; color: #333;">
+        <p>Hi ${user.fname || user.email},</p>
+        <p>Your deposit request of <strong>$${
+          deposit.amount
+        }</strong> has been <strong>${formattedStatus}</strong>.</p>
+        <p>Your balance after this deposit was <strong>$${
+          deposit.postBalance
+        }</strong>.</p>
+        ${
+          status === "accepted"
+            ? `<p><strong>1%</strong> commission was deducted. <strong>$${(
+                deposit.amount * 0.99
+              ).toFixed(2)}</strong> has been credited to your account.</p>`
+            : ""
+        }
+        <p>Thank you,<br/>Diamond Galaxy Team</p>
+      </div>
+    `;
+
+    await sendEmail(
+      user.email,
+      `Deposit Request ${formattedStatus}`,
+      emailHTML
+    );
 
     return successResponse(`Deposit ${status} successfully.`, {
       status: deposit.status,

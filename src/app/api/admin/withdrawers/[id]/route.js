@@ -2,7 +2,9 @@ import { NextResponse } from "next/server";
 import connectDB from "@/app/config/db";
 import { Withdrawers } from "@/app/config/Models/Withdrawers/withdrawers";
 import { Users } from "@/app/config/Models/Users/users";
+import { Commissions } from "@/app/config/Models/Commission/commission";
 import serverSideValidations from "@/app/helper/serverSideValidations";
+import sendEmail from "@/app/helper/sendEmail";
 import {
   successResponse,
   badRequestResponse,
@@ -10,6 +12,7 @@ import {
   conflictResponse,
   notFoundResponse,
 } from "@/app/helper/apiResponseHelpers";
+const commission = process.env.COMMISSION;
 
 export async function PUT(req, { params }) {
   try {
@@ -51,32 +54,80 @@ export async function PUT(req, { params }) {
     }
 
     if (status === "accepted") {
-      if (user.accountBalance < withdrawal.amount) {
+      const commissionRate = commission;
+      const commissionAmount = parseFloat(
+        (withdrawal.amount * commissionRate).toFixed(2)
+      );
+      const actualDeduction = parseFloat(
+        (withdrawal.amount + commissionAmount).toFixed(2)
+      );
+
+      if (user.accountBalance < actualDeduction) {
         return badRequestResponse("Insufficient balance in user's account.");
       }
 
-      user.accountBalance -= withdrawal.amount;
+      const currentBalance = user.accountBalance;
+
+      user.accountBalance -= actualDeduction;
       await Users.findByIdAndUpdate(user._id, {
         accountBalance: user.accountBalance,
       });
+
+      withdrawal.postBalance = user.accountBalance;
+
+      await Commissions.create({
+        user_id: user._id,
+        request_id: withdrawal._id,
+        amount: commissionAmount,
+        originalAmount: withdrawal.amount,
+        rate: commissionRate,
+        source: "withdraw",
+      });
+    } else {
+      withdrawal.postBalance = user.accountBalance;
     }
 
-    const updatedWithdrawal = await Withdrawers.findByIdAndUpdate(
-      id,
-      { status },
-      { new: true }
+    withdrawal.status = status;
+    await withdrawal.save();
+
+    const formattedStatus = status.charAt(0).toUpperCase() + status.slice(1);
+    const emailHTML = `
+      <div style="font-family: Arial, sans-serif; font-size: 16px; color: #333;">
+        <p>Hi ${user.fname || user.email},</p>
+        <p>Your withdrawal request of <strong>$${
+          withdrawal.amount
+        }</strong> has been <strong>${formattedStatus}</strong>.</p>
+        <p>Your balance after this request was <strong>$${
+          withdrawal.postBalance
+        }</strong>.</p>
+        ${
+          status === "accepted"
+            ? `<p>A <strong>1%</strong> fee has been applied. <strong>$${(
+                withdrawal.amount +
+                withdrawal.amount * 0.01
+              ).toFixed(2)}</strong> was deducted in total.</p>`
+            : ""
+        }
+        <p>Thank you,<br/>Diamond Galaxy Team</p>
+      </div>
+    `;
+
+    await sendEmail(
+      user.email,
+      `Withdrawal Request ${formattedStatus}`,
+      emailHTML
     );
 
     return successResponse(`Withdrawal ${status} successfully.`, {
-      status: updatedWithdrawal.status,
-      amount: updatedWithdrawal.amount,
+      status: withdrawal.status,
+      amount: withdrawal.amount,
       user: {
         id: user._id,
         accountBalance: user.accountBalance,
       },
     });
   } catch (error) {
-    console.error("Error in PUT /api/withdrawers/[id]:", error);
+    console.log("Error in PUT /api/withdrawers/[id]:", error);
     return serverErrorResponse("Internal server error.");
   }
 }

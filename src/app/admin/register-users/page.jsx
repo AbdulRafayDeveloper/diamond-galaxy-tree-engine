@@ -33,31 +33,30 @@ const Page = () => {
       email: "abcd1234@gmail.com",
     },
     {
-        username: "Rafy",
-        email: "abcd1234@gmail.com",
+      username: "Rafy",
+      email: "abcd1234@gmail.com",
     },
     {
-        username: "Abbas",
-        email: "abcd1234@gmail.com",
+      username: "Abbas",
+      email: "abcd1234@gmail.com",
     },
     {
-        username: "Qasim",
-        email: "abcd1234@gmail.com",
+      username: "Qasim",
+      email: "abcd1234@gmail.com",
     },
     {
-        username: "Hussnain",
-        email: "abcd1234@gmail.com",
+      username: "Hussnain",
+      email: "abcd1234@gmail.com",
     },
   ];
 
- 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-const section="Register Users"
+  const section = "Register Users";
   return (
     <div className="overflow-y-auto scrollbar-hidden">
       <div className="p-2 w-full">
@@ -88,7 +87,7 @@ const section="Register Users"
 
           {/* Title */}
           <p className="text-[12px] md:text-xl md:font-semibold ml-4 md:ml-64 lg:ml-64 p-5">
-          Register Users
+            Register Users
           </p>
 
           {/* Header component */}
@@ -135,14 +134,16 @@ const section="Register Users"
                   />
                 </svg>
               </div>
-              <Link href="/admin/register_users/add-Amount">
-                <button className="p-2 bg-[#22405c] text-white rounded-md w-[80px]">➕ Add</button>
+              <Link href="/admin/register-users/add-Amount">
+                <button className="p-2 bg-[#22405c] text-white rounded-md w-[80px]">
+                  ➕ Add
+                </button>
               </Link>
             </div>
 
             {/* Table of items */}
             <Table products={products} />
-            <Pagination/>
+            <Pagination />
           </div>
         </div>
       </div>

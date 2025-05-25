@@ -3,12 +3,16 @@ import { jwtVerify } from "jose";
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
 
+const ROLE_DASHBOARD = {
+  admin: "/admin/dashboard",
+  user: "/users/dashboard",
+};
+
 export async function middleware(req) {
   const token = req.cookies.get("token")?.value;
   const { pathname } = req.nextUrl;
 
   const loginPath = "/auth/signin";
-  const dashboardPath = "/users/dashboard";
   const protectedUserPath = "/users";
 
   if (!token) {
@@ -20,14 +24,18 @@ export async function middleware(req) {
 
   try {
     const { payload } = await jwtVerify(token, JWT_SECRET);
+    console.log("payload: ", payload);
+    const role = payload.role || "user";
+    console.log("role: ", ROLE_DASHBOARD[role]);
 
-    if (pathname === loginPath) {
-      return NextResponse.redirect(new URL(dashboardPath, req.url));
+    if (pathname.startsWith("/auth")) {
+      const redirectPath = ROLE_DASHBOARD[role];
+      return NextResponse.redirect(new URL(redirectPath, req.url));
     }
 
     return NextResponse.next();
   } catch (error) {
-    console.error("JWT verification failed:", error);
+    console.log("JWT verification failed:", error);
 
     const response = NextResponse.redirect(new URL(loginPath, req.url));
     response.cookies.set("token", "", {
@@ -37,6 +45,7 @@ export async function middleware(req) {
     return response;
   }
 }
+
 export const config = {
-  matcher: ["/users/:path*", "/auth/signin"],
+  matcher: ["/users/:path*", "/admin/:path*", "/auth/signin"],
 };

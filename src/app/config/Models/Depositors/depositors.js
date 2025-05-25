@@ -15,6 +15,7 @@ const depositorSchema = new mongoose.Schema(
       ref: "users",
       required: true,
     },
+    postBalance: { type: Number, default: null },
   },
   {
     timestamps: true,
