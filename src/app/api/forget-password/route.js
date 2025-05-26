@@ -67,7 +67,7 @@ export async function POST(req) {
       set_Email: true,
     });
   } catch (error) {
-    console.error("OTP error:", error);
+    console.log("OTP error:", error);
     return serverErrorResponse(
       "Internal server error. Please try again later!"
     );

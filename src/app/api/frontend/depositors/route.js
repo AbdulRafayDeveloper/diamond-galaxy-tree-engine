@@ -76,7 +76,7 @@ export async function POST(req) {
       newDepositor
     );
   } catch (error) {
-    console.error("Error in POST /api/depositors:", error);
+    console.log("Error in POST /api/depositors:", error);
     return serverErrorResponse("Internal server error.");
   }
 }
@@ -103,7 +103,7 @@ export async function GET(req) {
       deposits,
     });
   } catch (error) {
-    console.error("Error in GET /api/depositors:", error);
+    console.log("Error in GET /api/depositors:", error);
     return serverErrorResponse("Internal server error.");
   }
 }

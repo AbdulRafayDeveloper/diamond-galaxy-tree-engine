@@ -50,7 +50,7 @@ const Page = () => {
       }
     } catch (error) {
       setLoading(false);
-      console.error("Error sending email:", error);
+      console.log("Error sending email:", error);
       toast.error(
         error.response?.data?.message || "An error occurred. Please try again."
       );
@@ -115,8 +115,9 @@ const Page = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full text-white border bg-[#22405c]  font-medium rounded-lg text-sm px-5 py-2.5 text-center  ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-[#22405c]"
-                }`}
+              className={`w-full text-white border bg-[#22405c]  font-medium rounded-lg text-sm px-5 py-2.5 text-center  ${
+                loading ? "bg-gray-400 cursor-not-allowed" : "bg-[#22405c]"
+              }`}
             >
               {loading ? (
                 <div className="flex justify-center items-center space-x-2">
@@ -141,7 +142,6 @@ const Page = () => {
           </form>
 
           {/* Footer Links */}
-
         </main>
       </div>
     </>

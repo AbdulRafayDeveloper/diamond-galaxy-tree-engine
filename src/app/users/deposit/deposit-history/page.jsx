@@ -55,6 +55,7 @@ const Page = () => {
           },
         });
 
+        console.log(res);
         console.log("Deposits:", res.data.data);
         const { accountBalance, deposits } = res.data.data;
         setData(deposits);
@@ -62,7 +63,7 @@ const Page = () => {
         setLoading(false);
         return res.data.data;
       } catch (error) {
-        console.error("Error fetching deposits:", error);
+        console.log("Error fetching deposits:", error);
         toast.error(
           error.response?.data?.message ||
             "Failed to fetch your deposit history."
@@ -215,7 +216,21 @@ const Page = () => {
                           </svg>
                         </div>
                         <div className="flex flex-col">
-                          <h1 className="text-md font-bold">Deposit</h1>
+                          <div className="flex flex-row items-center justify-center gap-4">
+                            <h1 className="text-md font-bold">Deposit</h1>
+                            <span
+                              className={`mt-1 px-2 py-1 text-xs rounded-full font-semibold ${
+                                el.status === "accepted"
+                                  ? "bg-green-100 text-green-800"
+                                  : el.status === "rejected"
+                                  ? "bg-yellow-100 text-yellow-800"
+                                  : "bg-red-100 text-red-800"
+                              }`}
+                            >
+                              {el.status.toUpperCase()}
+                            </span>
+                          </div>
+
                           <p className="text-[12px]">
                             {new Date(el.createdAt).toLocaleString()}
                           </p>
@@ -225,7 +240,9 @@ const Page = () => {
                       </div>
                       <div className="flex flex-col items-end">
                         <h1 className="font-bold">Amount : {el.amount}</h1>
-                        <p className="text-[12px]">Balance: {balance}</p>
+                        <p className="text-[12px]">
+                          Balance: {el?.postBalance ?? "N/A"}
+                        </p>
                       </div>
                     </div>
 
@@ -247,7 +264,7 @@ const Page = () => {
                                 <strong>Post Balance:</strong>
                               </td>
                               <td className="py-1">
-                                <p>{balance}</p>
+                                <p>{el?.postBalance ?? "N/A"}</p>
                               </td>
                             </tr>
                             <tr>

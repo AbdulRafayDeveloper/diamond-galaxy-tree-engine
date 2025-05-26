@@ -27,8 +27,8 @@ const SideBar = ({ section }) => {
   return (
     <div className="h-full py-4 overflow-y-auto bg-[#22405c] scrollbar">
       <ul className=" font-medium">
-        <li className="flex justify-center pb-6 flex flex-col text-white justify-center items-center">
-          <Link href="/users/dashboard">
+        <li className=" pb-6 flex flex-col text-white justify-center items-center">
+          <Link href="/admin/dashboard">
             <img
               src="/logo.jpg"
               className="w-24 h-24 rounded-[300px]"
@@ -38,12 +38,18 @@ const SideBar = ({ section }) => {
         </li>
         <Link
           href="/admin/dashboard"
-          className={`flex items-center  p-2 text-white group ${section === "Dashboard" ? "bg-[#F6F1DE] text-black" : "hover:bg-[#F6F1DE] hover:text-black"
-            }`}
+          className={`flex items-center  p-2 text-white group ${
+            section === "Dashboard"
+              ? "bg-[#F6F1DE] text-black"
+              : "hover:bg-[#F6F1DE] hover:text-black"
+          }`}
         >
           <li
-            className={`pt-2 pb-2 flex items-center cursor-pointer ${section === "Dashboard" ? "bg-[#F6F1DE] text-black" : "hover:bg-[#F6F1DE] hover:text-black"
-              }`}
+            className={`pt-2 pb-2 flex items-center cursor-pointer ${
+              section === "Dashboard"
+                ? "bg-[#F6F1DE] text-black"
+                : "hover:bg-[#F6F1DE] hover:text-black"
+            }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center">
               <img
@@ -59,21 +65,21 @@ const SideBar = ({ section }) => {
           </li>
         </Link>
         <li
-          className={`pb-2 text-white ${section === "Users"
-            ? "bg-[#F6F1DE] text-black"
-            : "hover:bg-[#F6F1DE] hover:text-black "
-            }`}
+          className={`pb-2 text-white ${
+            section === "Users"
+              ? "bg-[#F6F1DE] text-black"
+              : "hover:bg-[#F6F1DE] hover:text-black "
+          }`}
         >
           <Link
             href="/admin/users"
-            className={`flex items-center p-2  group ${section === "Users"
-              ? "bg-[#F6F1DE] text-black"
-              : "hover:bg-[#F6F1DE] hover:text-black "
-              }`}
+            className={`flex items-center p-2  group ${
+              section === "Users"
+                ? "bg-[#F6F1DE] text-black"
+                : "hover:bg-[#F6F1DE] hover:text-black "
+            }`}
           >
-            <div
-              className="flex flex-row pl-10 justify-center items-center cursor-pointer"
-            >
+            <div className="flex flex-row pl-10 justify-center items-center cursor-pointer">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 640 512"
@@ -90,21 +96,21 @@ const SideBar = ({ section }) => {
           </Link>
         </li>
         <li
-          className={`pb-2 text-white ${section === "Desposit Request"
-            ? "bg-[#F6F1DE] text-black"
-            : "hover:bg-[#F6F1DE] hover:text-black "
-            }`}
+          className={`pb-2 text-white ${
+            section === "Desposit Request"
+              ? "bg-[#F6F1DE] text-black"
+              : "hover:bg-[#F6F1DE] hover:text-black "
+          }`}
         >
           <Link
             href="/admin/deposit-request"
-            className={`flex items-center p-2  group ${section === "Desposit Request"
-              ? "bg-[#F6F1DE] text-black"
-              : "hover:bg-[#F6F1DE] hover:text-black "
-              }`}
+            className={`flex items-center p-2  group ${
+              section === "Desposit Request"
+                ? "bg-[#F6F1DE] text-black"
+                : "hover:bg-[#F6F1DE] hover:text-black "
+            }`}
           >
-            <div
-              className="flex flex-row pl-10 justify-center items-center cursor-pointer"
-            >
+            <div className="flex flex-row pl-10 justify-center items-center cursor-pointer">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 640 512"
@@ -121,21 +127,21 @@ const SideBar = ({ section }) => {
           </Link>
         </li>
         <li
-          className={`pb-2 text-white ${section === "Withdraw Request"
-            ? "bg-[#F6F1DE] text-black"
-            : "hover:bg-[#F6F1DE] hover:text-black "
-            }`}
+          className={`pb-2 text-white ${
+            section === "Withdraw Request"
+              ? "bg-[#F6F1DE] text-black"
+              : "hover:bg-[#F6F1DE] hover:text-black "
+          }`}
         >
           <Link
             href="/admin/withdraw-request"
-            className={`flex items-center p-2  group ${section === "Withdraw Request"
-              ? "bg-[#F6F1DE] text-black"
-              : "hover:bg-[#F6F1DE] hover:text-black "
-              }`}
+            className={`flex items-center p-2  group ${
+              section === "Withdraw Request"
+                ? "bg-[#F6F1DE] text-black"
+                : "hover:bg-[#F6F1DE] hover:text-black "
+            }`}
           >
-            <div
-              className="flex flex-row pl-10 justify-center items-center cursor-pointer"
-            >
+            <div className="flex flex-row pl-10 justify-center items-center cursor-pointer">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 640 512"
@@ -152,17 +158,19 @@ const SideBar = ({ section }) => {
           </Link>
         </li>
         <li
-          className={`pb-2  text-white ${section === "Lucky Draw"
-            ? "bg-[#F6F1DE] text-black"
-            : "hover:bg-[#F6F1DE] hover:text-black "
-            }`}
+          className={`pb-2  text-white ${
+            section === "Lucky Draw"
+              ? "bg-[#F6F1DE] text-black"
+              : "hover:bg-[#F6F1DE] hover:text-black "
+          }`}
         >
           <Link
             href="/admin/lucky-draw"
-            className={`flex items-center p-2  group ${section === "Lucky Draw"
-              ? "bg-[#F6F1DE] text-black"
-              : "hover:bg-[#F6F1DE] hover:text-black "
-              }`}
+            className={`flex items-center p-2  group ${
+              section === "Lucky Draw"
+                ? "bg-[#F6F1DE] text-black"
+                : "hover:bg-[#F6F1DE] hover:text-black "
+            }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center">
               <svg
@@ -181,17 +189,19 @@ const SideBar = ({ section }) => {
           </Link>
         </li>
         <li
-          className={`pb-2 text-white ${section === "Register Users"
-            ? "bg-[#F6F1DE] text-black"
-            : "hover:bg-[#F6F1DE] hover:text-black"
-            }`}
+          className={`pb-2 text-white ${
+            section === "Register Users"
+              ? "bg-[#F6F1DE] text-black"
+              : "hover:bg-[#F6F1DE] hover:text-black"
+          }`}
         >
           <Link
             href="/admin/register-users"
-            className={`flex items-center p-2 group ${section === "Register Users"
-              ? "bg-[#F6F1DE] text-black"
-              : "hover:bg-[#F6F1DE] hover:text-black"
-              }`}
+            className={`flex items-center p-2 group ${
+              section === "Register Users"
+                ? "bg-[#F6F1DE] text-black"
+                : "hover:bg-[#F6F1DE] hover:text-black"
+            }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center">
               <svg
@@ -211,17 +221,19 @@ const SideBar = ({ section }) => {
           </Link>
         </li>
         <li
-          className={`pb-2 text-white ${section === "Activate Users"
-            ? "bg-[#F6F1DE] text-black"
-            : "hover:bg-[#F6F1DE] hover:text-black "
-            }`}
+          className={`pb-2 text-white ${
+            section === "Activate Users"
+              ? "bg-[#F6F1DE] text-black"
+              : "hover:bg-[#F6F1DE] hover:text-black "
+          }`}
         >
           <Link
             href="/admin/activated-users"
-            className={`flex items-center p-2  group ${section === "Activate Users"
-              ? "bg-[#F6F1DE] text-black"
-              : "hover:bg-[#F6F1DE] hover:text-black "
-              }`}
+            className={`flex items-center p-2  group ${
+              section === "Activate Users"
+                ? "bg-[#F6F1DE] text-black"
+                : "hover:bg-[#F6F1DE] hover:text-black "
+            }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center">
               <svg
@@ -240,17 +252,19 @@ const SideBar = ({ section }) => {
           </Link>
         </li>
         <li
-          className={`pb-2 text-white ${section === "Slots"
-            ? "bg-[#F6F1DE] text-black"
-            : "hover:bg-[#F6F1DE] hover:text-black "
-            }`}
+          className={`pb-2 text-white ${
+            section === "Slots"
+              ? "bg-[#F6F1DE] text-black"
+              : "hover:bg-[#F6F1DE] hover:text-black "
+          }`}
         >
           <Link
             href="/admin/slots"
-            className={`flex items-center p-2  group ${section === "Slots"
-              ? "bg-[#F6F1DE] text-black"
-              : "hover:bg-[#F6F1DE] hover:text-black "
-              }`}
+            className={`flex items-center p-2  group ${
+              section === "Slots"
+                ? "bg-[#F6F1DE] text-black"
+                : "hover:bg-[#F6F1DE] hover:text-black "
+            }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center">
               <svg
@@ -270,17 +284,19 @@ const SideBar = ({ section }) => {
         </li>
         {/* MOnthly Gifts */}
         <li
-          className={`pb-2 text-white ${section === "Monthly Gifts"
-            ? "bg-[#F6F1DE] text-black"
-            : "hover:bg-[#F6F1DE] hover:text-black "
-            }`}
+          className={`pb-2 text-white ${
+            section === "Monthly Gifts"
+              ? "bg-[#F6F1DE] text-black"
+              : "hover:bg-[#F6F1DE] hover:text-black "
+          }`}
         >
           <Link
             href="/admin/monthly-gift"
-            className={`flex items-center p-2  group ${section === "Monthly Gifts"
-              ? "bg-[#F6F1DE] text-black"
-              : "hover:bg-[#F6F1DE] hover:text-black "
-              }`}
+            className={`flex items-center p-2  group ${
+              section === "Monthly Gifts"
+                ? "bg-[#F6F1DE] text-black"
+                : "hover:bg-[#F6F1DE] hover:text-black "
+            }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center">
               <svg
@@ -299,17 +315,19 @@ const SideBar = ({ section }) => {
           </Link>
         </li>
         <li
-          className={`pb-2 text-white ${section === "Qualified for Rewards"
-            ? "bg-[#F6F1DE] text-black"
-            : "hover:bg-[#F6F1DE] hover:text-black "
-            }`}
+          className={`pb-2 text-white ${
+            section === "Qualified for Rewards"
+              ? "bg-[#F6F1DE] text-black"
+              : "hover:bg-[#F6F1DE] hover:text-black "
+          }`}
         >
           <Link
             href="/admin/qualifiedRewards"
-            className={`flex items-center p-2  group ${section === "Qualified for Rewards"
-              ? "bg-[#F6F1DE] text-black"
-              : "hover:bg-[#F6F1DE] hover:text-black "
-              }`}
+            className={`flex items-center p-2  group ${
+              section === "Qualified for Rewards"
+                ? "bg-[#F6F1DE] text-black"
+                : "hover:bg-[#F6F1DE] hover:text-black "
+            }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center">
               <svg
@@ -329,17 +347,19 @@ const SideBar = ({ section }) => {
         </li>
         {/*  */}
         <li
-          className={`pb-2 text-white ${section === "Grades"
-            ? "bg-[#F6F1DE] text-black"
-            : "hover:bg-[#F6F1DE] hover:text-black "
-            }`}
+          className={`pb-2 text-white ${
+            section === "Grades"
+              ? "bg-[#F6F1DE] text-black"
+              : "hover:bg-[#F6F1DE] hover:text-black "
+          }`}
         >
           <Link
             href="/admin/grades"
-            className={`flex items-center p-2  group ${section === "Grades"
-              ? "bg-[#F6F1DE] text-black"
-              : "hover:bg-[#F6F1DE] hover:text-black "
-              }`}
+            className={`flex items-center p-2  group ${
+              section === "Grades"
+                ? "bg-[#F6F1DE] text-black"
+                : "hover:bg-[#F6F1DE] hover:text-black "
+            }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center">
               <svg
@@ -359,17 +379,19 @@ const SideBar = ({ section }) => {
         </li>
         {/* Education */}
         <li
-          className={`pb-2 text-white ${section === "Education"
-            ? "bg-[#F6F1DE] text-black"
-            : "hover:bg-[#F6F1DE] hover:text-black "
-            }`}
+          className={`pb-2 text-white ${
+            section === "Education"
+              ? "bg-[#F6F1DE] text-black"
+              : "hover:bg-[#F6F1DE] hover:text-black "
+          }`}
         >
           <Link
             href="/admin/education"
-            className={`flex items-center p-2  group ${section === "Education"
-              ? "bg-[#F6F1DE] text-black"
-              : "hover:bg-[#F6F1DE] hover:text-black "
-              }`}
+            className={`flex items-center p-2  group ${
+              section === "Education"
+                ? "bg-[#F6F1DE] text-black"
+                : "hover:bg-[#F6F1DE] hover:text-black "
+            }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center">
               <svg
@@ -388,17 +410,19 @@ const SideBar = ({ section }) => {
           </Link>
         </li>
         <li
-          className={`pb-2 text-white ${section === "My Team"
-            ? "bg-[#F6F1DE] text-black"
-            : "hover:bg-[#F6F1DE] hover:text-black "
-            }`}
+          className={`pb-2 text-white ${
+            section === "My Team"
+              ? "bg-[#F6F1DE] text-black"
+              : "hover:bg-[#F6F1DE] hover:text-black "
+          }`}
         >
           <Link
             href="/admin/my-team"
-            className={`flex items-center p-2  group ${section === "My Team"
-              ? "bg-[#F6F1DE] text-black"
-              : "hover:bg-[#F6F1DE] hover:text-black "
-              }`}
+            className={`flex items-center p-2  group ${
+              section === "My Team"
+                ? "bg-[#F6F1DE] text-black"
+                : "hover:bg-[#F6F1DE] hover:text-black "
+            }`}
           >
             <div className="flex flex-row pl-10 justify-center items-center">
               <svg
@@ -415,6 +439,40 @@ const SideBar = ({ section }) => {
               </span>
             </div>
           </Link>
+        </li>
+        <li
+          className={`pb-2 text-white ${
+            section === "Logout"
+              ? "bg-[#F6F1DE] text-black"
+              : "hover:bg-[#F6F1DE] hover:text-black "
+          }`}
+        >
+          <a
+            href="#"
+            className={`flex items-center p-2  group ${
+              section === "Logout"
+                ? "bg-[#F6F1DE] text-black"
+                : "hover:bg-[#F6F1DE] hover:text-black "
+            }`}
+          >
+            <div
+              className="flex flex-row pl-10 justify-center items-center cursor-pointer"
+              onClick={handleLogout}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 512 512"
+                fill="currentColor"
+                stroke="currentColor"
+                className="size-4"
+              >
+                <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z" />
+              </svg>
+              <span className="flex-1 ms-3 whitespace-nowrap font-normal text-sm">
+                Logout
+              </span>
+            </div>
+          </a>
         </li>
       </ul>
     </div>

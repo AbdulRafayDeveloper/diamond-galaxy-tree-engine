@@ -109,11 +109,11 @@ const Page = () => {
         setLoading(false);
       } else {
         setLoading(false);
-        console.error("API responded with error:", response.data.message);
+        console.log("API responded with error:", response.data.message);
       }
     } catch (error) {
       setLoading(false);
-      console.error(
+      console.log(
         "Error fetching withdrawals:",
         error.response?.data || error.message
       );

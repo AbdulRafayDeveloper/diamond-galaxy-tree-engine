@@ -86,7 +86,7 @@ const Page = () => {
         setLoading(false);
         console.log(userData);
       } catch (e) {
-        console.error("Failed to fetch user:", e);
+        console.log("Failed to fetch user:", e);
       } finally {
         setLoading(false);
       }

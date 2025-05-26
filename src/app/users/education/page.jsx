@@ -6,21 +6,21 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import Link from "next/link";
 
-const eduData=[
-    {
-        id:1,
-        name: "How to earn from youtube (Urdu/ Hindi)",
-        url:"https://youtube.com/shorts/UvM8OUlZ2xA?si=7CbmUcqiDBjuBQGE",
-        description:"In this video you Learn about detail how to earn money without investment",
-        
-    },
-    {
-        id:2,
-        name: "How to earn from youtube (Urdu/ Hindi)",
-        url:"https://youtube.com/shorts/UvM8OUlZ2xA?si=7CbmUcqiDBjuBQGE",
-        description:"In this video you Learn about detail how to earn money without investment",
-        
-    },
+const eduData = [
+  {
+    id: 1,
+    name: "How to earn from youtube (Urdu/ Hindi)",
+    url: "https://youtube.com/shorts/UvM8OUlZ2xA?si=7CbmUcqiDBjuBQGE",
+    description:
+      "In this video you Learn about detail how to earn money without investment",
+  },
+  {
+    id: 2,
+    name: "How to earn from youtube (Urdu/ Hindi)",
+    url: "https://youtube.com/shorts/UvM8OUlZ2xA?si=7CbmUcqiDBjuBQGE",
+    description:
+      "In this video you Learn about detail how to earn money without investment",
+  },
 ];
 
 const Page = () => {
@@ -53,37 +53,37 @@ const Page = () => {
     };
   }, []);
 
-//   useEffect(() => {
-//     const getData = async () => {
-//       try {
-//         setLoading(true);
-//         const token = Cookies.get("token");
+  //   useEffect(() => {
+  //     const getData = async () => {
+  //       try {
+  //         setLoading(true);
+  //         const token = Cookies.get("token");
 
-//         const response = await axios.get("/api/frontend/references", {
-//           headers: {
-//             Authorization: `Bearer ${token}`,
-//           },
-//         });
+  //         const response = await axios.get("/api/frontend/references", {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         });
 
-//         const userData = response.data.data;
-//         setData(userData);
-//         setLoading(false);
-//         console.log(userData);
-//       } catch (e) {
-//         setLoading(false);
-//         console.error("Failed to fetch user:", e);
-//       } finally {
-//       }
-//     };
+  //         const userData = response.data.data;
+  //         setData(userData);
+  //         setLoading(false);
+  //         console.log(userData);
+  //       } catch (e) {
+  //         setLoading(false);
+  //         console.log("Failed to fetch user:", e);
+  //       } finally {
+  //       }
+  //     };
 
-//     getData();
-//   }, []);
+  //     getData();
+  //   }, []);
 
-//   const maskEmail = (email) => {
-//     const [first, domain] = email.split("@"); // Split the email
-//     const masked = first.charAt(0) + "*".repeat(first.length - 1); // Mask the username
-//     return `${masked}@${domain}`;
-//   };
+  //   const maskEmail = (email) => {
+  //     const [first, domain] = email.split("@"); // Split the email
+  //     const masked = first.charAt(0) + "*".repeat(first.length - 1); // Mask the username
+  //     return `${masked}@${domain}`;
+  //   };
 
   return (
     <div className="overflow-y-auto scrollbar-hidden">
@@ -139,33 +139,33 @@ const Page = () => {
         <div className="bg-white">
           <div className="p-2">
             <div className="grid lg:grid-cols-2 grid-cols-1  gap-5">
-              {
-                eduData.map((el,idx)=>(
-                    <div
-                    key={idx}
-                    className="p-2 md:p-4 shadow-xl md:text-md text-sm bg-[#F6F1DE] gap-3"
-                  >
-                    <div className="grid grid-cols-2 bg-white shadow-md p-2 mb-1">
-                      <div className="font-bold">Name</div>
-                      <div className="text-[13px]">{el.name}</div>
-                    </div>
-                    <div className="grid grid-cols-2 bg-white shadow-md p-2 mb-1">
-                      <div className="font-bold">File</div>
-                      <div className="flex justify-end items-end">
-                        <button className="px-3 py-1 bg-[#22405c] text-white rounded-md">
-                            <Link href={el.url} className="text-[13px]" >
-                                Play
-                            </Link>
-                        </button>
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 bg-white shadow-md p-2 mb-1">
-                      <div className="font-bold">Description</div>
-                      <div className="flex justify-end items-end text-[13px]">{el.description}</div>
+              {eduData.map((el, idx) => (
+                <div
+                  key={idx}
+                  className="p-2 md:p-4 shadow-xl md:text-md text-sm bg-[#F6F1DE] gap-3"
+                >
+                  <div className="grid grid-cols-2 bg-white shadow-md p-2 mb-1">
+                    <div className="font-bold">Name</div>
+                    <div className="text-[13px]">{el.name}</div>
+                  </div>
+                  <div className="grid grid-cols-2 bg-white shadow-md p-2 mb-1">
+                    <div className="font-bold">File</div>
+                    <div className="flex justify-end items-end">
+                      <button className="px-3 py-1 bg-[#22405c] text-white rounded-md">
+                        <Link href={el.url} className="text-[13px]">
+                          Play
+                        </Link>
+                      </button>
                     </div>
                   </div>
-                ))
-              }
+                  <div className="grid grid-cols-2 bg-white shadow-md p-2 mb-1">
+                    <div className="font-bold">Description</div>
+                    <div className="flex justify-end items-end text-[13px]">
+                      {el.description}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

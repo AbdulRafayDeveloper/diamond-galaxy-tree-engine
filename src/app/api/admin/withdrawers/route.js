@@ -42,9 +42,12 @@ export async function GET(req) {
       .limit(size);
 
     const filteredWithdrawals = search
-      ? withdrawals.filter((w) =>
-          w.user_id?.fname?.toLowerCase().includes(search.toLowerCase())
-        )
+      ? withdrawals.filter((w) => {
+          const fname = w.user_id?.fname?.toLowerCase() || "";
+          const email = w.user_id?.email?.toLowerCase() || "";
+          const keyword = search.toLowerCase();
+          return fname.includes(keyword) || email.includes(keyword);
+        })
       : withdrawals;
 
     const totalWithdrawals = await Withdrawers.countDocuments();
@@ -56,7 +59,7 @@ export async function GET(req) {
       pageSize: size,
     });
   } catch (error) {
-    console.error("Error in GET /api/withdrawers:", error);
+    console.log("Error in GET /api/withdrawers:", error);
     return serverErrorResponse("Internal server error.");
   }
 }

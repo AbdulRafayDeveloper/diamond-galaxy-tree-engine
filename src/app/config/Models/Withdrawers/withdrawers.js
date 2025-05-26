@@ -1,3 +1,4 @@
+import { required } from "joi";
 import mongoose from "mongoose";
 
 const withdrawerSchema = new mongoose.Schema(
@@ -8,7 +9,7 @@ const withdrawerSchema = new mongoose.Schema(
     screenshot: { type: String, required: true },
     status: {
       type: String,
-      enum: ["pending", "approved", "rejected"],
+      enum: ["pending", "accepted", "rejected"],
       default: "pending",
     },
     user_id: {
@@ -16,6 +17,7 @@ const withdrawerSchema = new mongoose.Schema(
       ref: "users",
       required: true,
     },
+    postBalance: { type: Number, default: null },
   },
   {
     timestamps: true,

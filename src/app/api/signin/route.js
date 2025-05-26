@@ -62,6 +62,8 @@ export async function POST(req) {
       { expiresIn: "1d" }
     );
 
+    console.log("role: ", existingUser.role);
+
     return NextResponse.json(
       {
         success: true,

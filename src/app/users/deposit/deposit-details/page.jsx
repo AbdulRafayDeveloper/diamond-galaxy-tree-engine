@@ -30,7 +30,7 @@ const Page = () => {
         const parsed = JSON.parse(decodeURIComponent(encoded));
         setFormData(parsed);
       } catch (err) {
-        console.error("Invalid data received", err);
+        console.log("Invalid data received", err);
       }
     }
   }, [searchParams]);
@@ -132,14 +132,18 @@ const Page = () => {
       });
 
       if (res.data.status == 200) {
-        toast.success("Deposit submitted successfully!");
-        router.push("/users/dashboard");
+        toast.success(
+          `Your deposit request of $${formData.Amount} through ${formData.paymentMethod} has been submitted successfully.`
+        );
+        setTimeout(() => {
+          router.push("/users/dashboard");
+        }, 2000);
       } else {
         toast.error(res.data.message || "Submission failed.");
       }
     } catch (error) {
       toast.error("Error submitting deposit.");
-      console.error("Submit error:", error);
+      console.log("Submit error:", error);
     }
   };
 

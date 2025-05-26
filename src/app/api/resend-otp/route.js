@@ -46,7 +46,9 @@ export async function POST(req) {
 
     return successResponse("OTP resent successfully!", otpToken);
   } catch (error) {
-    console.error("OTP error:", error);
-    return serverErrorResponse("Internal server error. Please try again later!");
+    console.log("OTP error:", error);
+    return serverErrorResponse(
+      "Internal server error. Please try again later!"
+    );
   }
 }

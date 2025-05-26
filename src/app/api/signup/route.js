@@ -155,7 +155,7 @@ export async function POST(req) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Signup Error:", error);
+    console.log("Signup Error:", error);
     return NextResponse.json(
       { success: false, error: "Signup failed. Please try again later." },
       { status: 500 }

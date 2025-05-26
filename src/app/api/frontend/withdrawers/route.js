@@ -83,7 +83,7 @@ export async function POST(req) {
       newWithdraw
     );
   } catch (error) {
-    console.error("Error in POST /api/withdrawers:", error);
+    console.log("Error in POST /api/withdrawers:", error);
     return serverErrorResponse("Internal server error.");
   }
 }
@@ -111,7 +111,7 @@ export async function GET(req) {
       withdrawals,
     });
   } catch (error) {
-    console.error("Error in GET /api/withdrawers:", error);
+    console.log("Error in GET /api/withdrawers:", error);
     return serverErrorResponse("Internal server error.");
   }
 }

@@ -42,9 +42,12 @@ export async function GET(req) {
       .limit(size);
 
     const filteredDepositors = search
-      ? depositors.filter((d) =>
-          d.user_id?.fname?.toLowerCase().includes(search.toLowerCase())
-        )
+      ? depositors.filter((d) => {
+          const fname = d.user_id?.fname?.toLowerCase() || "";
+          const email = d.user_id?.email?.toLowerCase() || "";
+          const keyword = search.toLowerCase();
+          return fname.includes(keyword) || email.includes(keyword);
+        })
       : depositors;
 
     const totalDepositors = await Depositors.countDocuments();
@@ -56,7 +59,7 @@ export async function GET(req) {
       pageSize: size,
     });
   } catch (error) {
-    console.error("Error in GET /api/depositors:", error);
+    console.log("Error in GET /api/depositors:", error);
     return serverErrorResponse("Internal server error.");
   }
 }
