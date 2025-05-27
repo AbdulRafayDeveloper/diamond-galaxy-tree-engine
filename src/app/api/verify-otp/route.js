@@ -1,5 +1,5 @@
 import { Users } from "@/app/config/Models/Users/users";
-import sendEmail from "@/app/helper/senEmail";
+import sendEmail from "@/app/helper/sendEmail";
 import jwt from "jsonwebtoken";
 import db from "@/app/config/db";
 import {
