@@ -128,43 +128,43 @@ const Page = () => {
                 <h1 className="text-4xl text-[#22405c] font-bold">Create Packages</h1>
                 <p>Set the price as per your requirement</p>
               </div>
-              <div className="flex justify-center items-center p-4">
-                <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-4">
+              <div className="flex justify-center items-center m-4">
+                <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5">
                   {/* Gold */}
                   <div className="flex flex-col">
-                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[210px] lg:w-[220px] xl:min-w-[320px] h-[400px] rounded-md">
+                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[200px] lg:w-[200px] xl:min-w-[320px] h-[400px] rounded-md">
                     <div>
                       <p className="text-2xl font-bold">Slot 1 </p>
                     </div>
                     <div>
-                        <p className="mb-3">Company Commission</p>
+                        <p className="mb-3 text-sm">Company Commission</p>
                         <input type="number" name="slot3Commission" value={formData.slot3Commission} onChange={handleChange} className=" w-[180px] border border-gray-400 outline-none rounded-md" />
                       </div>
                       <div>
-                        <p>Price</p>
+                        <p className="text-sm">Price</p>
                         <input type="number" placeholder="$" name="slot3Price" value={formData.slot3Price} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md"  />
                       </div>
                       <div>
-                        <button className="p-2  min-w-[200px] bg-[#22405c] text-white rounded-md">Submit</button>
+                        <button className="p-2  min-w-[190px] bg-[#22405c] text-white rounded-md">Submit</button>
                       </div>
                     </div>
                   </div>
                   {/* Diamond */}
                   <div className="flex flex-col">
-                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[210px] lg:w-[220px] xl:min-w-[320px] h-[400px]">
+                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[200px] lg:w-[200px] xl:min-w-[320px] h-[400px]">
                     <div>
                       <p className="text-2xl font-bold">Slot 2</p>
                     </div>
                       <div>
-                        <p className="mb-3">Company Commission</p>
+                        <p className="mb-3 text-sm">Company Commission</p>
                         <input type="number" name="slot1Commission" value={formData.slot1Commission} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md" />
                       </div>
                       <div>
-                        <p>Price</p>
+                        <p className="text-sm">Price</p>
                         <input type="number" placeholder="$" name="slot1Price" value={formData.slot1Price} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md"  />
                       </div>
                       <div>
-                        <button className="p-2  min-w-[200px] bg-[#22405c] text-white rounded-md">Submit</button>
+                        <button className="p-2  min-w-[190px] bg-[#22405c] text-white rounded-md">Submit</button>
                       </div>
                       
                     </div>
@@ -172,173 +172,173 @@ const Page = () => {
                   {/* Silver */}
                   <div className="flex flex-col">
                     
-                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[210px] lg:w-[220px] xl:min-w-[320px] h-[400px]">
+                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[200px] lg:w-[200px] xl:min-w-[320px] h-[400px]">
                       <div>
                         <p className="text-2xl font-bold">Slot 3</p>
                       </div>
                       <div>
-                        <p className="mb-3">Company Commission</p>
+                        <p className="mb-3 text-sm">Company Commission</p>
                         <input type="number" name="slot2Commission" value={formData.slot2Commission} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md" />
                       </div>
                       <div>
-                        <p>Price</p>
+                        <p className="text-sm">Price</p>
                         <input type="number" placeholder="$" name="slot2Price" value={formData.slot2Price} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md"  />
                       </div>
                       <div>
-                        <button className="p-2  min-w-[200px] bg-[#22405c] text-white rounded-md">Submit</button>
+                        <button className="p-2  min-w-[190px] bg-[#22405c] text-white rounded-md">Submit</button>
                       </div>
                     </div>
                   </div>
                   {/* Star */}
                   <div className="flex flex-col">
-                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[210px] lg:w-[220px] xl:min-w-[320px] h-[400px]">
+                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[200px] lg:w-[200px] xl:min-w-[320px] h-[400px]">
                     <div>
                       <p className="text-2xl font-bold">Slot 4</p>
                     </div>
                       <div>
-                        <p className="mb-3">Company Commission</p>
+                        <p className="mb-3 text-sm">Company Commission</p>
                         <input type="number" name="slot4Commision" value={formData.slot4Commision} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md" />
                       </div>
                       <div>
-                        <p>Price</p>
+                        <p className="text-sm">Price</p>
                         <input type="number" placeholder="$" name="slot4Price" value={formData.slot4Price} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md"  />
                       </div>
                       <div>
-                        <button className="p-2  min-w-[200px] bg-[#22405c] text-white rounded-md">Submit</button>
+                        <button className="p-2  min-w-[190px] bg-[#22405c] text-white rounded-md">Submit</button>
                       </div>
                       
                     </div>
                   </div>
                   {/* Royal */}
                   <div className="flex flex-col">
-                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[210px] lg:w-[220px] xl:min-w-[320px] h-[400px]">
+                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[200px] lg:w-[200px] xl:min-w-[320px] h-[400px]">
                     <div>
                       <p className="text-2xl font-bold">Slot 5</p>
                     </div>
                       <div>
-                        <p className="mb-3">Company Commission</p>
+                        <p className="mb-3 text-sm">Company Commission</p>
                         <input type="number" name="slot5Commission" value={formData.slot5Commission} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md" />
                       </div>
                       <div>
-                        <p>Price</p>
+                        <p className="text-sm">Price</p>
                         <input type="number" placeholder="$" name="slot5Price" value={formData.slot5Price} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md"  />
                       </div>
                       <div>
-                        <button className="p-2 min-w-[200px] bg-[#22405c] text-white rounded-md">Submit</button>
+                        <button className="p-2 min-w-[190px] bg-[#22405c] text-white rounded-md">Submit</button>
                       </div>
                     </div>
                   </div>
                   {/*  */}
                   <div className="flex flex-col">
-                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[210px] lg:w-[220px] xl:min-w-[320px] h-[400px]">
+                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[200px] lg:w-[200px] xl:min-w-[320px] h-[400px]">
                     <div>
                       <p className="text-2xl font-bold">Slot 6</p>
                     </div>
                       <div>
-                        <p className="mb-3">Company Commission</p>
+                        <p className="mb-3 text-sm">Company Commission</p>
                         <input type="number" name="slot6Commission" value={formData.slot6Commission} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md" />
                       </div>
                       <div>
-                        <p>Price</p>
+                        <p className="text-sm">Price</p>
                         <input type="number" placeholder="$" name="slot6Price" value={formData.slot6Price} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md"  />
                       </div>
                       <div>
-                        <button className="p-2 min-w-[200px] bg-[#22405c] text-white rounded-md">Submit</button>
+                        <button className="p-2 min-w-[190px] bg-[#22405c] text-white rounded-md">Submit</button>
                       </div>
                     </div>
                   </div>
                   {/*  */}
                   <div className="flex flex-col">
-                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[210px] lg:w-[220px] xl:min-w-[320px] h-[400px]">
+                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[200px] lg:w-[200px] xl:min-w-[320px] h-[400px]">
                     <div>
                       <p className="text-2xl font-bold">Slot 7</p>
                     </div>
                       <div>
-                        <p className="mb-3">Company Commission</p>
+                        <p className="mb-3 text-sm">Company Commission</p>
                         <input type="number" name="slot7Commission" value={formData.slot7Commission} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md" />
                       </div>
                       <div>
-                        <p>Price</p>
+                        <p className="text-sm">Price</p>
                         <input type="number" placeholder="$" name="slot7Price" value={formData.slot7Price} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md"  />
                       </div>
                       <div>
-                        <button className="p-2 min-w-[200px] bg-[#22405c] text-white rounded-md">Submit</button>
+                        <button className="p-2 min-w-[190px] bg-[#22405c] text-white rounded-md">Submit</button>
                       </div>
                     </div>
                   </div>
                   {/*  */}
                   <div className="flex flex-col">
-                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[210px] lg:w-[220px] xl:min-w-[320px] h-[400px]">
+                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[200px] lg:w-[200px] xl:min-w-[320px] h-[400px]">
                     <div>
                       <p className="text-2xl font-bold">Slot 8</p>
                     </div>
                       <div>
-                        <p className="mb-3">Company Commission</p>
+                        <p className="mb-3 text-sm">Company Commission</p>
                         <input type="number" name="slot8Commission" value={formData.slot8Commission} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md" />
                       </div>
                       <div>
-                        <p>Price</p>
+                        <p className="text-sm">Price</p>
                         <input type="number" placeholder="$" name="slot8Price" value={formData.slot8Price} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md"  />
                       </div>
                       <div>
-                        <button className="p-2 min-w-[200px] bg-[#22405c] text-white rounded-md">Submit</button>
+                        <button className="p-2 min-w-[190px] bg-[#22405c] text-white rounded-md">Submit</button>
                       </div>
                     </div>
                   </div>
                   {/*  */}
                   <div className="flex flex-col">
-                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[210px] lg:w-[220px] xl:min-w-[320px] h-[400px]">
+                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[200px] lg:w-[200px] xl:min-w-[320px] h-[400px]">
                     <div>
                       <p className="text-2xl font-bold">Slot 9</p>
                     </div>
                       <div>
-                        <p className="mb-3">Company Commission</p>
+                        <p className="mb-3 text-sm">Company Commission</p>
                         <input type="number" name="slot9Commission" value={formData.slot9Commission} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md" />
                       </div>
                       <div>
-                        <p>Price</p>
+                        <p className="text-sm">Price</p>
                         <input type="number" placeholder="$" name="slot9Price" value={formData.slot9Price} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md"  />
                       </div>
                       <div>
-                        <button className="p-2 min-w-[200px] bg-[#22405c] text-white rounded-md">Submit</button>
+                        <button className="p-2 min-w-[190px] bg-[#22405c] text-white rounded-md">Submit</button>
                       </div>
                     </div>
                   </div>
                   {/*  */}
                   <div className="flex flex-col">
-                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[210px] lg:w-[220px] xl:min-w-[320px] h-[400px]">
+                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[200px] lg:w-[200px] xl:min-w-[320px] h-[400px]">
                     <div>
                       <p className="text-2xl font-bold">Slot 10</p>
                     </div>
                       <div>
-                        <p className="mb-3">Company Commission</p>
+                        <p className="mb-3 text-sm">Company Commission</p>
                         <input type="number" name="slot10Commission" value={formData.slot10Commission} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md" />
                       </div>
                       <div>
-                        <p>Price</p>
+                        <p className="text-sm">Price</p>
                         <input type="number" placeholder="$" name="slot10Price" value={formData.slot10Price} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md"  />
                       </div>
                       <div>
-                        <button className="p-2 min-w-[200px] bg-[#22405c] text-white rounded-md">Submit</button>
+                        <button className="p-2 min-w-[190px] bg-[#22405c] text-white rounded-md">Submit</button>
                       </div>
                     </div>
                   </div>
                   {/*  */}
                   <div className="flex flex-col">
-                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[210px] lg:w-[220px] xl:min-w-[320px] h-[400px]">
+                    <div className="bg-white mt-3 flex flex-col p-2 justify-center items-center text-center gap-7 w-[250px] md:w-[200px] lg:w-[200px] xl:min-w-[320px] h-[400px]">
                     <div>
                       <p className="text-2xl font-bold">Slot 11</p>
                     </div>
                       <div>
-                        <p className="mb-3">Company Commission</p>
+                        <p className="mb-3 text-sm">Company Commission</p>
                         <input type="number" name="slot11Commission" value={formData.slot11Commission} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md" />
                       </div>
                       <div>
-                        <p>Price</p>
+                        <p className="text-sm">Price</p>
                         <input type="number" placeholder="$" name="slot11Price" value={formData.slot11Price} onChange={handleChange} className="w-[180px] border border-gray-400 outline-none rounded-md"  />
                       </div>
                       <div>
-                        <button className="p-2 min-w-[200px] bg-[#22405c] text-white rounded-md">Submit</button>
+                        <button className="p-2 min-w-[190px] bg-[#22405c] text-white rounded-md">Submit</button>
                       </div>
                     </div>
                   </div>

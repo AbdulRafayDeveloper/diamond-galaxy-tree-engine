@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Wheel } from 'react-custom-roulette';
 
 const users = [
   { name: 'Alice', email: 'alice@example.com', isRegistered: true, isActivated: true, balance: 1500, slot: 'Slot1' },
@@ -11,23 +10,26 @@ const users = [
 ];
 
 const Spinner = () => {
-  const [mustSpin, setMustSpin] = useState(false);
-  const [prizeNumber, setPrizeNumber] = useState(0);
-  const [showModal, setShowModal] = useState(false); // Modal for winner details
-  const [winnerDetails, setWinnerDetails] = useState(null); // Store winner's details
-  const [isOpen, setIsOpen] = useState(false); // Modal for deposit
-  const [amount, setAmount] = useState(""); // Deposit amount
+  const [angle, setAngle] = useState(0);
+  const [winnerDetails, setWinnerDetails] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [amount, setAmount] = useState("");
 
   const handleSpinClick = () => {
-    const newPrizeNumber = Math.floor(Math.random() * users.length);
-    setPrizeNumber(newPrizeNumber);
-    setMustSpin(true);
+    const selected = Math.floor(Math.random() * users.length);
+    const rotate = 360 * 5 + selected * (360 / users.length); // rotate multiple rounds + target
+    setAngle(rotate);
+    setTimeout(() => {
+      setWinnerDetails(users[selected]);
+      setShowModal(true);
+    }, 3000); // match with animation duration
   };
 
   const closeModal = () => setShowModal(false);
   const closeModalAmount = () => {
     setIsOpen(false);
-    setAmount(""); // Reset field on close
+    setAmount("");
   };
 
   const handleSubmit = () => {
@@ -37,30 +39,36 @@ const Spinner = () => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-4 mt-10">
-      <Wheel
-        mustStartSpinning={mustSpin}
-        prizeNumber={prizeNumber}
-        data={users.map((user) => ({ option: user.name }))}
-        backgroundColors={['#22405c', '#F6F1DE']}
-        textColors={['#ffffff', '#000000']} // White on dark, Black on light
-        onStopSpinning={() => {
-          setMustSpin(false);
-          setWinnerDetails(users[prizeNumber]);
-          setShowModal(true); // Show modal when spin stops
-        }}
-      />
+    <div className="flex flex-col items-center mt-10 gap-6">
+      <div className="relative w-64 h-64 rounded-full border-4 border-[#22405c] flex items-center justify-center">
+        <div
+          className="absolute w-full h-full transition-transform duration-[3s] ease-out"
+          style={{ transform: `rotate(${angle}deg)` }}
+        >
+          {users.map((user, index) => (
+            <div
+              key={user.name}
+              className="absolute left-1/2 top-1/2 origin-top rotate-[0deg] text-xs font-semibold"
+              style={{
+                transform: `rotate(${(360 / users.length) * index}deg) translateY(-120px)`,
+              }}
+            >
+              {user.name}
+            </div>
+          ))}
+        </div>
+        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1 w-4 h-4 bg-red-500 rounded-full z-10"></div>
+      </div>
 
       <button
         onClick={handleSpinClick}
-        className="bg-[#22405c] text-white px-4 py-2 rounded mt-4"
+        className="bg-[#22405c] text-white px-6 py-2 rounded"
       >
         Spin
       </button>
 
-      {/* Winner Details Modal */}
       {showModal && winnerDetails && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-80 shadow-lg">
             <h2 className="text-xl font-semibold mb-4">Winner Details</h2>
             <div className="space-y-2">
@@ -72,7 +80,7 @@ const Spinner = () => {
               <p><strong>Slot:</strong> {winnerDetails.slot}</p>
               <button
                 className="bg-[#22405c] text-white px-4 py-2 rounded mt-4"
-                onClick={() => setIsOpen(true)} // Open deposit modal
+                onClick={() => setIsOpen(true)}
               >
                 Add Deposit
               </button>
@@ -87,7 +95,6 @@ const Spinner = () => {
         </div>
       )}
 
-      {/* Deposit Amount Modal */}
       {isOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-20 z-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-80">
@@ -107,7 +114,7 @@ const Spinner = () => {
                 Cancel
               </button>
               <button
-                className="bg-[#22405c] text-white px-4 py-2 rounded "
+                className="bg-[#22405c] text-white px-4 py-2 rounded"
                 onClick={handleSubmit}
               >
                 Submit
