@@ -9,7 +9,6 @@ const commissionSchema = new mongoose.Schema(
     },
     request_id: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
     },
     amount: {
       type: Number,
@@ -25,7 +24,7 @@ const commissionSchema = new mongoose.Schema(
     },
     source: {
       type: String,
-      enum: ["deposit", "withdraw"],
+      enum: ["deposit", "withdraw", "registration"],
     },
   },
   { timestamps: true }

@@ -6,6 +6,8 @@ import { useState, useRef, useEffect, use } from "react";
 import Link from "next/link";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -46,6 +48,26 @@ const Page = () => {
     };
     data();
   }, []);
+
+  const handleRegister = async () => {
+    try {
+      const res = await axios.get("/api/registration", {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      });
+
+      if (res.data?.status === 200) {
+        toast.success(res.data.message || "Registered successfully!");
+      } else {
+        toast.error(res.data.message || "Something went wrong.");
+      }
+    } catch (e) {
+      toast.error(
+        e?.response?.data?.message || "Failed to register. Please try again."
+      );
+    }
+  };
 
   return (
     <div className="overflow-y-auto scrollbar-hidden">
@@ -121,7 +143,8 @@ const Page = () => {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 320 512"
-                  className="size-5"
+                  cl
+                  assName="size-5"
                   fill="black"
                   stroke="currentColor"
                 >
@@ -129,7 +152,10 @@ const Page = () => {
                 </svg>
               </div>
               <div>
-                <button className="p-1 text-white bg-[#22405c] rounded-lg w-[300px]">
+                <button
+                  className="p-1 text-white bg-[#22405c] rounded-lg w-[300px]"
+                  onClick={handleRegister}
+                >
                   Register
                 </button>
               </div>
@@ -137,6 +163,7 @@ const Page = () => {
           </div>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };
