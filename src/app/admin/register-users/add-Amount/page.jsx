@@ -158,7 +158,7 @@ const Page = () => {
                 <input
                   type="number"
                   name="price"
-                  value={formData.price}
+                  value={formData?.price || "0"}
                   id=""
                   placeholder="Enter the price"
                   className="min-w-[250px] p-1 outline-none rounded-md"
@@ -170,7 +170,7 @@ const Page = () => {
                 <input
                   type="number"
                   name="commission"
-                  value={formData.commission}
+                  value={formData?.commission || "0"}
                   id=""
                   placeholder="Enter the Commission price"
                   className="min-w-[250px] p-1 outline-none rounded-md"

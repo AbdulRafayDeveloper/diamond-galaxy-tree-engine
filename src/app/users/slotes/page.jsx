@@ -4,6 +4,8 @@ import Header from "../components/header/page";
 import SideBar from "../components/sidebar/SideBar";
 import { useState, useRef, useEffect, use } from "react";
 import Link from "next/link";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -33,69 +35,92 @@ const Page = () => {
     };
   }, []);
 
-    //   Slotes Data
-  const slotesdata=[
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get("/api/slot-commissions", {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        });
+        const slots = res.data?.data?.commissions?.slots || [];
+        console.log(res);
+
+        const newFormData = {};
+        slots.forEach((slot, index) => {
+          const idx = index + 1;
+          newFormData[`slot${idx}Price`] = slot.price;
+          newFormData[`slot${idx}Commission`] = slot.commission;
+        });
+      } catch (error) {
+        console.error("Error fetching slot commissions:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const slotesdata = [
     {
-        id:1,
-        name:"1st Slot's",
-        price:"7.5 $",
+      id: 1,
+      name: "1st Slot's",
+      price: "7.5 $",
     },
     {
-        id:2,
-        name:"2st Slot's",
-        price:"10.5 $",
+      id: 2,
+      name: "2st Slot's",
+      price: "10.5 $",
     },
     {
-        id:3,
-        name:"3rd Slot's",
-        price:"16 $",
+      id: 3,
+      name: "3rd Slot's",
+      price: "16 $",
     },
     {
-        id:4,
-        name:"4th Slot's",
-        price:"20 $",
+      id: 4,
+      name: "4th Slot's",
+      price: "20 $",
     },
     {
-        id:5,
-        name:"5th Slot's",
-        price:"40 $",
+      id: 5,
+      name: "5th Slot's",
+      price: "40 $",
     },
     {
-        id:6,
-        name:"6th Slot's",
-        price:"50 $",
+      id: 6,
+      name: "6th Slot's",
+      price: "50 $",
     },
     {
-        id:7,
-        name:"7th Slot's",
-        price:"80 $",
+      id: 7,
+      name: "7th Slot's",
+      price: "80 $",
     },
     {
-        id:8,
-        name:"8th Slot's",
-        price:"100 $",
+      id: 8,
+      name: "8th Slot's",
+      price: "100 $",
     },
     {
-        id:9,
-        name:"9th Slot's",
-        price:"200 $",
+      id: 9,
+      name: "9th Slot's",
+      price: "200 $",
     },
     {
-        id:10,
-        name:"10th Slot's",
-        price:"400 $",
+      id: 10,
+      name: "10th Slot's",
+      price: "400 $",
     },
     {
-        id:11,
-        name:"11th Slot's",
-        price:"800 $",
+      id: 11,
+      name: "11th Slot's",
+      price: "800 $",
     },
     {
-        id:12,
-        name:"12th Slot's",
-        price:"1000 $",
+      id: 12,
+      name: "12th Slot's",
+      price: "1000 $",
     },
-  ]
+  ];
 
   return (
     <div className="overflow-y-auto scrollbar-hidden">
@@ -148,46 +173,48 @@ const Page = () => {
       </div>
       {/* body part */}
       <div className="md:ml-64">
-      <div className="flex flex-wrap justify-center items-center p-2">
-  {slotesdata.map((el, idx) => (
-    <div
-      key={idx}
-      className="p-3 w-[310px] h-[240px] bg-[#F6F1DE] rounded-md shadow-md m-2"
-    >
-      <div className="flex flex-col justify-center items-center gap-5 p-8">
-        <div className="flex flex-col items-center border-b border-gray-400 gap-3">
-          <h1 className="text-xl">{el.name}</h1>
-          <p className="text-lg">{el.price}</p>
+        <div className="flex flex-wrap justify-center items-center p-2">
+          {slotesdata.map((el, idx) => (
+            <div
+              key={idx}
+              className="p-3 w-[310px] h-[240px] bg-[#F6F1DE] rounded-md shadow-md m-2"
+            >
+              <div className="flex flex-col justify-center items-center gap-5 p-8">
+                <div className="flex flex-col items-center border-b border-gray-400 gap-3">
+                  <h1 className="text-xl">{el.name}</h1>
+                  <p className="text-lg">{el.price}</p>
+                </div>
+                <div className="flex flex-row gap-4">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512"
+                    fill="#5CB338"
+                    stroke="bg-green-600"
+                    className="size-5"
+                  >
+                    <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                  </svg>
+                  <p className="text-[12px] md:text-md">
+                    Tree Commission : $ 0.00
+                  </p>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 320 512"
+                    className="size-5"
+                    fill="black"
+                  >
+                    <path d="M80 160c0-35.3 28.7-64 64-64l32 0c35.3 0 64 28.7 64 64l0 3.6c0 21.8-11.1 42.1-29.4 53.8l-42.2 27.1c-25.2 16.2-40.4 44.1-40.4 74l0 1.4c0 17.7 14.3 32 32 32s32-14.3 32-32l0-1.4c0-8.2 4.2-15.8 11-20.2l42.2-27.1c36.6-23.6 58.8-64.1 58.8-107.7l0-3.6c0-70.7-57.3-128-128-128l-32 0C73.3 32 16 89.3 16 160c0 17.7 14.3 32 32 32s32-14.3 32-32zm80 320a40 40 0 1 0 0-80 40 40 0 1 0 0 80z" />
+                  </svg>
+                </div>
+                <div>
+                  <button className="p-1 text-white bg-[#22405c] rounded-lg w-[300px]">
+                    Activate
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
-        <div className="flex flex-row gap-4">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 512 512"
-            fill="#5CB338"
-            stroke="bg-green-600"
-            className="size-5"
-          >
-            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-          </svg>
-          <p className="text-[12px] md:text-md">Tree Commission : $ 0.00</p>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 320 512"
-            className="size-5"
-            fill="black"
-          >
-            <path d="M80 160c0-35.3 28.7-64 64-64l32 0c35.3 0 64 28.7 64 64l0 3.6c0 21.8-11.1 42.1-29.4 53.8l-42.2 27.1c-25.2 16.2-40.4 44.1-40.4 74l0 1.4c0 17.7 14.3 32 32 32s32-14.3 32-32l0-1.4c0-8.2 4.2-15.8 11-20.2l42.2-27.1c36.6-23.6 58.8-64.1 58.8-107.7l0-3.6c0-70.7-57.3-128-128-128l-32 0C73.3 32 16 89.3 16 160c0 17.7 14.3 32 32 32s32-14.3 32-32zm80 320a40 40 0 1 0 0-80 40 40 0 1 0 0 80z" />
-          </svg>
-        </div>
-        <div>
-          <button className="p-1 text-white bg-[#22405c] rounded-lg w-[300px]">
-            Activate
-          </button>
-        </div>
-      </div>
-    </div>
-  ))}
-</div>
       </div>
     </div>
   );

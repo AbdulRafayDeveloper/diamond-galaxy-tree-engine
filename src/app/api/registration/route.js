@@ -82,7 +82,6 @@ export async function GET(req) {
     if (ref1) {
       ref1.accountBalance += lvl1Amount;
       await ref1.save();
-
       await Transaction.create({
         userId: ref1._id,
         senderId: freshUser._id,
@@ -90,14 +89,9 @@ export async function GET(req) {
         amount: lvl1Amount,
         description: "Level 1 registration commission",
       });
-    } else {
-      baseCommission.amount += lvl1Amount;
-    }
 
-    if (ref2) {
       ref2.accountBalance += lvl2Amount;
       await ref2.save();
-
       await Transaction.create({
         userId: ref2._id,
         senderId: freshUser._id,
@@ -105,8 +99,20 @@ export async function GET(req) {
         amount: lvl2Amount,
         description: "Level 2 registration commission",
       });
-    } else {
+    } else if (ref2) {
+      ref2.accountBalance += lvl1Amount;
+      await ref2.save();
+      await Transaction.create({
+        userId: ref2._id,
+        senderId: freshUser._id,
+        type: "commission",
+        amount: lvl1Amount,
+        description: "Level 1 registration commission",
+      });
+
       baseCommission.amount += lvl2Amount;
+    } else {
+      baseCommission.amount += lvl1Amount + lvl2Amount;
     }
 
     baseCommission.amount += companyExtraAmount;
