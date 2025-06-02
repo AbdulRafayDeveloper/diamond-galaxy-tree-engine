@@ -6,6 +6,9 @@ import { useState, useRef, useEffect, use } from "react";
 import Link from "next/link";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -35,6 +38,9 @@ const Page = () => {
     };
   }, []);
 
+  const [formData, setFormData] = useState({});
+  const [userSlots, setUserSlots] = useState(null);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -43,8 +49,10 @@ const Page = () => {
             Authorization: `Bearer ${Cookies.get("token")}`,
           },
         });
-        const slots = res.data?.data?.commissions?.slots || [];
+
         console.log(res);
+        const slots = res.data?.data?.commissions?.slots || [];
+        const slotsStatus = res.data?.data?.userSlots || null;
 
         const newFormData = {};
         slots.forEach((slot, index) => {
@@ -52,12 +60,50 @@ const Page = () => {
           newFormData[`slot${idx}Price`] = slot.price;
           newFormData[`slot${idx}Commission`] = slot.commission;
         });
+
+        setFormData(newFormData);
+        setUserSlots(slotsStatus);
       } catch (error) {
         console.error("Error fetching slot commissions:", error);
       }
     };
     fetchData();
   }, []);
+
+  const handleSlotActivation = async (slotNumber) => {
+    const confirmResult = await Swal.fire({
+      title: `Activate Slot ${slotNumber}?`,
+      text: "Are you sure you want to activate this slot?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#22405c",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, activate it!",
+    });
+
+    if (confirmResult.isConfirmed) {
+      try {
+        const res = await axios.get(
+          "/api/slot",
+
+          {
+            headers: {
+              Authorization: `Bearer ${Cookies.get("token")}`,
+            },
+          }
+        );
+
+        if (res.data.status === 200) {
+          toast.success(`Slot ${slotNumber} activated successfully!`);
+          window.location.reload(); // Reload to reflect changes
+        } else {
+          toast.error(res.data.message || "Activation failed.");
+        }
+      } catch (err) {
+        toast.error(err.response?.data?.message || "Something went wrong!");
+      }
+    }
+  };
 
   const slotesdata = [
     {
@@ -182,7 +228,9 @@ const Page = () => {
               <div className="flex flex-col justify-center items-center gap-5 p-8">
                 <div className="flex flex-col items-center border-b border-gray-400 gap-3">
                   <h1 className="text-xl">{el.name}</h1>
-                  <p className="text-lg">{el.price}</p>
+                  <p className="text-lg">
+                    ${formData[`slot${idx + 1}Price`] ?? "N/A"}
+                  </p>
                 </div>
                 <div className="flex flex-row gap-4">
                   <svg
@@ -195,7 +243,8 @@ const Page = () => {
                     <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
                   </svg>
                   <p className="text-[12px] md:text-md">
-                    Tree Commission : $ 0.00
+                    Tree Commission : $
+                    {formData[`slot${idx + 1}Commission`] ?? "N/A"}
                   </p>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -207,8 +256,18 @@ const Page = () => {
                   </svg>
                 </div>
                 <div>
-                  <button className="p-1 text-white bg-[#22405c] rounded-lg w-[300px]">
-                    Activate
+                  <button
+                    disabled={idx + 1 !== userSlots?.active_slot}
+                    onClick={() => handleSlotActivation(idx + 1)}
+                    className={`p-1 text-white rounded-lg w-[300px] ${
+                      idx + 1 === userSlots?.active_slot
+                        ? "bg-[#22405c]"
+                        : "bg-gray-400 cursor-not-allowed"
+                    }`}
+                  >
+                    {idx + 1 < userSlots?.active_slot
+                      ? "Activated"
+                      : "Activate"}
                   </button>
                 </div>
               </div>

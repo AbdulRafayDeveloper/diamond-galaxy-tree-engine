@@ -24,7 +24,13 @@ const commissionSchema = new mongoose.Schema(
     },
     source: {
       type: String,
-      enum: ["deposit", "withdraw", "registration", "activation"],
+      enum: [
+        "deposit",
+        "withdraw",
+        "registration",
+        "activation",
+        "slot-activation",
+      ],
     },
   },
   { timestamps: true }

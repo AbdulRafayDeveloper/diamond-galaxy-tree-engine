@@ -12,7 +12,7 @@ import {
   conflictResponse,
   notFoundResponse,
 } from "@/app/helper/apiResponseHelpers";
-const commission = process.env.COMMISSION;
+const commission = process.env.WITHDRAW_COMPANY_COMMISSION;
 
 export async function PUT(req, { params }) {
   try {
@@ -54,7 +54,7 @@ export async function PUT(req, { params }) {
     }
 
     if (status === "accepted") {
-      const commissionRate = commission;
+      const commissionRate = parseFloat(commission) / 100;
       const commissionAmount = parseFloat(
         (withdrawal.amount * commissionRate).toFixed(2)
       );

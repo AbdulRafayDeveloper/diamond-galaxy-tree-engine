@@ -22,6 +22,7 @@ const Page = () => {
 
   const searchParams = useSearchParams();
   const [formData, setFormData] = useState(null);
+  const [newValue, setNewValue] = useState(0);
 
   useEffect(() => {
     const encoded = searchParams.get("data");
@@ -29,6 +30,13 @@ const Page = () => {
       try {
         const parsed = JSON.parse(decodeURIComponent(encoded));
         setFormData(parsed);
+        const amount = parseFloat(parsed.Amount || 0);
+        const commissionRate = parseFloat(
+          process.env.NEXT_PUBLIC_DEPOSIT_COMPANY_COMMISSION || "0"
+        );
+        const commission = (amount * commissionRate) / 100;
+        const total = amount + commission;
+        setNewValue(total);
       } catch (err) {
         console.log("Invalid data received", err);
       }
@@ -46,6 +54,7 @@ const Page = () => {
     }
   };
   const [imagePreview, setImagePreview] = useState(null);
+  console.log(formData);
 
   /* const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -208,7 +217,14 @@ const Page = () => {
               </div>
               <div className="mt-5 w-[220px] flex justify-center text-center items-center">
                 <p className="text-[10px] sm:text-[12px] md:text-md lg:text-lg">
-                  Please send exactly {amount} USDT to{" "}
+                  Please send exactly ${parseFloat(newValue).toFixed(2)} dollar
+                  USDT to deposit {parseFloat(formData?.Amount || 0).toFixed(2)}{" "}
+                  $ in your account.
+                  {parseFloat(
+                    process.env.NEXT_PUBLIC_DEPOSIT_COMPANY_COMMISSION || "0"
+                  )}
+                  % is company commission
+                  <br />
                   <Link
                     href="0x94c7eDf20A6B16B0F8870DFc4DCe9730F5A8C9bf"
                     className="text-blue-600"

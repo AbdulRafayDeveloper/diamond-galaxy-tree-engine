@@ -12,7 +12,7 @@ import {
   conflictResponse,
   notFoundResponse,
 } from "@/app/helper/apiResponseHelpers";
-const commission = process.env.COMMISSION;
+const commission = process.env.DEPOSIT_COMPANY_COMMISSION;
 
 export async function PUT(req, { params }) {
   try {
@@ -54,9 +54,8 @@ export async function PUT(req, { params }) {
     }
 
     if (status === "accepted") {
-      const currentBalance = user.accountBalance;
-
-      const commissionRate = commission;
+      const commissionPercent = parseFloat(commission); // From env, e.g., 10
+      const commissionRate = commissionPercent / 100; // 0.10
       const commissionAmount = parseFloat(
         (deposit.amount * commissionRate).toFixed(2)
       );
@@ -64,6 +63,7 @@ export async function PUT(req, { params }) {
         (deposit.amount - commissionAmount).toFixed(2)
       );
 
+      // Save commission entry
       await Commissions.create({
         user_id: user._id,
         request_id: deposit._id,
@@ -95,8 +95,11 @@ export async function PUT(req, { params }) {
         }</strong>.</p>
         ${
           status === "accepted"
-            ? `<p><strong>1%</strong> commission was deducted. <strong>$${(
-                deposit.amount * 0.99
+            ? `<p><strong>${parseFloat(
+                commission
+              )}%</strong> commission was deducted. <strong>$${(
+                deposit.amount -
+                (deposit.amount * parseFloat(commission)) / 100
               ).toFixed(2)}</strong> has been credited to your account.</p>`
             : ""
         }

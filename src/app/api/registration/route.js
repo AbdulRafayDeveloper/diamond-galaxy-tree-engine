@@ -57,12 +57,14 @@ export async function GET(req) {
 
     const levelSettings = await RegistrationLevel.findOne();
     const level1Percent =
-      levelSettings?.level1 || parseFloat(process.env.LEVEL_ONE || "60");
+      levelSettings?.level1 ||
+      parseFloat(process.env.REGISTRATION_LEVEL_ONE || "60");
     const level2Percent =
-      levelSettings?.level2 || parseFloat(process.env.LEVEL_TWO || "30");
+      levelSettings?.level2 ||
+      parseFloat(process.env.REGISTRATION_LEVEL_TWO || "30");
     const companyPercent2 =
       levelSettings?.companyPercentage ||
-      parseFloat(process.env.COMPANY_COMMISSION || "10");
+      parseFloat(process.env.REGISTRATION_COMPANY_COMMISSION || "10");
 
     const lvl1Amount = (level1Percent / 100) * distributable;
     const lvl2Amount = (level2Percent / 100) * distributable;
