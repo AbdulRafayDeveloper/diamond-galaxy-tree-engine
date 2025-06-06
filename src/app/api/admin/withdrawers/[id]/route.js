@@ -102,10 +102,12 @@ export async function PUT(req, { params }) {
         }</strong>.</p>
         ${
           status === "accepted"
-            ? `<p>A <strong>1%</strong> fee has been applied. <strong>$${(
-                withdrawal.amount +
-                withdrawal.amount * 0.01
-              ).toFixed(2)}</strong> was deducted in total.</p>`
+            ? `<p><strong>${parseFloat(
+                commission
+              )}%</strong> commission was deducted. <strong>$${(
+                withdrawal.amount -
+                (withdrawal.amount * parseFloat(commission)) / 100
+              ).toFixed(2)}</strong> has been credited to your account.</p>`
             : ""
         }
         <p>Thank you,<br/>Diamond Galaxy Team</p>

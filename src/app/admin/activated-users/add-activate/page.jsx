@@ -63,6 +63,13 @@ const Page = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const commission = Number(formData.commission);
+
+    if (commission < 0 || commission > 100) {
+      toast.error("Commission must be between 0% and 100%");
+      return;
+    }
+
     try {
       const token = Cookies.get("token");
 
@@ -166,7 +173,7 @@ const Page = () => {
                 />
               </div>
               <div className="flex flex-col gap-1">
-                <label htmlFor="">Company Commission:</label>
+                <label htmlFor="">Company Commission %:</label>
                 <input
                   type="number"
                   name="commission"

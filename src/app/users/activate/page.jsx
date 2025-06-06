@@ -70,6 +70,9 @@ const Page = () => {
 
       if (res.data?.status === 200) {
         toast.success(res.data.message || "Activated successfully!");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
       } else {
         toast.error(res.data.message || "Something went wrong.");
       }

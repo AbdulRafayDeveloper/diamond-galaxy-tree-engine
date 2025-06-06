@@ -128,6 +128,9 @@ export async function GET(req) {
     baseCommission.amount += companyExtraAmount;
     await baseCommission.save();
 
+    freshUser.is_activated = true;
+    await freshUser.save();
+
     return successResponse("Commission distributed successfully.", {
       deductedFrom: freshUser._id,
       total: price,

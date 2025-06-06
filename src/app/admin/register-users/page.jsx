@@ -3,15 +3,23 @@
 import { useState, useEffect, useRef } from "react";
 import Header from "@/app/admin/components/header/Header";
 import SideBar from "@/app/admin/components/sidebar/SideBar";
-import Table from "@/app/admin/components/registeruserTable/registerUserTable";
 import Pagination from "../components/pagination/Pagination";
 import Link from "next/link";
+import Cookies from "js-cookie";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
   const buttonRef = useRef(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [users, setUsers] = useState([]);
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize] = useState(10);
+  const [loading, setLoading] = useState(true);
+
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -27,41 +35,94 @@ const Page = () => {
     }
   };
 
-  const products = [
-    {
-      username: "Ali",
-      email: "abcd1234@gmail.com",
-    },
-    {
-      username: "Rafy",
-      email: "abcd1234@gmail.com",
-    },
-    {
-      username: "Abbas",
-      email: "abcd1234@gmail.com",
-    },
-    {
-      username: "Qasim",
-      email: "abcd1234@gmail.com",
-    },
-    {
-      username: "Hussnain",
-      email: "abcd1234@gmail.com",
-    },
-  ];
+  const fetchUsers = async (search = "", pageNumber = 1) => {
+    try {
+      const token = Cookies.get("token");
+      const response = await axios.get("/api/admin/registered", {
+        params: {
+          search,
+          pageNumber,
+          pageSize,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.data.status === 200) {
+        const data = response.data.data;
+        setUsers(data.users);
+        setTotalUsers(data.totalUsers);
+        setCurrentPage(data.pageNumber);
+        setLoading(false);
+      }
+    } catch (error) {
+      setLoading(false);
+      console.error("Error fetching users:", error);
+    }
+  };
 
   useEffect(() => {
+    fetchUsers(searchTerm, currentPage);
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-  }, []);
+  }, [searchTerm, currentPage]);
+
+  const handleUnregister = async (userId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to unregister this user?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, Unregister",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const token = Cookies.get("token");
+          const response = await axios.put(
+            `/api/admin/registered/${userId}`,
+            null,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (response.data.status === 200) {
+            Swal.fire(
+              "Unregistered!",
+              "The user has been unregistered.",
+              "success"
+            );
+            fetchUsers(searchTerm, currentPage);
+          } else {
+            Swal.fire(
+              "Error",
+              response.data.message || "Something went wrong",
+              "error"
+            );
+          }
+        } catch (error) {
+          Swal.fire(
+            "Error",
+            error.response?.data?.message || error.message,
+            "error"
+          );
+        }
+      }
+    });
+  };
+
   const section = "Register Users";
+
   return (
     <div className="overflow-y-auto scrollbar-hidden">
       <div className="p-2 w-full">
         <div className="flex items-center justify-between">
-          {/* Mobile: Show sidebar toggle */}
           <button
             ref={buttonRef}
             onClick={handleSidebarToggle}
@@ -85,16 +146,15 @@ const Page = () => {
             </svg>
           </button>
 
-          {/* Title */}
           <p className="text-[12px] md:text-xl md:font-semibold ml-4 md:ml-64 lg:ml-64 p-5">
             Register Users
           </p>
 
-          {/* Header component */}
           <div className="ml-auto">
             <Header appear={true} />
           </div>
         </div>
+
         <aside
           ref={sidebarRef}
           id="separator-sidebar"
@@ -108,11 +168,9 @@ const Page = () => {
       </div>
 
       <div className="sm:ml-64">
-        {/* <Header appear={false} title={"All Users"} /> */}
         <div className="p-6 bg-white">
           <div className="mx-auto bg-white">
             <div className="flex flex-col sm:flex-row gap-4 w-full pt-1 justify-end items-center">
-              {/* Search Bar */}
               <div className="relative w-full sm:w-64">
                 <input
                   type="text"
@@ -141,9 +199,72 @@ const Page = () => {
               </Link>
             </div>
 
-            {/* Table of items */}
-            <Table products={products} />
-            <Pagination />
+            <div className="relative overflow-x-auto scrollbar-none pt-12">
+              <table className="w-full text-sm text-left text-gray-500 p-3">
+                <thead className="text-center text-base text-gray-700 font-light bg-white">
+                  <tr>
+                    <th className="px-6 py-3">Name</th>
+                    <th className="px-6 py-3">Email</th>
+                    <th className="px-6 py-3">Grade</th>
+                    <th className="px-6 py-3">Balance</th>
+                    <th className="px-6 py-3">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {loading ? (
+                    <tr>
+                      <td colSpan="5" className="text-center py-10">
+                        <div className="flex flex-col items-center justify-center text-gray-500 text-sm">
+                          <div className="w-8 h-8 border-4 border-gray-300 border-t-[#22405c] rounded-full animate-spin mb-2"></div>
+                          Loading...
+                        </div>
+                      </td>
+                    </tr>
+                  ) : users.length === 0 ? (
+                    <tr>
+                      <td
+                        colSpan="5"
+                        className="text-center py-6 text-gray-500"
+                      >
+                        No registered users found.
+                      </td>
+                    </tr>
+                  ) : (
+                    users.map((user, index) => (
+                      <tr
+                        key={index}
+                        className="odd:bg-[#F6F1DE] even:bg-white border-b text-center"
+                      >
+                        <td className="px-6 py-4">
+                          {user.fname} {user.lname}
+                        </td>
+                        <td className="px-6 py-4">{user.email}</td>
+                        <td className="px-6 py-4">{user.grade}</td>
+                        <td className="px-6 py-4">
+                          {parseFloat(user.accountBalance).toFixed(2)}
+                        </td>
+                        <td className="px-6 py-4">
+                          <button
+                            className="bg-[#22405c] text-white px-4 py-2 rounded"
+                            onClick={() => handleUnregister(user._id)}
+                          >
+                            Unregister
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            {totalUsers > pageSize && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={Math.ceil(totalUsers / pageSize)}
+                onPageChange={(page) => setCurrentPage(page)}
+              />
+            )}
           </div>
         </div>
       </div>

@@ -12,32 +12,48 @@ export async function middleware(req) {
   const token = req.cookies.get("token")?.value;
   const { pathname } = req.nextUrl;
 
-  const loginPath = "/auth/signin";
-  const protectedUserPath = "/users";
+  const isAuthPage =
+    pathname.startsWith("/auth/signin") ||
+    pathname.startsWith("/auth/signup") ||
+    pathname.startsWith("/auth/forget-password/verify-email") ||
+    pathname.startsWith("/auth/forget-password/verify-otp") ||
+    pathname.startsWith("/auth/new-password");
 
+  const isProtectedUserRoute = pathname.startsWith("/users");
+  const isProtectedAdminRoute = pathname.startsWith("/admin");
+
+  // 🔐 No token
   if (!token) {
-    if (pathname.startsWith(protectedUserPath)) {
-      return NextResponse.redirect(new URL(loginPath, req.url));
+    if (isProtectedUserRoute || isProtectedAdminRoute) {
+      return NextResponse.redirect(new URL("/auth/signin", req.url));
     }
-    return NextResponse.next();
+    return NextResponse.next(); // allow access to auth pages
   }
 
+  // ✅ Has token
   try {
     const { payload } = await jwtVerify(token, JWT_SECRET);
-    console.log("payload: ", payload);
     const role = payload.role || "user";
-    console.log("role: ", ROLE_DASHBOARD[role]);
 
-    if (pathname.startsWith("/auth")) {
-      const redirectPath = ROLE_DASHBOARD[role];
-      return NextResponse.redirect(new URL(redirectPath, req.url));
+    // 🛑 Prevent logged-in users from accessing auth pages
+    if (isAuthPage) {
+      return NextResponse.redirect(new URL(ROLE_DASHBOARD[role], req.url));
+    }
+
+    // 🛡️ Role-specific route protection
+    if (isProtectedAdminRoute && role !== "admin") {
+      return NextResponse.redirect(new URL(ROLE_DASHBOARD[role], req.url));
+    }
+
+    if (isProtectedUserRoute && role !== "user") {
+      return NextResponse.redirect(new URL(ROLE_DASHBOARD[role], req.url));
     }
 
     return NextResponse.next();
   } catch (error) {
     console.log("JWT verification failed:", error);
 
-    const response = NextResponse.redirect(new URL(loginPath, req.url));
+    const response = NextResponse.redirect(new URL("/auth/signin", req.url));
     response.cookies.set("token", "", {
       maxAge: 0,
       path: "/",
@@ -45,7 +61,6 @@ export async function middleware(req) {
     return response;
   }
 }
-
 export const config = {
-  matcher: ["/users/:path*", "/admin/:path*", "/auth/signin"],
+  matcher: ["/users/:path*", "/admin/:path*", "/auth/:path*"],
 };

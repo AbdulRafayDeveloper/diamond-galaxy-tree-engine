@@ -46,6 +46,14 @@ const userSchema = new mongoose.Schema(
       type: Date,
       required: false,
     },
+    is_registered: {
+      type: Boolean,
+      default: false,
+    },
+    is_activated: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

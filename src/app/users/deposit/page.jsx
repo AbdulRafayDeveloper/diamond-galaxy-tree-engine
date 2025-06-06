@@ -18,6 +18,7 @@ const Page = () => {
   const [submittedData, setSubmittedData] = useState(null);
   const [errors, setErrors] = useState({});
   const router = useRouter();
+  const [calculatedPercent, setCalculatedPercent] = useState(0);
 
   const [formData, setFormData] = useState({
     coin: " CoinPayements - USDT",
@@ -25,13 +26,29 @@ const Page = () => {
     Amount: "",
   });
   const options = ["Trust Wallet", "Binance"];
+  const PERCENT = parseFloat(
+    process.env.NEXT_PUBLIC_DEPOSIT_COMPANY_COMMISSION || "0"
+  );
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+    const numericValue = parseFloat(value);
+
+    if (name === "Amount") {
+      if (!isNaN(numericValue)) {
+        const percentValue = (numericValue * (PERCENT / 100)).toFixed(2);
+        setCalculatedPercent(percentValue);
+      } else {
+        setCalculatedPercent(0);
+      }
+    }
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
+
   const handleSubmit = (e) => {
     const newErrors = {};
     e.preventDefault();
@@ -257,6 +274,11 @@ const Page = () => {
                           onChange={handleChange}
                         />
                       </div>
+                      {formData.Amount && !isNaN(formData.Amount) && (
+                        <div className="text-gray-600 text-sm mt-1">
+                          2% Fee: <strong>{calculatedPercent}</strong>
+                        </div>
+                      )}
                       {errors.Amount && (
                         <span className="text-red-500 text-sm">
                           {errors.Amount}

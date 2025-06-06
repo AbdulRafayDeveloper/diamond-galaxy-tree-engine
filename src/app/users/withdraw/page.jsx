@@ -31,13 +31,29 @@ const Page = () => {
     file: "",
   });
   const options = ["Trust Wallet", "Binance"];
+  const [calculatedPercent, setCalculatedPercent] = useState(0);
+  const PERCENT = parseFloat(
+    process.env.NEXT_PUBLIC_WITHDRAW_COMPANY_COMMISSION || "0"
+  );
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "Amount") {
+      const numericValue = parseFloat(value);
+      if (!isNaN(numericValue)) {
+        const percentValue = (numericValue * (PERCENT / 100)).toFixed(2);
+        setCalculatedPercent(percentValue);
+      } else {
+        setCalculatedPercent(0);
+      }
+    }
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
+
   /*const handleSubmit = (e) => {
     e.preventDefault();
     // Validation Apply
@@ -324,10 +340,19 @@ const Page = () => {
                           onChange={handleChange}
                         />
                       </div>
+
+                      {/* Show calculated fee if amount is valid */}
+                      {formData.Amount && !isNaN(formData.Amount) && (
+                        <div className="text-gray-600 text-sm mt-1">
+                          {PERCENT}% Fee: <strong>{calculatedPercent}</strong>
+                        </div>
+                      )}
+
                       {errors.Amount && (
                         <p className="text-red-500 text-sm">{errors.Amount}</p>
                       )}
                     </div>
+
                     {/* Conditionally Render Id (for Binance) */}
                     {selected === "Binance" && (
                       <div>

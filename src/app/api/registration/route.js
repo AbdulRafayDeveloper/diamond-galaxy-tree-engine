@@ -26,6 +26,10 @@ export async function GET(req) {
     }
 
     const freshUser = await Users.findById(user._id);
+
+    if (freshUser.is_registered) {
+      return badRequestResponse("User is already registered.");
+    }
     const registerCommission = await RegisterCommissions.findOne();
     if (!registerCommission) {
       return badRequestResponse("Commission settings not found.");
@@ -120,6 +124,9 @@ export async function GET(req) {
     baseCommission.amount += companyExtraAmount;
 
     await baseCommission.save();
+
+    freshUser.is_registered = true;
+    await freshUser.save();
 
     return successResponse("Commission distributed successfully.", {
       deductedFrom: freshUser._id,
