@@ -54,6 +54,26 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    is_gold: {
+      type: Boolean,
+      default: false,
+    },
+    is_silver: {
+      type: Boolean,
+      default: false,
+    },
+    is_royal: {
+      type: Boolean,
+      default: false,
+    },
+    is_star: {
+      type: Boolean,
+      default: false,
+    },
+    is_diamond: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

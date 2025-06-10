@@ -16,7 +16,6 @@ const commissionSchema = new mongoose.Schema(
     },
     originalAmount: {
       type: Number,
-      required: true,
     },
     rate: {
       type: Number,
@@ -30,6 +29,7 @@ const commissionSchema = new mongoose.Schema(
         "registration",
         "activation",
         "slot-activation",
+        "lucky-draw",
       ],
     },
   },
