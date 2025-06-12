@@ -63,14 +63,23 @@ const Page = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const price = Number(formData.price);
+    const commission = Number(formData.commission);
+
+    // ✅ Commission validation
+    if (commission < 0 || commission > 100) {
+      toast.error("Commission must be between 0% and 100%");
+      return;
+    }
+
     try {
       const token = Cookies.get("token");
 
       const response = await axios.put(
         "/api/admin/register-commission",
         {
-          price: Number(formData.price),
-          commission: Number(formData.commission),
+          price,
+          commission,
         },
         {
           headers: {
@@ -81,16 +90,14 @@ const Page = () => {
       );
 
       if (response.data.status == 200) {
-        console.log("Successfully updated:", response.data);
         toast.success("Commission settings updated successfully.");
-
         setTimeout(() => {
           window.location.reload();
         }, 1500);
       }
     } catch (error) {
       console.error("Error updating commission:", error);
-      alert("Failed to update commission settings.");
+      toast.error("Failed to update commission settings.");
     }
   };
 
@@ -166,7 +173,7 @@ const Page = () => {
                 />
               </div>
               <div className="flex flex-col gap-1">
-                <label htmlFor="">Company Commission:</label>
+                <label htmlFor="">Company Commission %:</label>
                 <input
                   type="number"
                   name="commission"

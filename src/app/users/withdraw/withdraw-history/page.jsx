@@ -234,7 +234,7 @@ const Page = () => {
                         </div>
                       </div>
                       <div className="flex flex-col items-end">
-                        <h1 className="font-bold">{el.amount}</h1>
+                        <h1 className="font-bold">Amount: {el.amount}</h1>
                         <p className="text-[12px]">
                           Balance: {el?.postBalance ?? "N/A"}
                         </p>
@@ -251,7 +251,23 @@ const Page = () => {
                                 <strong>Charge:</strong>
                               </td>
                               <td className="py-1">
-                                <p>{el.amount}</p>
+                                <p>
+                                  {(
+                                    (parseFloat(el.amount || 0) *
+                                      parseFloat(
+                                        process.env
+                                          .NEXT_PUBLIC_WITHDRAW_COMPANY_COMMISSION ||
+                                          "0"
+                                      )) /
+                                    100
+                                  ).toFixed(2)}{" "}
+                                  USD (
+                                  {
+                                    process.env
+                                      .NEXT_PUBLIC_WITHDRAW_COMPANY_COMMISSION
+                                  }
+                                  %)
+                                </p>
                               </td>
                             </tr>
                             <tr className="border-b border-gray-300">

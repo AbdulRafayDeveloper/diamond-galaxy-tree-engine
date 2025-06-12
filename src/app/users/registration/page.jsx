@@ -38,15 +38,28 @@ const Page = () => {
   }, []);
 
   const [data, setData] = useState([]);
+  const [commission, setCommission] = useState(0);
   useEffect(() => {
-    const data = async () => {
+    const fetchData = async () => {
       try {
         const response = await axios.get("/api/admin/register-commission");
         console.log("response of api is: ", response);
+
+        const { price, commission } = response?.data?.data || {};
+
         setData(response.data.data);
-      } catch (e) {}
+
+        if (price && commission) {
+          const percentage = ((commission * price) / 100).toFixed(2);
+          setCommission(percentage);
+        } else {
+          console.log("Price or commission is missing in the response");
+        }
+      } catch (e) {
+        console.error("Error fetching commission data", e);
+      }
     };
-    data();
+    fetchData();
   }, []);
 
   const handleRegister = async () => {
@@ -59,6 +72,9 @@ const Page = () => {
 
       if (res.data?.status === 200) {
         toast.success(res.data.message || "Registered successfully!");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
       } else {
         toast.error(res.data.message || "Something went wrong.");
       }
@@ -138,9 +154,9 @@ const Page = () => {
                   <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
                 </svg>
                 <p className="text-[12px] md:text-md lg:text-md xl:text-md">
-                  Tree Commission : {data?.commission}%
+                  Tree Commission : {commission ?? ""}
                 </p>
-                <svg
+                {/*<svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 320 512"
                   cl
@@ -149,7 +165,7 @@ const Page = () => {
                   stroke="currentColor"
                 >
                   <path d="M80 160c0-35.3 28.7-64 64-64l32 0c35.3 0 64 28.7 64 64l0 3.6c0 21.8-11.1 42.1-29.4 53.8l-42.2 27.1c-25.2 16.2-40.4 44.1-40.4 74l0 1.4c0 17.7 14.3 32 32 32s32-14.3 32-32l0-1.4c0-8.2 4.2-15.8 11-20.2l42.2-27.1c36.6-23.6 58.8-64.1 58.8-107.7l0-3.6c0-70.7-57.3-128-128-128l-32 0C73.3 32 16 89.3 16 160c0 17.7 14.3 32 32 32s32-14.3 32-32zm80 320a40 40 0 1 0 0-80 40 40 0 1 0 0 80z" />
-                </svg>
+                </svg>*/}
               </div>
               <div>
                 <button

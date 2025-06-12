@@ -13,13 +13,12 @@ const Page = () => {
   const sidebarRef = useRef(null);
   const buttonRef = useRef(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [cardLoading,setCardLoading]=useState(null);
-  const [isClose,setisClose]=useState(false);
+  const [cardLoading, setCardLoading] = useState(null);
+  const [isClose, setisClose] = useState(false);
 
-  const handleCardClick=(type)=>{
+  const handleCardClick = (type) => {
     setCardLoading(type);
-    
-  }
+  };
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -34,7 +33,7 @@ const Page = () => {
       setIsSidebarOpen(false);
     }
   };
- 
+
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
     return () => {
@@ -42,7 +41,6 @@ const Page = () => {
     };
   }, []);
 
-  
   const products = [
     {
       username: "Ali",
@@ -50,30 +48,37 @@ const Page = () => {
       lucky: "Gold",
     },
     {
-        username: "Rafy",
-        email: "abcd1234@gmail.com",
-        lucky: "Diamond",
+      username: "Rafy",
+      email: "abcd1234@gmail.com",
+      lucky: "Diamond",
     },
     {
-        username: "Abbas",
-        email: "abcd1234@gmail.com",
-        lucky: "Gold",
+      username: "Abbas",
+      email: "abcd1234@gmail.com",
+      lucky: "Gold",
     },
     {
-        username: "Qasim",
-        email: "abcd1234@gmail.com",
-        lucky: "Gold",
+      username: "Qasim",
+      email: "abcd1234@gmail.com",
+      lucky: "Gold",
     },
     {
-        username: "Hussnain",
-        email: "abcd1234@gmail.com",
-        lucky: "Silver",
+      username: "Hussnain",
+      email: "abcd1234@gmail.com",
+      lucky: "Silver",
     },
   ];
 
   // cards data
-  const cardData = ["Gold", "Silver", "Royal", "Star", "Diamond", "Total Users"];
-const section="Lucky Draw"
+  const cardData = [
+    "Gold",
+    "Silver",
+    "Royal",
+    "Star",
+    "Diamond",
+    "Total Users",
+  ];
+  const section = "Lucky Draw";
   return (
     <div className="overflow-y-auto scrollbar-hidden">
       <div className="p-2 w-full">
@@ -104,7 +109,7 @@ const section="Lucky Draw"
 
           {/* Title */}
           <p className="text-[12px] md:text-xl md:font-semibold ml-4 md:ml-64 lg:ml-64 p-5">
-           Lucky Draw
+            Lucky Draw
           </p>
 
           {/* Header component */}
@@ -162,18 +167,27 @@ const section="Lucky Draw"
             <div className="p-3 mx-auto mt-5">
               <div className="flex justify-center items-center p-2">
                 <div className="flex flex-wrap justify-center items-center gap-4">
-                  
-                  {
-                    cardData.map((type,idx)=>(
-                      <div key={idx} onClick={()=>handleCardClick(type)} className="flex flex-col justify-center items-center bg-[#F6F1DE] rounded-md min-w-[300px] min-h-[200px]">
-                        <Link href="../../admin/lucky-draw/find-person"><p className="text-2xl font-bold">{type}</p></Link>
-                        
-                      </div>
-                    ))
-                  }
+                  {cardData.map((type, idx) => (
+                    <div
+                      key={idx}
+                      onClick={() => handleCardClick(type)}
+                      className="flex flex-col justify-center items-center bg-[#F6F1DE] rounded-md min-w-[300px] min-h-[200px]"
+                    >
+                      {type === "Total Users" ? (
+                        <Link href="/admin/lucky-draw/total-users">
+                          <p className="text-2xl font-bold">{type}</p>
+                        </Link>
+                      ) : (
+                        <Link
+                          href={`/admin/lucky-draw/find-person/${type.toLowerCase()}`}
+                        >
+                          <p className="text-2xl font-bold">{type}</p>
+                        </Link>
+                      )}
+                    </div>
+                  ))}
                 </div>
               </div>
-
             </div>
           </div>
         </div>

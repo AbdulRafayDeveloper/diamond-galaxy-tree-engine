@@ -404,9 +404,8 @@ const Page = () => {
             </div>
             {totalWithdrawals > pageSize && (
               <Pagination
-                totalItems={totalWithdrawals}
                 currentPage={currentPage}
-                pageSize={pageSize}
+                totalPages={Math.ceil(totalWithdrawals / pageSize)}
                 onPageChange={(page) => setCurrentPage(page)}
               />
             )}
