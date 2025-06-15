@@ -21,6 +21,7 @@ const transactionSchema = new mongoose.Schema(
         "transfer",
         "activation",
         "luckyDraw",
+        "monthly_gift",
       ],
       required: true,
     },

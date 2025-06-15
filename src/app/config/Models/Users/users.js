@@ -30,8 +30,9 @@ const userSchema = new mongoose.Schema(
         "Diamond Grade",
         "Royal Grade",
         "Star Grade",
+        "Member",
       ],
-      default: "Silver Grade",
+      default: "Member",
       required: true,
     },
     otp: {
@@ -73,6 +74,14 @@ const userSchema = new mongoose.Schema(
     is_diamond: {
       type: Boolean,
       default: false,
+    },
+    monthly_gift: {
+      type: String,
+      default: null,
+    },
+    monthly_reward: {
+      type: String,
+      default: null,
     },
   },
   {
