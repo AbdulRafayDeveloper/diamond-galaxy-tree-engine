@@ -6,29 +6,14 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import Link from "next/link";
 
-const eduData = [
-  {
-    id: 1,
-    name: "How to earn from youtube (Urdu/ Hindi)",
-    url: "https://youtube.com/shorts/UvM8OUlZ2xA?si=7CbmUcqiDBjuBQGE",
-    description:
-      "In this video you Learn about detail how to earn money without investment",
-  },
-  {
-    id: 2,
-    name: "How to earn from youtube (Urdu/ Hindi)",
-    url: "https://youtube.com/shorts/UvM8OUlZ2xA?si=7CbmUcqiDBjuBQGE",
-    description:
-      "In this video you Learn about detail how to earn money without investment",
-  },
-];
-
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
   const buttonRef = useRef(null);
-  const [refData, setData] = useState(null);
+  const [eduData, setEduData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activated, setActivated] = useState(true);
+
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -53,43 +38,44 @@ const Page = () => {
     };
   }, []);
 
-  //   useEffect(() => {
-  //     const getData = async () => {
-  //       try {
-  //         setLoading(true);
-  //         const token = Cookies.get("token");
+  useEffect(() => {
+    const getEducationData = async () => {
+      try {
+        setLoading(true);
+        const token = Cookies.get("token");
+        const response = await axios.get("/api/frontend/education", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-  //         const response = await axios.get("/api/frontend/references", {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         });
+        console.log("response: ", response);
 
-  //         const userData = response.data.data;
-  //         setData(userData);
-  //         setLoading(false);
-  //         console.log(userData);
-  //       } catch (e) {
-  //         setLoading(false);
-  //         console.log("Failed to fetch user:", e);
-  //       } finally {
-  //       }
-  //     };
+        const { educations } = response.data.data;
+        const isActivated = educations && educations.length > 0;
 
-  //     getData();
-  //   }, []);
+        setEduData(educations);
+        setActivated(isActivated);
+      } catch (err) {
+        if (err.response?.data?.data?.educations?.length === 0) {
+          setActivated(true); // activated but no data
+          setEduData([]);
+        } else {
+          setActivated(false); // Not activated at all
+          setEduData([]);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  //   const maskEmail = (email) => {
-  //     const [first, domain] = email.split("@"); // Split the email
-  //     const masked = first.charAt(0) + "*".repeat(first.length - 1); // Mask the username
-  //     return `${masked}@${domain}`;
-  //   };
+    getEducationData();
+  }, []);
 
   return (
     <div className="overflow-y-auto scrollbar-hidden">
       <div className="p-2 w-full">
         <div className="flex items-center justify-between">
-          {/* Mobile: Show sidebar toggle */}
           <button
             ref={buttonRef}
             onClick={handleSidebarToggle}
@@ -103,7 +89,6 @@ const Page = () => {
               aria-hidden="true"
               fill="currentColor"
               viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
             >
               <path
                 clipRule="evenodd"
@@ -112,17 +97,14 @@ const Page = () => {
               />
             </svg>
           </button>
-
-          {/* Title */}
           <p className="text-[12px] md:text-xl md:font-semibold ml-4 md:ml-64 lg:ml-64">
             Education
           </p>
-
-          {/* Header component */}
           <div className="ml-auto">
             <Header appear={true} />
           </div>
         </div>
+
         <aside
           ref={sidebarRef}
           id="separator-sidebar"
@@ -135,40 +117,69 @@ const Page = () => {
         </aside>
       </div>
 
-      <div className="md:ml-64">
-        <div className="bg-white">
-          <div className="p-2">
-            <div className="grid lg:grid-cols-2 grid-cols-1  gap-5">
+      <div className="md:ml-64 min-h-[200px] flex items-center justify-center">
+        {loading ? (
+          <p className="text-center text-lg font-semibold">Loading...</p>
+        ) : !activated ? (
+          <p className="text-center text-lg font-semibold text-red-600">
+            Your account is not activated yet.
+          </p>
+        ) : eduData.length === 0 ? (
+          <p className="text-center text-lg font-semibold text-gray-600">
+            No education entries available yet.
+          </p>
+        ) : (
+          <div className="w-full p-2">
+            <div className="grid lg:grid-cols-2 grid-cols-1 gap-5">
               {eduData.map((el, idx) => (
                 <div
                   key={idx}
                   className="p-2 md:p-4 shadow-xl md:text-md text-sm bg-[#F6F1DE] gap-3"
                 >
-                  <div className="grid grid-cols-2 bg-white shadow-md p-2 mb-1">
-                    <div className="font-bold">Name</div>
-                    <div className="text-[13px]">{el.name}</div>
-                  </div>
-                  <div className="grid grid-cols-2 bg-white shadow-md p-2 mb-1">
-                    <div className="font-bold">File</div>
-                    <div className="flex justify-end items-end">
-                      <button className="px-3 py-1 bg-[#22405c] text-white rounded-md">
-                        <Link href={el.url} className="text-[13px]">
+                  <div
+                    key={idx}
+                    className="p-2 md:p-4 shadow-xl md:text-md text-sm bg-[#F6F1DE] gap-3"
+                  >
+                    <div className="grid grid-cols-2 bg-white shadow-md p-2 mb-1">
+                      <div className="font-bold">Name</div>
+                      <div className="text-[13px] truncate" title={el.name}>
+                        {el.name.length > 40
+                          ? el.name.substring(0, 40) + "..."
+                          : el.name}
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 bg-white shadow-md p-2 mb-1">
+                      <div className="font-bold">File</div>
+                      <div className="flex justify-end items-end">
+                        <Link
+                          href={el.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-3 py-1 bg-[#22405c] text-white rounded-md text-[13px]"
+                        >
                           Play
                         </Link>
-                      </button>
+                      </div>
                     </div>
-                  </div>
-                  <div className="grid grid-cols-2 bg-white shadow-md p-2 mb-1">
-                    <div className="font-bold">Description</div>
-                    <div className="flex justify-end items-end text-[13px]">
-                      {el.description}
+
+                    <div className="grid grid-cols-2 bg-white shadow-md p-2 mb-1">
+                      <div className="font-bold">Description</div>
+                      <div
+                        className="flex justify-end items-end text-[13px] text-right truncate"
+                        title={el.description}
+                      >
+                        {el.description.length > 60
+                          ? el.description.substring(0, 60) + "..."
+                          : el.description}
+                      </div>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

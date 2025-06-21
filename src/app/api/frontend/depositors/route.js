@@ -12,6 +12,7 @@ import {
   serverErrorResponse,
 } from "@/app/helper/apiResponseHelpers";
 import { validateDepositor } from "@/app/helper/depositors/validateDepositors";
+import { uploadAndGeneratePublicUrl } from "@/app/helper/Url-Generator/googledrive";
 
 export async function POST(req) {
   try {
@@ -40,15 +41,17 @@ export async function POST(req) {
       return badRequestResponse("Image file is required.");
     }
 
-    console.log(formData);
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
     const ext = file.name.split(".").pop();
     const fileName = `${uuidv4()}.${ext}`;
-    const filePath = path.join(process.cwd(), "public/uploads", fileName);
-    await fs.mkdir(path.dirname(filePath), { recursive: true });
-    await fs.writeFile(filePath, buffer);
-    const imageUrl = `/uploads/${fileName}`;
+
+    // 🔁 Upload to Google Drive and get URL
+    const imageUrl = await uploadAndGeneratePublicUrl(
+      buffer,
+      fileName,
+      file.type || "image/jpeg"
+    );
 
     const paymentMethod = formData.get("paymentMethod");
     const amount = parseFloat(formData.get("amount"));
@@ -76,7 +79,7 @@ export async function POST(req) {
       newDepositor
     );
   } catch (error) {
-    console.log("Error in POST /api/depositors:", error);
+    console.error("Error in POST /api/depositors:", error);
     return serverErrorResponse("Internal server error.");
   }
 }

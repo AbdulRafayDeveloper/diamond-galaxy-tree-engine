@@ -12,6 +12,7 @@ import {
   serverErrorResponse,
 } from "@/app/helper/apiResponseHelpers";
 import { validateWithdrawer } from "@/app/helper/withdrawer/withdrawer";
+import { uploadAndGeneratePublicUrl } from "@/app/helper/Url-Generator/googledrive";
 
 export async function POST(req) {
   try {
@@ -53,10 +54,12 @@ export async function POST(req) {
     const buffer = Buffer.from(bytes);
     const ext = file.name.split(".").pop();
     const fileName = `${uuidv4()}.${ext}`;
-    const filePath = path.join(process.cwd(), "public/uploads", fileName);
-    await fs.mkdir(path.dirname(filePath), { recursive: true });
-    await fs.writeFile(filePath, buffer);
-    const screenshotUrl = `/uploads/${fileName}`;
+
+    const screenshotUrl = await uploadAndGeneratePublicUrl(
+      buffer,
+      fileName,
+      file.type || "image/jpeg"
+    );
 
     const withdrawGateways = formData.get("withdrawGateways");
     const amount = parseFloat(formData.get("amount"));

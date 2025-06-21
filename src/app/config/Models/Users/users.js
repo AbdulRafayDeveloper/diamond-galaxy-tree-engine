@@ -1,3 +1,4 @@
+import { number } from "joi";
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
@@ -81,6 +82,10 @@ const userSchema = new mongoose.Schema(
     },
     monthly_reward: {
       type: String,
+      default: null,
+    },
+    salary: {
+      type: Number,
       default: null,
     },
   },

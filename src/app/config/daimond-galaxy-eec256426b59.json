@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "daimond-galaxy",
+  "private_key_id": "eec256426b59f987a6191a3683fbbeae53d522fd",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCvXb18DT7X4ryb\noWJEcGw44IROPLTcyaKfUlk2VOtrkIbXuswSoMkbf6YYHQHCHyaB7loU25YOB8IG\nd1+UV+HYkh+PXPPMmdTLekK4aNRl+nPYUFYXPXZ1abO/mIowQm92lO3tyre826+l\n4tQYvXmXjkktN3Sr3prLN/dLhbCSnhC9g+56a1q/HJKy5KitzsZYnl3/Tt7cgQFe\nQOxHhrNKugAZktRLWqc9awBwP02YTp4uJGMjCaOyMpFnPrNsq8lnIIr/HMPIOYwe\n3VTo/bsUtBmGDVDUSpMH6V+etY/DMlWFwTeIwoYxIXlV9dXZwz26Ooh9p0ksRcT4\nFVqMXhbhAgMBAAECggEADsdUl6a6HBF0mZ0BHglnZWeuXrWI/G5VsR2MfSKs8FSu\nuHF6jztTl2irg662Hjjn0t1WZBmZTLdkp4zZ1jONyeWOmVNZDG4OW9OC2e2jsLBp\noNosVysL15s/1a6yPpzqrdChOH/z+gt9gvpZq3gUTixkiFX7FBzfaK7fvVKX7dMW\nmI9PRxqxQuf4GYR1VVwolgYbypaEqf65MW9usJQOIWkYdXAjQqVauG7J5JoUX/h4\ny3mlj6c1lKTPsE2DgSl5suAWvevHqHby6Q7jTg0fxlvniCjj+wuGCjWJzPV6cdvB\n0utDp/gw/HhqO5GG1Y++Y+YPE4yBRmwg+IankTyojQKBgQDXR+YGqZrjPgze/VW6\nvT1S4TgVq1rfL/slaXXBknYlN0U3miJ1gkWAy8bFm/0UhQDiPsqACsQC7WGnwN4V\nTTxV0bmOwyxKtYKsEX6cb5JYqSxD7baa5giXsxWwi36A6/86X6Ap3seWgdKEDOtc\nL7LKvZ6g2tQjuM7aLyPUnc3+jwKBgQDQiSKeJM4KIgei9CdLTOC2/gTQSpNj6J97\noVTrBQh0+mpz7X8T5Ct5hBDc5xQmiE1fyleRXO3rfpM/561uZUnGKnqcGbUpkZjS\nbK2j/VzWjgf0jhNPFFXc2CkcBlD/BOSZ46gkRdJJtx+N4CiJ7f0rTCCoMuewL08V\nNnF+5DdLjwKBgDGBoD1B/ZNqbo1NFszlvdd0YXBiQnh20TtuQB0usCqoxiseL/Rz\n68XNlr1UvONeHrDonarKTv8ZVc69BJVDeK+HljNlYKchjJZDQ6l34uCurrZEUSzX\n33v7O+6odYPyQXRMD0nxqFZNLnsdeXZupaAH8RWunQBF/JOiKYw4aemzAoGAZA2o\nAmB+SvZQ26pxP/u+xY3TGWzukr0F5/dcGvbrO9T6Rmzoz85l3YOz44krbeFv3knj\nAeeob5jnZX3vBEysvNucwFDFTxCAVlW2ajwh0v+KaZfRQ9vp5nAAKWYObo0WcY99\nGQo2/w9RoGywhp0dHy0DbjAeYbYRJ4hbpBozPZkCgYBbqA98E/Nafdcd1EwelSXi\n9JxGLquw/WhHhPiAU/ObHRabGRtcoAUXgGlqE0NkATasrh2v/hqCO7tcv/te7VVj\nzHIMpzaMyIAFsB8sEvYxCQEM+sD7yr07OE2FMx8h/z4OQO9HUvUIv0icNdlFs0iO\n6zDNkPs7K2iF2DSA+Wa+Bw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "daimond-galaxy@daimond-galaxy.iam.gserviceaccount.com",
+  "client_id": "109217766259836390950",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/daimond-galaxy%40daimond-galaxy.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

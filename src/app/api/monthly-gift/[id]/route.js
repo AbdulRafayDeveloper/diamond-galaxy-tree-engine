@@ -10,6 +10,7 @@ import {
   conflictResponse,
   notFoundResponse,
 } from "@/app/helper/apiResponseHelpers";
+import sendEmail from "@/app/helper/sendEmail";
 
 export async function PUT(req, context) {
   try {
@@ -26,7 +27,7 @@ export async function PUT(req, context) {
       return conflictResponse("Access denied. Admins only.");
     }
 
-    const { id } = context.params;
+    const { id } = await context.params;
 
     const user = await Users.findById(id);
     if (!user) {
@@ -52,6 +53,27 @@ export async function PUT(req, context) {
     });
 
     await newTransaction.save();
+    if (newTransaction) {
+      await sendEmail(
+        user.email,
+        "You've Received a Monthly Gift!",
+        `
+        <div style="font-family: Arial, sans-serif; font-size: 16px; color: #333;">
+          <p>Hi ${user.username},</p>
+          <p>🎁 You have received a monthly gift of <strong>$${amount.toFixed(
+            2
+          )}</strong>.</p>
+          <p><strong>Description:</strong> ${description}</p>
+          <p>Your updated account balance is now: <strong>$${user.accountBalance.toFixed(
+            2
+          )}</strong>.</p>
+          <p>Keep up the great work!</p>
+          <br />
+          <p>Best regards,<br/>The Team</p>
+        </div>
+        `
+      );
+    }
 
     return successResponse("Monthly gift applied successfully.", {
       updatedBalance: user.accountBalance,

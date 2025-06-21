@@ -25,20 +25,80 @@ const UsersTable = () => {
     "Performance Reward",
     "Referral Bonus",
     "Festival Bonus",
-    "Other",
+    "Salary",
   ];
 
   const [openDropdownIndex, setOpenDropdownIndex] = useState(null);
   const [openDropdownIndexSlots, setOpenDropdownIndexSlots] = useState(null);
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isSalaryOpen, setIsOpenSalary] = useState(false);
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
   const [currentUserId, setCurrentUserId] = useState(null);
+  const [salary, setSalary] = useState();
 
-  const openModal = (userId) => {
+  const openModal = async (userId) => {
     setCurrentUserId(userId);
     setIsOpen(true);
+
+    try {
+      const token = Cookies.get("token");
+      const res = await axios.get(`/api/admin/fix-salary/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.data.status === 200 && res.data.data.salary) {
+        setSalary(res.data.data.salary);
+      } else {
+        setSalary("");
+      }
+    } catch (err) {
+      setSalary("");
+    }
+  };
+
+  const openSalaryModal = async (userId) => {
+    setCurrentUserId(userId);
+    setIsOpenSalary(true);
+
+    try {
+      const token = Cookies.get("token");
+      const res = await axios.get(`/api/admin/fix-salary/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.data.status === 200 && res.data.data.salary) {
+        setSalary(res.data.data.salary);
+      } else {
+        setSalary("");
+      }
+    } catch (err) {
+      setSalary("");
+    }
+  };
+
+  const handleSetSalary = async () => {
+    if (!salary || isNaN(salary)) {
+      Swal.fire("Error", "Please enter a valid salary amount", "error");
+      return;
+    }
+
+    try {
+      const token = Cookies.get("token");
+      const res = await axios.put(
+        `/api/admin/fix-salary/${currentUserId}`,
+        { salary },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (res.data.status === 200) {
+        Swal.fire("Success", "Salary updated successfully", "success");
+        setIsOpenSalary(false);
+        setSalary("");
+      } else {
+        Swal.fire("Error", res.data.message, "error");
+      }
+    } catch (err) {
+      Swal.fire("Error", err.message, "error");
+    }
   };
 
   // API Fetch
@@ -118,25 +178,19 @@ const UsersTable = () => {
   };
 
   const handleClickOutside = (event) => {
-    const clickedInsideGradeDropdown = dropdownRefs.current.some((ref) =>
-      ref?.contains(event.target)
+    const clickedInsideGrade = dropdownRefs.current.some(
+      (ref) => ref && ref.contains(event.target)
     );
-    const clickedInsideSlotDropdown = dropdownRefsSlot.current.some((ref) =>
-      ref?.contains(event.target)
+    const clickedInsideSlot = dropdownRefsSlot.current.some(
+      (ref) => ref && ref.contains(event.target)
     );
 
-    if (
-      sidebarRef.current &&
-      !sidebarRef.current.contains(event.target) &&
-      buttonRef.current &&
-      !buttonRef.current.contains(event.target)
-    ) {
-      if (!clickedInsideGradeDropdown) {
-        setOpenDropdownIndex(null);
-      }
-      if (!clickedInsideSlotDropdown) {
-        setOpenDropdownIndexSlots(null);
-      }
+    if (!clickedInsideGrade) {
+      setOpenDropdownIndex(null);
+    }
+
+    if (!clickedInsideSlot) {
+      setOpenDropdownIndexSlots(null);
     }
   };
 
@@ -150,6 +204,10 @@ const UsersTable = () => {
   const closeModal = () => {
     setIsOpen(false);
     setAmount("");
+  };
+
+  const closeSalary = () => {
+    setIsOpenSalary(false);
   };
 
   const handleUnregister = () => {
@@ -269,8 +327,9 @@ const UsersTable = () => {
               <th className="px-6 py-3">Email</th>
               <th className="px-6 py-3">Date</th>
               <th className="px-6 py-3">Grades</th>
+              <th className="px-6 py-3">Fix Salary</th>
               <th className="px-6 py-3">Salary</th>
-              <th className="px-6 py-3">Salary Deposit</th>
+              {/*<th className="px-6 py-3">Salary Deposit</th>*/}
               <th className="px-6 py-3">Deposit</th>
               <th className="px-6 py-3">Reward Deposit</th>
               <th className="px-6 py-3">Reg. Status</th>
@@ -362,18 +421,27 @@ const UsersTable = () => {
                     </div>
                   </td>
 
+                  <td>
+                    <button
+                      className="bg-[#22405c] text-white px-4 py-2 rounded"
+                      onClick={() => openSalaryModal(product.id)}
+                    >
+                      Fix
+                    </button>
+                  </td>
+
                   {/* -------- KEEP REST OF YOUR EXISTING COLUMNS HERE -------- */}
                   <td className="px-6 py-4">{product.salary}</td>
 
                   {/* Salary Deposit */}
-                  <td className="px-6 py-4 ">
+                  {/*<td className="px-6 py-4 ">
                     <button
                       className="bg-[#22405c] text-white px-4 py-2 rounded"
                       onClick={openModal}
                     >
                       Add
                     </button>
-                  </td>
+                  </td>*/}
 
                   {/* Deposit */}
                   <td className="px-6 py-4 ">
@@ -437,10 +505,7 @@ const UsersTable = () => {
 
                   {/* Reward Deposit */}
                   <td className="px-6 py-4 ">
-                    <button
-                      className="bg-[#22405c] text-white px-4 py-2 rounded"
-                      onClick={openModal}
-                    >
+                    <button className="bg-[#22405c] text-white px-4 py-2 rounded">
                       Add
                     </button>
                     {isOpen && (
@@ -588,7 +653,7 @@ const UsersTable = () => {
                   <td className="px-6 py-4 ">
                     <button
                       className="bg-[#22405c] text-white px-4 py-2 rounded"
-                      onClick={openModal}
+                      onClick={() => openModal(product.id)}
                     >
                       Add
                     </button>
@@ -657,7 +722,6 @@ const UsersTable = () => {
             )}
           </tbody>
         </table>
-
         {/* Single Global Modal */}
         {isOpen && (
           <div className="fixed inset-0 bg-black bg-opacity-20 z-50 flex justify-center items-center">
@@ -678,7 +742,13 @@ const UsersTable = () => {
               </h2>
               <select
                 value={selectedDescription}
-                onChange={(e) => setSelectedDescription(e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setSelectedDescription(value);
+                  if (value === "Salary") {
+                    setAmount(salary || "");
+                  }
+                }}
                 className="w-full border border-gray-300 p-2 rounded mb-4"
               >
                 <option value="">Select</option>
@@ -701,6 +771,38 @@ const UsersTable = () => {
                   onClick={handleSubmit}
                 >
                   Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {isSalaryOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-20 z-50 flex justify-center items-center">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-80">
+              <h2 className="text-xl font-semibold mb-4 text-center">
+                Set Fixed Salary
+              </h2>
+              <input
+                type="number"
+                placeholder="Enter salary amount"
+                name="salary"
+                value={salary}
+                onChange={(e) => setSalary(e.target.value)}
+                className="w-full border border-gray-300 p-2 rounded mb-4"
+              />
+
+              <div className="flex justify-end gap-2">
+                <button
+                  className="bg-[#F6F1DE] px-4 py-2 rounded"
+                  onClick={closeSalary}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="bg-[#22405c] text-white px-4 py-2 rounded"
+                  onClick={handleSetSalary}
+                >
+                  Set
                 </button>
               </div>
             </div>
