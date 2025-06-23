@@ -88,6 +88,10 @@ const userSchema = new mongoose.Schema(
       type: Number,
       default: null,
     },
+    image: {
+      type: String,
+      default: null,
+    },
   },
   {
     timestamps: true,

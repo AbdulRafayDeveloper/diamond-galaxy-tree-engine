@@ -5,6 +5,8 @@ import SideBar from "../components/sidebar/SideBar";
 import { useState, useRef, useEffect, use } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -15,8 +17,6 @@ const Page = () => {
   const handleToggle = (id) => {
     setExpandedId(expandedId === id ? null : id);
   };
-
-
 
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -50,7 +50,8 @@ const Page = () => {
       address: "#GYYIOIREREDCJKI",
       amount: "0.00 USD",
       balance: "0.00 USD",
-      details: "Dear Leader Congrats to win Monthly Leadership Gifting be Enoy with grow more network regards CEO marquis dawait",
+      details:
+        "Dear Leader Congrats to win Monthly Leadership Gifting be Enoy with grow more network regards CEO marquis dawait",
     },
     {
       id: 2,
@@ -59,7 +60,8 @@ const Page = () => {
       address: "aMYYIOIREREDCJKI",
       amount: "0.00 USD",
       balance: "0.00 USD",
-      details: "Dear Leader Congrats to win Monthly Leadership Gifting be Enoy with grow more network regards CEO marquis dawait",
+      details:
+        "Dear Leader Congrats to win Monthly Leadership Gifting be Enoy with grow more network regards CEO marquis dawait",
     },
     {
       id: 3,
@@ -68,7 +70,8 @@ const Page = () => {
       address: "aMYYIOIREREDCJKI",
       amount: "0.00 USD",
       balance: "0.00 USD",
-      details: "Dear Leader Congrats to win Monthly Leadership Gifting be Enoy with grow more network regards CEO marquis dawait",
+      details:
+        "Dear Leader Congrats to win Monthly Leadership Gifting be Enoy with grow more network regards CEO marquis dawait",
     },
     {
       id: 4,
@@ -77,7 +80,8 @@ const Page = () => {
       address: "aMYYIOIREREDCJKI",
       amount: "0.00 USD",
       balance: "0.00 USD",
-      details: "Dear Leader Congrats to win Monthly Leadership Gifting be Enoy with grow more network regards CEO marquis dawait",
+      details:
+        "Dear Leader Congrats to win Monthly Leadership Gifting be Enoy with grow more network regards CEO marquis dawait",
     },
     {
       id: 5,
@@ -86,7 +90,8 @@ const Page = () => {
       address: "aMYYIOIREREDCJKI",
       amount: "0.00 USD",
       balance: "0.00 USD",
-      details: "Dear Leader Congrats to win Monthly Leadership Gifting be Enoy with grow more network regards CEO marquis dawait",
+      details:
+        "Dear Leader Congrats to win Monthly Leadership Gifting be Enoy with grow more network regards CEO marquis dawait",
     },
     {
       id: 6,
@@ -95,7 +100,8 @@ const Page = () => {
       address: "aMYYIOIREREDCJKI",
       amount: "0.00 USD",
       balance: "0.00 USD",
-      details: "Dear Leader Congrats to win Monthly Leadership Gifting be Enoy with grow more network regards CEO marquis dawait",
+      details:
+        "Dear Leader Congrats to win Monthly Leadership Gifting be Enoy with grow more network regards CEO marquis dawait",
     },
     {
       id: 7,
@@ -104,7 +110,8 @@ const Page = () => {
       address: "aMYYIOIREREDCJKI",
       amount: "0.00 USD",
       balance: "0.00 USD",
-      details: "Dear Leader Congrats to win Monthly Leadership Gifting be Enoy with grow more network regards CEO marquis dawait",
+      details:
+        "Dear Leader Congrats to win Monthly Leadership Gifting be Enoy with grow more network regards CEO marquis dawait",
     },
     {
       id: 8,
@@ -113,10 +120,33 @@ const Page = () => {
       address: "aMYYIOIREREDCJKI",
       amount: "0.00 USD",
       balance: "0.00 USD",
-      details: "Dear Leader Congrats to win Monthly Leadership Gifting be Enoy with grow more network regards CEO marquis dawait",
+      details:
+        "Dear Leader Congrats to win Monthly Leadership Gifting be Enoy with grow more network regards CEO marquis dawait",
     },
-  ]
+  ];
 
+  const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get("/api/frontend/transactions", {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        });
+        setTransactions(res.data.data.transactions);
+      } catch (error) {
+        console.error("Failed to fetch transactions:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTransactions();
+  }, []);
 
   return (
     <div className="overflow-y-auto scrollbar-hidden">
@@ -159,8 +189,9 @@ const Page = () => {
         <aside
           ref={sidebarRef}
           id="separator-sidebar"
-          className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-            } sm:translate-x-0`}
+          className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${
+            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } sm:translate-x-0`}
           aria-label="Sidebar"
         >
           <SideBar section={section} />
@@ -171,64 +202,112 @@ const Page = () => {
         <div className="mt-6">
           <div className="container p-2">
             <div className="grid grid-cols-1 gap-4">
-              {
-                Data.map((el) => (
-                  <div key={el.id} className="flex flex-col bg-[#F6F1DE] rounded-md shadow-md p-2 text-sm text-gray-800">
+              {loading ? (
+                <div className="flex justify-center items-center py-10">
+                  <svg
+                    className="animate-spin h-8 w-8 text-[#22405c]"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v8z"
+                    ></path>
+                  </svg>
+                </div>
+              ) : (
+                transactions.map((el, index) => (
+                  <div
+                    key={index}
+                    className="flex flex-col bg-[#F6F1DE] rounded-md shadow-md p-2 text-sm text-gray-800"
+                  >
                     <div
                       className="grid grid-cols-2 cursor-pointer "
-                      onClick={() => handleToggle(el.id)}
+                      onClick={() => handleToggle(index)}
                     >
                       <div className="flex flex-row gap-2">
                         <div className="mt-3">
-                          {
-                            expandedId == el.id ?
-                              (<Image src="/icons/down.png" width={20} height={20} alt="arrow down" />) :
-                              (<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="size-3" fill="black" stroke="black">
-                                <path d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l82.7 0L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3l0 82.7c0 17.7 14.3 32 32 32s32-14.3 32-32l0-160c0-17.7-14.3-32-32-32L320 0zM80 32C35.8 32 0 67.8 0 112L0 432c0 44.2 35.8 80 80 80l320 0c44.2 0 80-35.8 80-80l0-112c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 112c0 8.8-7.2 16-16 16L80 448c-8.8 0-16-7.2-16-16l0-320c0-8.8 7.2-16 16-16l112 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L80 32z" />
-                              </svg>)
-                          }
-
+                          {expandedId === index ? (
+                            <Image
+                              src="/icons/down.png"
+                              width={20}
+                              height={20}
+                              alt="arrow down"
+                            />
+                          ) : (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 512 512"
+                              className="size-3"
+                              fill="black"
+                              stroke="black"
+                            >
+                              <path d="..." />
+                            </svg>
+                          )}
                         </div>
                         <div className="flex flex-col">
-                          <h1 className="text-md font-bold">{el.name}</h1>
-                          <p className="text-[12px]">{el.time}</p>
-                          <p className="text-[12px]">{el.address}</p>
+                          <h1 className="text-md font-bold capitalize">
+                            {el.type}
+                          </h1>
+                          <p className="text-[12px]">
+                            {new Date(el.createdAt).toLocaleString()}
+                          </p>
+                          <p className="text-[12px]">
+                            {el.senderId || "System"}
+                          </p>
                         </div>
                       </div>
                       <div className="flex flex-col items-end">
-                        <h1 className="font-bold">{el.amount}</h1>
-                        <p className="text-[12px]">Balance: {el.balance}</p>
+                        <h1 className="font-bold">{el.amount} USD</h1>
+                        <p className="text-[12px]">
+                          Balance: {el.postbalance || "N/A"} USD
+                        </p>
                       </div>
                     </div>
 
-                    {/* Conditionally show details below the selected box */}
-                    {expandedId === el.id && (
+                    {expandedId === index && (
                       <div className="p-6 bg-white">
-                        <table className="w-full ">
+                        <table className="w-full">
                           <tbody>
                             <tr className="border-b border-gray-300">
-                              <td className="py-1 pr-4"><strong>Charge:</strong></td>
-                              <td className="py-1"><p>{el.amount}</p></td>
+                              <td className="py-1 pr-4">
+                                <strong>Charge:</strong>
+                              </td>
+                              <td className="py-1">{el.amount} USD</td>
                             </tr>
                             <tr className="border-b border-gray-300">
-                              <td className="py-1 pr-4"><strong>Post Balance:</strong></td>
-                              <td className="py-1"><p>{el.balance}</p></td>
+                              <td className="py-1 pr-4">
+                                <strong>Post Balance:</strong>
+                              </td>
+                              <td className="py-1">
+                                {el.postbalance || "N/A"} USD
+                              </td>
                             </tr>
-                            <tr >
-                              <td className="py-1 pr-4"><strong>Details:</strong></td>
-                              <td className="py-1"><p>{el.details}</p></td>
+                            <tr>
+                              <td className="py-1 pr-4">
+                                <strong>Details:</strong>
+                              </td>
+                              <td className="py-1">{el.description}</td>
                             </tr>
                           </tbody>
                         </table>
                       </div>
-
                     )}
                   </div>
                 ))
-              }
-
+              )}
             </div>
-
           </div>
         </div>
       </div>

@@ -85,11 +85,20 @@ export async function PUT(req) {
       return badRequestResponse("Insufficient balance for lucky draw purchase");
     }
 
-    await Users.findByIdAndUpdate(
+    const user1 = await Users.findByIdAndUpdate(
       user._id,
       { $inc: { accountBalance: -draw.price } },
       { new: true }
     );
+
+    await Transaction.create({
+      userId: user1._id,
+      senderId: null,
+      type: "luckyDraw",
+      amount: price,
+      description: `Lucky Draw fee deducted`,
+      postbalance: user1.accountBalance,
+    });
 
     const firstLevelUser = userDoc.referrerId
       ? await Users.findById(userDoc.referrerId)
@@ -102,16 +111,16 @@ export async function PUT(req) {
       levelOneCommission = (draw.price * draw.levelOnePercentage) / 100;
       companyCommission = draw.price - levelOneCommission;
 
+      firstLevelUser.accountBalance += levelOneCommission;
+      await firstLevelUser.save();
+
       await Transaction.create({
         userId: firstLevelUser._id,
         senderId: user._id,
         type: "commission",
         amount: levelOneCommission,
         description: `Level 1 commission for Lucky Draw: ${type}`,
-      });
-
-      await Users.findByIdAndUpdate(firstLevelUser._id, {
-        $inc: { accountBalance: levelOneCommission },
+        postbalance: firstLevelUser.accountBalance,
       });
     }
 

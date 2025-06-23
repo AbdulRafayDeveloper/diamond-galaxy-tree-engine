@@ -13,6 +13,7 @@ import {
   notFoundResponse,
 } from "@/app/helper/apiResponseHelpers";
 const commission = process.env.DEPOSIT_COMPANY_COMMISSION;
+import { Transaction } from "@/app/config/Models/Transaction/transaction";
 
 export async function PUT(req, { params }) {
   try {
@@ -75,6 +76,16 @@ export async function PUT(req, { params }) {
 
       user.accountBalance += creditedAmount;
       await user.save();
+
+      await Transaction.create({
+        userId: user._id,
+        senderId: null,
+        type: "credit",
+        amount: creditedAmount,
+        description: `Amount credited`,
+        postbalance: user.accountBalance,
+      });
+
       deposit.postBalance = user.accountBalance;
     } else {
       deposit.postBalance = user.accountBalance;

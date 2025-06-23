@@ -13,6 +13,7 @@ import {
   notFoundResponse,
 } from "@/app/helper/apiResponseHelpers";
 const commission = process.env.WITHDRAW_COMPANY_COMMISSION;
+import { Transaction } from "@/app/config/Models/Transaction/transaction";
 
 export async function PUT(req, { params }) {
   try {
@@ -71,6 +72,15 @@ export async function PUT(req, { params }) {
       user.accountBalance -= actualDeduction;
       await Users.findByIdAndUpdate(user._id, {
         accountBalance: user.accountBalance,
+      });
+
+      await Transaction.create({
+        userId: user._id,
+        senderId: null,
+        type: "debit",
+        amount: actualDeduction,
+        description: `Amount withdrawn`,
+        postbalance: user.accountBalance,
       });
 
       withdrawal.postBalance = user.accountBalance;

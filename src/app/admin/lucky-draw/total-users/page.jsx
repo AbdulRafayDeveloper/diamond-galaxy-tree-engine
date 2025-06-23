@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import Header from "@/app/admin/components/header/Header";
 import SideBar from "@/app/admin/components/sidebar/SideBar";
-import { Wheel } from "react-custom-roulette";
+
 import Cookies from "js-cookie";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
@@ -194,53 +194,71 @@ const Page = () => {
 
       <div className="sm:ml-64 p-4">
         <div className="flex flex-col items-center gap-4">
-          <Wheel
-            mustStartSpinning={mustSpin}
-            prizeNumber={prizeNumber}
-            data={users.map((user) => ({ option: user.name }))}
-            backgroundColors={["#22405c", "#F6F1DE"]}
-            textColors={["#ffffff", "#000000"]}
-            onStopSpinning={async () => {
-              setMustSpin(false);
-              try {
-                const res = await axios.get(`/api/admin/total-user`, {
-                  headers: {
-                    Authorization: `Bearer ${Cookies.get("token")}`,
-                  },
-                });
+          <div className="w-full max-w-xl flex flex-col items-center gap-4 mb-6">
+            <h2 className="text-xl font-bold text-center text-[#22405c]">
+              Spin and Find a Random Person for Lucky Draw
+            </h2>
 
-                const winner = res.data?.data?.winner;
-                if (res.data.status === 200 && winner) {
-                  setWinnerDetails({
-                    id: winner.id,
-                    name: winner.name,
-                    email: winner.email,
-                    username: winner.username,
-                    isRegistered: winner.is_registered,
-                    isActivated: winner.isInActivatedSlots,
-                    balance: res.data.data.totalCompanyCommission,
-                    slot: "-",
-                  });
-                  setShowModal(true);
-                } else {
-                  toast.error("No winner data received.");
-                }
-              } catch (error) {
-                console.error("Error fetching winner:", error);
-                toast.error(
-                  error?.response?.data?.message ||
-                    "Could not retrieve winner info"
-                );
-              }
-            }}
-          />
+            <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+              {users.map((user, index) => (
+                <div
+                  key={index}
+                  className={`text-center py-2 px-3 rounded shadow transition-all duration-300 ${
+                    index === prizeNumber && !mustSpin
+                      ? "bg-green-600 text-white font-bold"
+                      : "bg-[#F6F1DE] text-black"
+                  }`}
+                >
+                  {user.name}
+                </div>
+              ))}
+            </div>
 
-          <button
-            onClick={handleSpinClick}
-            className="bg-[#22405c] text-white px-4 py-2 rounded"
-          >
-            Spin
-          </button>
+            <button
+              onClick={async () => {
+                const newPrizeNumber = Math.floor(Math.random() * users.length);
+                setPrizeNumber(newPrizeNumber);
+                setMustSpin(true);
+
+                setTimeout(async () => {
+                  setMustSpin(false);
+                  try {
+                    const res = await axios.get(`/api/admin/total-user`, {
+                      headers: {
+                        Authorization: `Bearer ${Cookies.get("token")}`,
+                      },
+                    });
+
+                    const winner = res.data?.data?.winner;
+                    if (res.data.status === 200 && winner) {
+                      setWinnerDetails({
+                        id: winner.id,
+                        name: winner.name,
+                        email: winner.email,
+                        username: winner.username,
+                        isRegistered: winner.is_registered,
+                        isActivated: winner.isInActivatedSlots,
+                        balance: res.data.data.totalCompanyCommission,
+                        slot: "-",
+                      });
+                      setShowModal(true);
+                    } else {
+                      toast.error("No winner data received.");
+                    }
+                  } catch (error) {
+                    console.error("Error fetching winner:", error);
+                    toast.error(
+                      error?.response?.data?.message ||
+                        "Could not retrieve winner info"
+                    );
+                  }
+                }, 1500);
+              }}
+              className="bg-[#22405c] text-white px-4 py-2 rounded"
+            >
+              Spin
+            </button>
+          </div>
 
           {showModal && winnerDetails && (
             <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">

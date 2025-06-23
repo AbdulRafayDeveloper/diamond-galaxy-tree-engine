@@ -50,6 +50,7 @@ export async function PUT(req, context) {
       type: "monthly_gift",
       amount: amount,
       description: "Company gifted this amount (monthly_gift)",
+      postbalance: user.accountBalance,
     });
 
     await newTransaction.save();

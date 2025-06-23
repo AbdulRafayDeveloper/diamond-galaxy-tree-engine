@@ -132,7 +132,7 @@ const Page = () => {
       console.log("res for purchase: ", res);
 
       console.log(res);
-      if (res.status == 200) {
+      if (res.data.status == 200) {
         toast.success("Successfully applied for lucky draw");
         setTimeout(() => {
           window.location.reload();

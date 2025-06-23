@@ -59,6 +59,15 @@ export async function GET(req) {
     freshUser.accountBalance -= price;
     await freshUser.save();
 
+    await Transaction.create({
+      userId: freshUser._id,
+      senderId: null,
+      type: "slot purchase",
+      amount: price,
+      description: `Slot Purchase fee deducted`,
+      postbalance: freshUser.accountBalance,
+    });
+
     const companyAmount = (companyPercent / 100) * price;
     const distributable = price - companyAmount;
 
@@ -123,6 +132,7 @@ export async function GET(req) {
         description: `Level ${i + 1} slot-${
           slotIndex + 1
         } activation commission`,
+        postbalance: recipient.accountBalance,
       });
 
       distributedTo.push({

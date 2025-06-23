@@ -1,13 +1,54 @@
-import React, { useState } from 'react';
-import { Wheel } from 'react-custom-roulette';
+import React, { useState } from "react";
 
 const users = [
-  { name: 'Alice', email: 'alice@example.com', isRegistered: true, isActivated: true, balance: 1500, slot: 'Slot1' },
-  { name: 'Bob', email: 'bob@example.com', isRegistered: false, isActivated: false, balance: 0, slot: 'Slot2' },
-  { name: 'Charlie', email: 'charlie@example.com', isRegistered: true, isActivated: false, balance: 300, slot: 'Slot3' },
-  { name: 'David', email: 'david@example.com', isRegistered: true, isActivated: true, balance: 500, slot: 'Slot4' },
-  { name: 'Eve', email: 'eve@example.com', isRegistered: false, isActivated: true, balance: 1200, slot: 'Slot5' },
-  { name: 'Frank', email: 'frank@example.com', isRegistered: true, isActivated: true, balance: 800, slot: 'Slot6' },
+  {
+    name: "Alice",
+    email: "alice@example.com",
+    isRegistered: true,
+    isActivated: true,
+    balance: 1500,
+    slot: "Slot1",
+  },
+  {
+    name: "Bob",
+    email: "bob@example.com",
+    isRegistered: false,
+    isActivated: false,
+    balance: 0,
+    slot: "Slot2",
+  },
+  {
+    name: "Charlie",
+    email: "charlie@example.com",
+    isRegistered: true,
+    isActivated: false,
+    balance: 300,
+    slot: "Slot3",
+  },
+  {
+    name: "David",
+    email: "david@example.com",
+    isRegistered: true,
+    isActivated: true,
+    balance: 500,
+    slot: "Slot4",
+  },
+  {
+    name: "Eve",
+    email: "eve@example.com",
+    isRegistered: false,
+    isActivated: true,
+    balance: 1200,
+    slot: "Slot5",
+  },
+  {
+    name: "Frank",
+    email: "frank@example.com",
+    isRegistered: true,
+    isActivated: true,
+    balance: 800,
+    slot: "Slot6",
+  },
 ];
 
 const Spinner = () => {
@@ -42,8 +83,8 @@ const Spinner = () => {
         mustStartSpinning={mustSpin}
         prizeNumber={prizeNumber}
         data={users.map((user) => ({ option: user.name }))}
-        backgroundColors={['#22405c', '#F6F1DE']}
-        textColors={['#ffffff', '#000000']} // White on dark, Black on light
+        backgroundColors={["#22405c", "#F6F1DE"]}
+        textColors={["#ffffff", "#000000"]} // White on dark, Black on light
         onStopSpinning={() => {
           setMustSpin(false);
           setWinnerDetails(users[prizeNumber]);
@@ -64,12 +105,26 @@ const Spinner = () => {
           <div className="bg-white rounded-lg p-6 w-80 shadow-lg">
             <h2 className="text-xl font-semibold mb-4">Winner Details</h2>
             <div className="space-y-2">
-              <p><strong>Name:</strong> {winnerDetails.name}</p>
-              <p><strong>Email:</strong> {winnerDetails.email}</p>
-              <p><strong>Registered:</strong> {winnerDetails.isRegistered ? 'Yes' : 'No'}</p>
-              <p><strong>Activated:</strong> {winnerDetails.isActivated ? 'Yes' : 'No'}</p>
-              <p><strong>Balance:</strong> ${winnerDetails.balance}</p>
-              <p><strong>Slot:</strong> {winnerDetails.slot}</p>
+              <p>
+                <strong>Name:</strong> {winnerDetails.name}
+              </p>
+              <p>
+                <strong>Email:</strong> {winnerDetails.email}
+              </p>
+              <p>
+                <strong>Registered:</strong>{" "}
+                {winnerDetails.isRegistered ? "Yes" : "No"}
+              </p>
+              <p>
+                <strong>Activated:</strong>{" "}
+                {winnerDetails.isActivated ? "Yes" : "No"}
+              </p>
+              <p>
+                <strong>Balance:</strong> ${winnerDetails.balance}
+              </p>
+              <p>
+                <strong>Slot:</strong> {winnerDetails.slot}
+              </p>
               <button
                 className="bg-[#22405c] text-white px-4 py-2 rounded mt-4"
                 onClick={() => setIsOpen(true)} // Open deposit modal
@@ -91,7 +146,9 @@ const Spinner = () => {
       {isOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-20 z-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-80">
-            <h2 className="text-xl font-semibold mb-4 text-center">Enter Amount</h2>
+            <h2 className="text-xl font-semibold mb-4 text-center">
+              Enter Amount
+            </h2>
             <input
               type="number"
               placeholder="Enter amount"
