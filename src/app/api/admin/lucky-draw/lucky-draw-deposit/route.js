@@ -1,4 +1,5 @@
-
+'use server';
+import connectDB from "@/app/config/db";
 import { LuckyDraw } from "@/app/config/Models/Lucky-draw/Lucky-Draw-Info/lucky-draw-info";
 import { Users } from "@/app/config/Models/Users/users";
 import serverSideValidations from "@/app/helper/serverSideValidations";
@@ -11,8 +12,6 @@ import {
 import { Commissions } from "@/app/config/Models/Commission/commission";
 
 import { ActivatedSlots } from "@/app/config/Models/Active-Slots/activeSlots";
-
-import connectDB from "@/app/config/db";
 import { Users } from "@/app/config/Models/Users/users";
 import { Commissions } from "@/app/config/Models/Commission/commission";
 import serverSideValidations from "@/app/helper/serverSideValidations";
