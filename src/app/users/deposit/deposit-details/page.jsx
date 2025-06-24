@@ -1,5 +1,10 @@
-import DepositDetailsClient from './DepositDetailsClient';
+import { Suspense } from "react";
+import DepositDetailsClient from "./DepositDetailsClient";
 
 export default function Page() {
-  return <DepositDetailsClient />;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <DepositDetailsClient />
+    </Suspense>
+  );
 }
