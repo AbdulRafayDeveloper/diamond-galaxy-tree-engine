@@ -1,28 +1,66 @@
 "use client";
 import { id } from "date-fns/locale";
-import Header from "@/app/admin/components/header/Header";
+import Header from "@/app/admin/components/header/page";
 import SideBar from "@/app/admin/components/sidebar/SideBar";
 import { useState, useRef, useEffect, use } from "react";
 import Link from "next/link";
+import Cookies from "js-cookie";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [formData,setFormData]=useState({
-    name:"",
-    link:"",
-    description:""
+  const [formData, setFormData] = useState({
+    name: "",
+    url: "",
+    description: "",
   });
-  const handleChange=(e)=>{
-    const {name,value}=e.target;
-    setFormData((prev)=>({
-        ...prev,
-        [name]: value,
-    }))
-  }
-  const handleSubmit=(e)=>{
+  const [loading, setLoading] = useState(false);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-  }
+    setLoading(true);
+
+    try {
+      const token = Cookies.get("token");
+
+      const response = await axios.post(
+        "/api/admin/education",
+        {
+          name: formData.name,
+          url: formData.url,
+          description: formData.description,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.data.status == 200) {
+        toast.success("Education data added successfully.");
+        setFormData({ name: "", url: "", description: "" });
+        setLoading(false);
+      }
+    } catch (err) {
+      const message =
+        err?.response?.data?.error ||
+        err?.message ||
+        "Something went wrong. Please try again later.";
+      setLoading(false);
+      toast.error(message);
+    }
+  };
+
   const sidebarRef = useRef(null);
   const buttonRef = useRef(null);
   const handleSidebarToggle = () => {
@@ -102,36 +140,63 @@ const Page = () => {
         <div className="flex justify-center items-center items-center min-h-[500px] p-2 ">
           <div className="p-3 md:w-[500px] lg:w-[600px] sm:[400px] w-[310px] min-h-[400px] bg-[#F6F1DE] p-3 rounded-md shadow-md ">
             <div className="flex flex-col jutify-center items-center gap-5  p-8 ">
-                <div className="flex flex-col justify-center items-center border-b-2 border-gray-400 gap-3 pb-2">
-                    <h1 className="text-xl mb-4 font-bold text-center">Add the Courses for Education</h1>
-                </div>
-                <div className="flex flex-col gap-1">
-                    <label htmlFor="">Name :</label>
-                    <input type="text" name="name" value={formData.name}
-                        id="" placeholder="Enter the name" className="min-w-[250px] p-1 outline-none rounded-md"
-                        onChange={handleChange} />
-                </div>
-                <div className="flex flex-col gap-1">
-                    <label htmlFor="">Link :</label>
-                    <input type="text" name="link" value={formData.link}
-                        id="" placeholder="Enter the url" className="min-w-[250px] p-1 outline-none rounded-md"
-                        onChange={handleChange} />
-                </div>
-                <div className="flex flex-col gap-1">
-                    <label htmlFor="">Description :</label>
-                    <input type="text" name="description" value={formData.description}
-                        id="" placeholder="Enter the description" className="min-w-[250px] p-1 outline-none rounded-md"
-                        onChange={handleChange} />
-                </div>
-                <div>
-                    <button className="p-1 w-full text-white bg-[#22405c] rounded-lg min-w-[250px]" onClick={handleSubmit} > 
-                        Submit
-                    </button>
-                </div>
+              <div className="flex flex-col justify-center items-center border-b-2 border-gray-400 gap-3 pb-2">
+                <h1 className="text-xl mb-4 font-bold text-center">
+                  Add the Courses for Education
+                </h1>
+              </div>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="">Name :</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  id=""
+                  placeholder="Enter the name"
+                  className="min-w-[250px] p-1 outline-none rounded-md"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="">Link :</label>
+                <input
+                  type="text"
+                  name="url"
+                  value={formData.url}
+                  id=""
+                  placeholder="Enter the url"
+                  className="min-w-[250px] p-1 outline-none rounded-md"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="">Description :</label>
+                <input
+                  type="text"
+                  name="description"
+                  value={formData.description}
+                  id=""
+                  placeholder="Enter the description"
+                  className="min-w-[250px] p-1 outline-none rounded-md"
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <button
+                  className={`p-1 w-full text-white rounded-lg min-w-[250px] ${
+                    loading ? "bg-gray-500 cursor-not-allowed" : "bg-[#22405c]"
+                  }`}
+                  onClick={handleSubmit}
+                  disabled={loading}
+                >
+                  {loading ? "Submitting..." : "Submit"}
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

@@ -1,5 +1,5 @@
 "use client";
-import Header from "@/app/admin/components/header/Header";
+import Header from "@/app/admin/components/header/page";
 import SideBar from "@/app/admin/components/sidebar/SideBar";
 import { useState, useRef, useEffect } from "react";
 // import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -179,8 +179,9 @@ const Page = () => {
         <aside
           ref={sidebarRef}
           id="separator-sidebar"
-          className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-            } sm:translate-x-0`}
+          className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${
+            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } sm:translate-x-0`}
           aria-label="Sidebar"
         >
           <SideBar section={section} />
@@ -647,7 +648,7 @@ const Page = () => {
               <button
                 type="button"
                 className="px-4 py-2 bg-gray-300 rounded-lg"
-              // onClick={(e) => handleFormAction("cancel", e)}
+                // onClick={(e) => handleFormAction("cancel", e)}
               >
                 Cancel
               </button>

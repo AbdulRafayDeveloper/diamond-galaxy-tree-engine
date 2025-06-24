@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Header from "@/app/admin/components/header/Header";
+import Header from "@/app/admin/components/header/page";
 import SideBar from "@/app/admin/components/sidebar/SideBar";
 import Table from "@/app/admin/components/depositTable/depositTable";
 import Pagination from "../components/pagination/Pagination";

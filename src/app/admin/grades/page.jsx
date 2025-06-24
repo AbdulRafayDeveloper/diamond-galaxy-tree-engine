@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Header from "@/app/admin/components/header/Header";
+import Header from "@/app/admin/components/header/page";
 import SideBar from "@/app/admin/components/sidebar/SideBar";
 import Table from "@/app/admin/components/gradesTable/gradeTable";
 import Pagination from "../components/pagination/Pagination";
@@ -34,35 +34,34 @@ const Page = () => {
       members: "1",
     },
     {
-        username: "Rafy",
-        email: "abcd1234@gmail.com",
-        members: "4",
+      username: "Rafy",
+      email: "abcd1234@gmail.com",
+      members: "4",
     },
     {
-        username: "Abbas",
-        email: "abcd1234@gmail.com",
-        members: "2",
+      username: "Abbas",
+      email: "abcd1234@gmail.com",
+      members: "2",
     },
     {
-        username: "Qasim",
-        email: "abcd1234@gmail.com",
-        members: "3",
+      username: "Qasim",
+      email: "abcd1234@gmail.com",
+      members: "3",
     },
     {
-        username: "Hussnain",
-        email: "abcd1234@gmail.com",
-        members: "2",
+      username: "Hussnain",
+      email: "abcd1234@gmail.com",
+      members: "2",
     },
   ];
 
- 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-const section="Grades"
+  const section = "Grades";
   return (
     <div className="overflow-y-auto scrollbar-hidden">
       <div className="p-2 w-full">
@@ -93,7 +92,7 @@ const section="Grades"
 
           {/* Title */}
           <p className="text-[12px] md:text-xl md:font-semibold ml-4 md:ml-64 lg:ml-64 p-5">
-           Grades
+            Grades
           </p>
 
           {/* Header component */}
@@ -119,7 +118,7 @@ const section="Grades"
           <div className="mx-auto bg-white">
             {/* Table of items */}
             <Table products={products} />
-            <Pagination/>
+            <Pagination />
           </div>
         </div>
       </div>

@@ -1,3 +1,4 @@
+import { number } from "joi";
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
@@ -30,8 +31,10 @@ const userSchema = new mongoose.Schema(
         "Diamond Grade",
         "Royal Grade",
         "Star Grade",
+        "Member",
+        "N/A",
       ],
-      default: "Silver Grade",
+      default: "N/A",
       required: true,
     },
     otp: {
@@ -73,6 +76,22 @@ const userSchema = new mongoose.Schema(
     is_diamond: {
       type: Boolean,
       default: false,
+    },
+    monthly_gift: {
+      type: String,
+      default: null,
+    },
+    monthly_reward: {
+      type: String,
+      default: null,
+    },
+    salary: {
+      type: Number,
+      default: null,
+    },
+    image: {
+      type: String,
+      default: null,
     },
   },
   {

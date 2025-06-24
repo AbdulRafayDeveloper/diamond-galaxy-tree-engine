@@ -1,3 +1,4 @@
+import { required } from "joi";
 import mongoose from "mongoose";
 
 const transactionSchema = new mongoose.Schema(
@@ -10,7 +11,7 @@ const transactionSchema = new mongoose.Schema(
     senderId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+      default: "",
     },
     type: {
       type: String,
@@ -21,6 +22,9 @@ const transactionSchema = new mongoose.Schema(
         "transfer",
         "activation",
         "luckyDraw",
+        "monthly_gift",
+        "registration",
+        "slot purchase",
       ],
       required: true,
     },
@@ -32,6 +36,10 @@ const transactionSchema = new mongoose.Schema(
     description: {
       type: String,
       default: "",
+    },
+    postbalance: {
+      type: Number,
+      default: null,
     },
   },
   { timestamps: true }

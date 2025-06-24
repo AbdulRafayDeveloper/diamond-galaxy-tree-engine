@@ -4,23 +4,60 @@ import Header from "../components/header/page";
 import SideBar from "../components/sidebar/SideBar";
 import { useState, useRef, useEffect, use } from "react";
 import Link from "next/link";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [formData,setFormData]=useState({
-    address:""
+  const [formData, setFormData] = useState({
+    address: "",
   });
-  const handleChange=(e)=>{
-    const {name,value}=e.target;
-    setFormData((prev)=>({
-        ...prev,
-        [name]: value,
-    }))
-  }
-  const handleSubmit=(e)=>{
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+  const handleSubmit = async (e) => {
+    console.log("1");
     e.preventDefault();
     console.log(formData);
-  }
+
+    try {
+      const token = Cookies.get("token");
+
+      if (!token) {
+        alert("Unauthorized. Token missing.");
+        return;
+      }
+
+      const res = await axios.post(
+        "/api/monthly-reward",
+        { monthly_reward: formData.address },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log(res.data);
+      if (res.data.status == 200) {
+        toast.success("Address for Monthly reward has been added");
+      }
+
+      setFormData({ address: "" });
+    } catch (error) {
+      console.error(error);
+      toast.error(
+        error?.response?.data?.message || "Something went wrong while saving."
+      );
+    }
+  };
   const sidebarRef = useRef(null);
   const buttonRef = useRef(null);
   const handleSidebarToggle = () => {
@@ -100,24 +137,47 @@ const Page = () => {
         <div className="flex justify-center items-center items-center min-h-[500px] p-2 ">
           <div className="p-3 md:w-[500px] lg:w-[600px] sm:[400px] w-[310px] h-[300px] bg-[#F6F1DE] p-3 rounded-md shadow-md ">
             <div className="flex flex-col jutify-center items-center gap-5  p-8 ">
-                <div className="flex flex-col justify-center items-center border-b-2 border-gray-400 gap-3 pb-2">
-                    <h1 className="text-xl mb-4 font-bold text-center">Qualified for Reward</h1>
-                </div>
-                <div className="flex flex-col gap-1">
-                    <label htmlFor="">Address:</label>
-                    <input type="text" name="address" value={formData.address}
-                        id="" placeholder="Enter the address" className="min-w-[250px] p-1 outline-none rounded-md"
-                        onChange={handleChange} />
-                </div>
-                <div>
-                    <button className="p-1 w-full text-white bg-[#22405c] rounded-lg min-w-[250px]" onClick={handleSubmit} > 
-                        Submit
-                    </button>
-                </div>
+              <div className="flex flex-col justify-center items-center border-b-2 border-gray-400 gap-3 pb-2">
+                <h1 className="text-xl mb-4 font-bold text-center">
+                  Qualified for Reward
+                </h1>
+              </div>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="">Address:</label>
+                <input
+                  type="text"
+                  name="address"
+                  value={formData.address}
+                  id=""
+                  placeholder="Enter the address"
+                  className="min-w-[250px] p-1 outline-none rounded-md"
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <button
+                  className="p-1 w-full text-white bg-[#22405c] rounded-lg min-w-[250px]"
+                  onClick={handleSubmit}
+                >
+                  Submit
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 };

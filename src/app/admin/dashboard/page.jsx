@@ -1,5 +1,5 @@
 "use client";
-import Header from "@/app/admin/components/header/Header";
+import Header from "@/app/admin/components/header/page";
 import SideBar from "@/app/admin/components/sidebar/SideBar";
 import { useState, useRef, useEffect } from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -132,7 +132,7 @@ const Page = () => {
 
           {/* Header component */}
           <div className="ml-auto">
-            <Header appear={true}  />
+            <Header appear={true} />
           </div>
         </div>
         <aside
@@ -150,16 +150,16 @@ const Page = () => {
         {/* <Header appear={true} title={"Welcome Jack!"} /> */}
         <div className="p-3 bg-white">
           <div className="mx-auto bg-white  ">
-          <div className="grid gap-4 justify-center items-center text-center grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-            {cardData.map((el, id) => (
-              <div key={id} className="flex justify-center gap-5">
-                <div className="flex flex-col justify-center items-center bg-[#22405c] text-white rounded-xl p-4 w-full min-w-[240px] h-[156px]">
-                  <p className="text-[18px]">{el.title}</p>
-                  <h1 className="text-5xl mt-3">{el.counterValue}</h1>
+            <div className="grid gap-4 justify-center items-center text-center grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+              {cardData.map((el, id) => (
+                <div key={id} className="flex justify-center gap-5">
+                  <div className="flex flex-col justify-center items-center bg-[#22405c] text-white rounded-xl p-4 w-full min-w-[240px] h-[156px]">
+                    <p className="text-[18px]">{el.title}</p>
+                    <h1 className="text-5xl mt-3">{el.counterValue}</h1>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
             {/* Table of items */}
             {/* <Table products={products} /> */}
 

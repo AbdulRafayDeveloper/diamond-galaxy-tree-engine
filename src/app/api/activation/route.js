@@ -43,6 +43,15 @@ export async function GET(req) {
     freshUser.accountBalance -= price;
     await freshUser.save();
 
+    await Transaction.create({
+      userId: freshUser._id,
+      senderId: null,
+      type: "activation",
+      amount: price,
+      description: `Account activation fee deducted`,
+      postbalance: freshUser.accountBalance,
+    });
+
     const companyAmount = (companyPercent / 100) * price;
     const distributable = price - companyAmount;
 
@@ -110,6 +119,7 @@ export async function GET(req) {
         type: "commission",
         amount,
         description: `Level ${i + 1} activation commission`,
+        postbalance: recipient.accountBalance,
       });
 
       distributedTo.push({

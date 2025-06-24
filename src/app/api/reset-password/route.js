@@ -7,7 +7,6 @@ import {
   notFoundResponse,
   badRequestResponse,
   conflictResponse,
-  unauthorizedResponse,
 } from "@/app/helper/apiResponseHelpers";
 import serverSideValidations from "@/app/helper/serverSideValidations";
 

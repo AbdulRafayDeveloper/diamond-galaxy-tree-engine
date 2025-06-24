@@ -1,5 +1,5 @@
 import { Users } from "@/app/config/Models/Users/users";
-import sendEmail from "@/app/helper/sendEmail";
+import sendEmail from "@/app/helper/senEmail";
 import jwt from "jsonwebtoken";
 import db from "@/app/config/db";
 import {
@@ -33,7 +33,10 @@ export async function POST(req = null, res = null) {
     console.log("user after verification:", user);
 
     if (!user) {
-      return notFoundResponse("No user found with this email or OTP is invalid", null);
+      return notFoundResponse(
+        "No user found with this email or OTP is invalid",
+        null
+      );
     }
 
     const otpAge = Date.now() - new Date(user.otpCreatedAt).getTime();
@@ -48,7 +51,10 @@ export async function POST(req = null, res = null) {
     console.log("otp:", user.otp);
 
     if (otpAge > otpValidityDuration) {
-      await Users.findOneAndUpdate({ email }, { otp: null, otpCreatedAt: null });
+      await Users.findOneAndUpdate(
+        { email },
+        { otp: null, otpCreatedAt: null }
+      );
       return badRequestResponse("OTP has expired", null);
     }
 
@@ -65,14 +71,22 @@ export async function POST(req = null, res = null) {
     const updatedUser = await user.save();
 
     if (!updatedUser) {
-      return serverErrorResponse("Unable to update user. Please try again later");
+      return serverErrorResponse(
+        "Unable to update user. Please try again later"
+      );
     }
 
     console.log("user after resetPasswordToken:", user);
 
-    return successResponse("OTP has been verified successfully", resetPasswordToken);
+    return successResponse(
+      "OTP has been verified successfully",
+      resetPasswordToken
+    );
   } catch (error) {
     console.log(error);
-    return serverErrorResponse("Internal server error. Please try again later!", error.message);
+    return serverErrorResponse(
+      "Internal server error. Please try again later!",
+      error.message
+    );
   }
 }

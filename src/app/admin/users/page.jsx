@@ -1,12 +1,11 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Header from "@/app/admin/components/header/Header";
+import Header from "@/app/admin/components/header/page";
 import SideBar from "@/app/admin/components/sidebar/SideBar";
 import Table from "@/app/admin/components/itemTable/UserTable";
 import Pagination from "../components/pagination/Pagination";
 import Link from "next/link";
-
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -34,46 +33,45 @@ const Page = () => {
       propertyAddress: "abcd12@gmail.com",
       status: "Active",
       date: "15/may/2024",
-      salary:"0$"
+      salary: "0$",
     },
     {
       name: "Rafy",
       propertyAddress: "abcd12@gmail.com",
       status: "Pending",
       date: "15/may/2024",
-      salary:"0$"
+      salary: "0$",
     },
     {
       name: "Abbas",
       propertyAddress: "abcd12@gmail.com",
       status: "Expire",
       date: "15/may/2024",
-      salary:"0$"
+      salary: "0$",
     },
     {
       name: "Husnain",
       propertyAddress: "abcd12@gmail.com",
       status: "Active",
       date: "15/may/2024",
-      salary:"0$"
+      salary: "0$",
     },
     {
       name: "Qasim",
       propertyAddress: "abcd12@gmail.com",
       status: "Active",
       date: "15/may/2024",
-      salary:"0$"
+      salary: "0$",
     },
   ];
 
- 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-const section="Users"
+  const section = "Users";
   return (
     <div className="overflow-y-auto scrollbar-hidden">
       <div className="p-2 w-full">
@@ -104,7 +102,7 @@ const section="Users"
 
           {/* Title */}
           <p className="text-[12px] md:text-xl md:font-semibold ml-4 md:ml-64 lg:ml-64 p-5">
-           Users
+            Users
           </p>
 
           {/* Header component */}
@@ -128,34 +126,8 @@ const section="Users"
         {/* <Header appear={false} title={"All Users"} /> */}
         <div className="p-6 bg-white">
           <div className="mx-auto bg-white">
-            <div className="flex flex-col sm:flex-row gap-4 w-full pt-1 justify-end items-center">
-              {/* Search Bar */}
-              <div className="relative w-full sm:w-64">
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 pr-4 py-[5px] w-full border border-gray-300 rounded-full focus:outline-none focus:ring-1 focus:ring-[#FF9100] text-sm"
-                />
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 size-5"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
-            </div>
-
             {/* Table of items */}
             <Table products={products} />
-            <Pagination/>
           </div>
         </div>
       </div>

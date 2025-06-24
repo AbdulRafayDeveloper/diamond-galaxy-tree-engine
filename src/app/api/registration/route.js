@@ -47,6 +47,15 @@ export async function GET(req) {
     freshUser.accountBalance -= price;
     await freshUser.save();
 
+    await Transaction.create({
+      userId: freshUser._id,
+      senderId: null,
+      type: "registration",
+      amount: price,
+      description: `Account registration fee deducted`,
+      postbalance: freshUser.accountBalance,
+    });
+
     const companyAmount = (companyPercent / 100) * price;
     const distributable = price - companyAmount;
 
@@ -94,6 +103,7 @@ export async function GET(req) {
         type: "commission",
         amount: lvl1Amount,
         description: "Level 1 registration commission",
+        postbalance: ref1.accountBalance,
       });
 
       ref2.accountBalance += lvl2Amount;
@@ -104,6 +114,7 @@ export async function GET(req) {
         type: "commission",
         amount: lvl2Amount,
         description: "Level 2 registration commission",
+        postbalance: ref2.accountBalance,
       });
     } else if (ref2) {
       ref2.accountBalance += lvl1Amount;
@@ -114,6 +125,7 @@ export async function GET(req) {
         type: "commission",
         amount: lvl1Amount,
         description: "Level 1 registration commission",
+        postbalance: ref2.accountBalance,
       });
 
       baseCommission.amount += lvl2Amount;
