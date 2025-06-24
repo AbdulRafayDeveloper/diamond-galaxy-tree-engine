@@ -5,6 +5,7 @@ import { useState, useRef, useEffect, useRouter } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import Cookies from "js-cookie";
+import Image from "next/image";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -18,9 +19,9 @@ const Page = () => {
   const [formData, setFormData] = useState({
     fname: "",
     lname: "",
-    username: "Fatima",
-    email: "email1@gmail.com",
-    phoneNo: "+92 3027678789",
+    username: "",
+    email: "",
+    phoneNo: "",
     pic: "",
   });
 
@@ -154,11 +155,11 @@ const Page = () => {
             username: user.username || "",
             email: user.email || "",
             phoneNo: user.phoneNo || "",
-            pic: user.profileImage || "",
+            pic: user.image,
           });
 
-          if (user.profileImage) {
-            setImage(user.profileImage); // Show profile picture
+          if (user.image) {
+            setImage(user.image); // Show profile picture
           }
         } else {
           console.error("User data not found");
@@ -170,6 +171,8 @@ const Page = () => {
 
     fetchUserProfile();
   }, []);
+
+  console.log(formData.pic);
 
   return (
     <div className="overflow-y-auto scrollbar-hidden">
@@ -231,9 +234,11 @@ const Page = () => {
                     <div className="flex flex-col items-center space-y-2">
                       {/* Profile Picture Container */}
                       <div className="relative w-24 h-24">
-                        <img
+                        <Image
                           src={image || "/icons/user.png"}
                           alt="Profile"
+                          width={250}
+                          height={250}
                           className="w-full h-full object-cover rounded-full border bg-[#22405c]  p-2"
                         />
 
@@ -322,7 +327,6 @@ const Page = () => {
                           required
                           className="bg-gray-50 pl-10 w-full text-sm text-gray-800 px-4 py-3.5 rounded-md outline-purple-600 focus:bg-transparent"
                           placeholder="Username"
-                          disabled
                         />
                       </div>
                     </div>

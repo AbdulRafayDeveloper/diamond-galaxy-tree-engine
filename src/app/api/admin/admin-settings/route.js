@@ -17,10 +17,14 @@ export async function PUT(req) {
     await connectDB();
 
     const token = serverSideValidations.checkTokenValidationStyle(req);
-    const user = await serverSideUserValidation.validateUserByToken(token);
+    const user = await serverSideValidations.validateUserByToken(token);
 
     if (!user || !user._id) {
       return badRequestResponse("Unauthorized. Invalid or missing token.");
+    }
+
+    if (user.role !== "admin") {
+      return conflictResponse("Access denied. Admins only.");
     }
 
     const formData = await req.formData();
@@ -84,10 +88,15 @@ export async function GET(req, res) {
   try {
     await connectDB();
     const token = serverSideValidations.checkTokenValidationStyle(req);
-    console.log(token);
-    const user = await serverSideUserValidation.validateUserByToken(token);
+    const user = await serverSideValidations.validateUserByToken(token);
 
-    if (user.status) return user;
+    if (!user || !user._id) {
+      return badRequestResponse("Unauthorized. Invalid or missing token.");
+    }
+
+    if (user.role !== "admin") {
+      return conflictResponse("Access denied. Admins only.");
+    }
 
     const foundUser = await Users.findById(user._id).populate("referrerId");
 

@@ -32,8 +32,9 @@ const userSchema = new mongoose.Schema(
         "Royal Grade",
         "Star Grade",
         "Member",
+        "N/A",
       ],
-      default: "Member",
+      default: "N/A",
       required: true,
     },
     otp: {

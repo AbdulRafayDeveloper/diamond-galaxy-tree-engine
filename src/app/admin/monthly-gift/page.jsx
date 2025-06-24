@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Header from "@/app/admin/components/header/Header";
+import Header from "@/app/admin/components/header/page";
 import SideBar from "@/app/admin/components/sidebar/SideBar";
 import Table from "@/app/admin/components/luckydrawTable/luckyDrawTable";
 import Pagination from "../components/pagination/Pagination";
@@ -36,35 +36,34 @@ const Page = () => {
       address: "DHA Phase I",
     },
     {
-        username: "Rafy",
-        email: "abcd1234@gmail.com",
-        address: "DHA Phase I",
+      username: "Rafy",
+      email: "abcd1234@gmail.com",
+      address: "DHA Phase I",
     },
     {
-        username: "Abbas",
-        email: "abcd1234@gmail.com",
-        address: "DHA Phase I",
+      username: "Abbas",
+      email: "abcd1234@gmail.com",
+      address: "DHA Phase I",
     },
     {
-        username: "Qasim",
-        email: "abcd1234@gmail.com",
-        address: "DHA Phase I",
+      username: "Qasim",
+      email: "abcd1234@gmail.com",
+      address: "DHA Phase I",
     },
     {
-        username: "Hussnain",
-        email: "abcd1234@gmail.com",
-        address: "DHA Phase I",
+      username: "Hussnain",
+      email: "abcd1234@gmail.com",
+      address: "DHA Phase I",
     },
   ];
 
- 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-const section="Monthly Gifts"
+  const section = "Monthly Gifts";
   return (
     <div className="overflow-y-auto scrollbar-hidden">
       <div className="p-2 w-full">
@@ -95,7 +94,7 @@ const section="Monthly Gifts"
 
           {/* Title */}
           <p className="text-[12px] md:text-xl md:font-semibold ml-4 md:ml-64 lg:ml-64 p-5">
-          Monthly Gifts
+            Monthly Gifts
           </p>
 
           {/* Header component */}
