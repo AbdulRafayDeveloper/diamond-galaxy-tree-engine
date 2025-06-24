@@ -1,4 +1,4 @@
-import connectDB from "@/app/config/db";
+
 import { LuckyDraw } from "@/app/config/Models/Lucky-draw/Lucky-Draw-Info/lucky-draw-info";
 import { Users } from "@/app/config/Models/Users/users";
 import serverSideValidations from "@/app/helper/serverSideValidations";
