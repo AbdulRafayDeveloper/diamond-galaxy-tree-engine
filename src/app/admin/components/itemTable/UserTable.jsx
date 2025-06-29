@@ -36,7 +36,7 @@ const UsersTable = () => {
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
   const [currentUserId, setCurrentUserId] = useState(null);
-  const [salary, setSalary] = useState();
+  const [salary, setSalary] = useState("");
 
   const openModal = async (userId) => {
     setCurrentUserId(userId);
@@ -445,62 +445,64 @@ const UsersTable = () => {
 
                   {/* Deposit */}
                   <td className="px-6 py-4 ">
-                    <td className="px-6 py-4 ">
+                    {/* <td className="px-6 py-4 "> */}
+                    <div className="flex flex-col items-center">
                       <button
                         className="bg-[#22405c] text-white px-4 py-2 rounded"
                         onClick={() => openModal(product.id)}
                       >
                         Add
                       </button>
-                    </td>
+                      {/* </td> */}
 
-                    {isOpen && (
-                      <div className="bg-white p-6 rounded-lg shadow-lg w-80">
-                        <h2 className="text-xl font-semibold mb-4 text-center">
-                          Enter Amount
-                        </h2>
-                        <input
-                          type="number"
-                          placeholder="Enter amount"
-                          value={amount}
-                          onChange={(e) => setAmount(e.target.value)}
-                          className="w-full border border-gray-300 p-2 rounded mb-4"
-                        />
+                      {isOpen && (
+                        <div className="bg-white p-6 rounded-lg shadow-lg w-80">
+                          <h2 className="text-xl font-semibold mb-4 text-center">
+                            Enter Amount
+                          </h2>
+                          <input
+                            type="number"
+                            placeholder="Enter amount"
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                            className="w-full border border-gray-300 p-2 rounded mb-4"
+                          />
 
-                        <h2 className="text-xl font-semibold mb-4 text-center">
-                          Select Description
-                        </h2>
-                        <select
-                          value={selectedDescription}
-                          onChange={(e) =>
-                            setSelectedDescription(e.target.value)
-                          }
-                          className="w-full border border-gray-300 p-2 rounded mb-4"
-                        >
-                          <option value="">Select</option>
-                          {descriptionOptions.map((desc) => (
-                            <option key={desc} value={desc}>
-                              {desc}
-                            </option>
-                          ))}
-                        </select>
-
-                        <div className="flex justify-end gap-2">
-                          <button
-                            className="bg-[#F6F1DE] px-4 py-2 rounded"
-                            onClick={closeModal}
+                          <h2 className="text-xl font-semibold mb-4 text-center">
+                            Select Description
+                          </h2>
+                          <select
+                            value={selectedDescription}
+                            onChange={(e) =>
+                              setSelectedDescription(e.target.value)
+                            }
+                            className="w-full border border-gray-300 p-2 rounded mb-4"
                           >
-                            Cancel
-                          </button>
-                          <button
-                            className="bg-[#22405c] text-white px-4 py-2 rounded"
-                            onClick={handleSubmit}
-                          >
-                            Submit
-                          </button>
+                            <option value="">Select</option>
+                            {descriptionOptions.map((desc) => (
+                              <option key={desc} value={desc}>
+                                {desc}
+                              </option>
+                            ))}
+                          </select>
+
+                          <div className="flex justify-end gap-2">
+                            <button
+                              className="bg-[#F6F1DE] px-4 py-2 rounded"
+                              onClick={closeModal}
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              className="bg-[#22405c] text-white px-4 py-2 rounded"
+                              onClick={handleSubmit}
+                            >
+                              Submit
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </td>
 
                   {/* Reward Deposit */}
