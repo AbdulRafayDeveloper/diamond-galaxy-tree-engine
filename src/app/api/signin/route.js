@@ -52,6 +52,14 @@ export async function POST(req) {
       );
     }
 
+    // check user email verification status
+    if (!existingUser.isEmailVerified) {
+      return NextResponse.json(
+        { success: false, error: "Your email is not verified. Please check your Gmail inbox and click on the verification link we sent to activate your account." },
+        { status: 403 }
+      );
+    }
+
     const token = jwt.sign(
       {
         id: existingUser._id,

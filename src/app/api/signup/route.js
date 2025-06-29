@@ -7,6 +7,8 @@ import { validateUser } from "@/app/helper/validateUser";
 import countries from "i18n-iso-countries";
 countries.registerLocale(require("i18n-iso-countries/langs/en.json"));
 import connectDB from "@/app/config/db";
+import generateEmailVerificationTemplate from "@/app/helper/generateEmailVerificationTemplate";
+import sendEmail from "@/app/helper/sendEmail";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 const url = process.env.REFERENCE_URL;
@@ -145,10 +147,22 @@ export async function POST(req) {
       { expiresIn: "1d" }
     );
 
+    if (!token) {
+      return NextResponse.json(
+        { success: false, error: "Failed to generate token" },
+        { status: 500 }
+      );
+    }
+
+    const subject = "Verify Your Email";
+    const emailContent = generateEmailVerificationTemplate(savedUser.username, `${process.env.CLIENT_URL}/auth/verify-email?token=${token}`);
+
+    await sendEmail(email, subject, emailContent);
+
     return NextResponse.json(
       {
         success: true,
-        message: "User registered successfully",
+        message: "Account created successfully! Please check your Gmail inbox and click the verification link to activate your account.",
         token,
         savedUser,
       },
