@@ -88,7 +88,7 @@ const VerifyEmail = () => {
                             </div> */}
 
                             <Link
-                                href="/auth/login"
+                                href="/auth/signin"
                                 className="inline-block bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-7 rounded-lg shadow transition"
                             >
                                 Go to Login
