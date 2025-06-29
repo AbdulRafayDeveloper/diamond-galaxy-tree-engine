@@ -30,6 +30,7 @@ export async function middleware(req) {
     return NextResponse.next(); // allow access to auth pages
   }
 
+  
   // ✅ Has token
   try {
     const { payload } = await jwtVerify(token, JWT_SECRET);
