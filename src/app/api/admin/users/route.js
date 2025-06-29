@@ -8,6 +8,8 @@ import {
   badRequestResponse,
   serverErrorResponse,
 } from "@/app/helper/apiResponseHelpers";
+import { Depositors } from "@/app/config/Models/Depositors/depositors";
+import { Withdrawers } from "@/app/config/Models/Withdrawers/withdrawers";
 
 export async function GET(req) {
   try {
@@ -52,9 +54,18 @@ export async function GET(req) {
 
     const totalUsers = await Users.countDocuments(filter);
 
+    const totalPendingDeposits = await Depositors.countDocuments({
+      status: "pending",
+    });
+    const totalPendingWithdraws = await Withdrawers.countDocuments({
+      status: "pending",
+    });
+
     return successResponse("All users fetched successfully.", {
       users,
       totalUsers,
+      totalPendingDeposits,
+      totalPendingWithdraws,
       pageNumber: page,
       pageSize: size,
     });

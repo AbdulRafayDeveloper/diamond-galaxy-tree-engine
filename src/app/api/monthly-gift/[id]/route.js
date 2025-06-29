@@ -35,7 +35,11 @@ export async function PUT(req, context) {
     }
 
     const body = await req.json();
+
+    console.log("body data : ", body);
+
     const amount = parseFloat(body.amount);
+    const description = body.message;
 
     if (isNaN(amount) || amount <= 0) {
       return badRequestResponse("Invalid amount.");

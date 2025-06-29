@@ -3,7 +3,8 @@ import Header from "@/app/admin/components/header/page";
 import SideBar from "@/app/admin/components/sidebar/SideBar";
 import { useState, useRef, useEffect } from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-
+import axios from "axios";
+import Cookies from "js-cookie";
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
@@ -24,71 +25,6 @@ const Page = () => {
     }
   };
 
-  const products = [
-    {
-      name: "Johnathan Smith",
-      propertyAddress: "111 W Main St Gamer, NC 27529",
-      status: "Active",
-      date: "15/may/2024",
-    },
-    {
-      name: "Johnathan Smith",
-      propertyAddress: "111 W Main St Gamer, NC 27529",
-      status: "Pending",
-      date: "15/may/2024",
-    },
-    {
-      name: "Johnathan Smith",
-      propertyAddress: "111 W Main St Gamer, NC 27529",
-      status: "Expire",
-      date: "15/may/2024",
-    },
-    {
-      name: "Johnathan Smith",
-      propertyAddress: "111 W Main St Gamer, NC 27529",
-      status: "Active",
-      date: "15/may/2024",
-    },
-    {
-      name: "Johnathan Smith",
-      propertyAddress: "111 W Main St Gamer, NC 27529",
-      status: "Active",
-      date: "15/may/2024",
-    },
-  ];
-
-  const cardData = [
-    {
-      id: "01",
-      title: "Withdraw",
-      counterValue: "12",
-    },
-    {
-      id: "02",
-      title: "Deposit",
-      counterValue: "03",
-    },
-    {
-      id: "03",
-      title: "Pending",
-      counterValue: "09",
-    },
-    {
-      id: "04",
-      title: "Transections",
-      counterValue: "12",
-    },
-    {
-      id: "05",
-      title: "Pending Invite",
-      counterValue: "03",
-    },
-    {
-      id: "06",
-      title: "Accept Invite",
-      counterValue: "09",
-    },
-  ];
   const section = "Dashboard";
 
   useEffect(() => {
@@ -97,6 +33,60 @@ const Page = () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [pendingDeposits, setPendingDeposits] = useState(0);
+  const [pendingWithdrawals, setPendingWithdrawals] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const token = Cookies.get("token");
+      const res = await axios.get("/api/admin/users", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      console.log("response: ", res);
+      if (res.data.status === 200) {
+        const { totalUsers, totalPendingDeposits, totalPendingWithdraws } =
+          res.data.data;
+
+        setTotalUsers(totalUsers);
+        setPendingDeposits(totalPendingDeposits);
+        setPendingWithdrawals(totalPendingWithdraws);
+      } else {
+        Swal.fire("Error", res.data.message, "error");
+      }
+    } catch (err) {
+      Swal.fire("Error", err.message, "error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const cardData = [
+    {
+      id: "01",
+      title: "Total Users",
+      counterValue: totalUsers,
+    },
+    {
+      id: "02",
+      title: "Pending Deposits",
+      counterValue: pendingDeposits,
+    },
+    {
+      id: "03",
+      title: "Pending Withdrawals",
+      counterValue: pendingWithdrawals,
+    },
+  ];
+
   return (
     <div className="overflow-y-auto scrollbar-hidden">
       <div className="p-2 w-full">

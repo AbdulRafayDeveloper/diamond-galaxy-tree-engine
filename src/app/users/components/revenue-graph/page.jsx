@@ -1,17 +1,62 @@
 "use client";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useState, useEffect } from "react";
 
-const Page = ({ data }) => {
+const Page = () => {
+  const [Data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchIncome = async () => {
+      try {
+        const res = await axios.get("/api/graph", {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        });
+        console.log(res);
+        if (res.data.status === 200) {
+          setData(res.data.data);
+        }
+      } catch (err) {
+        console.error("Failed to load income data", err);
+      }
+    };
+
+    fetchIncome();
+  }, []);
+
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md w-full mx-auto">
-      <h2 className="text-lg font-semibold mb-4">Your Monthly Revenue (Last 12 Months)</h2>
+    <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-screen-xl mx-auto mt-6">
+      <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
+        Your Monthly Revenue (Last 12 Months)
+      </h2>
       <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={data}>
+        <LineChart
+          data={Data}
+          margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+        >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="month" />
           <YAxis />
           <Tooltip />
-          <Line type="monotone" dataKey="revenue" stroke="#3b82f6" strokeWidth={2} />
+          <Line
+            type="monotone"
+            dataKey="revenue"
+            stroke="#3b82f6"
+            strokeWidth={3}
+            dot={{ r: 5 }}
+            activeDot={{ r: 8 }}
+          />
         </LineChart>
       </ResponsiveContainer>
     </div>

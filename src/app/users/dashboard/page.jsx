@@ -95,6 +95,105 @@ const Page = () => {
     getData();
   }, []);
 
+  const [teamCount, setTeamCount] = useState(0);
+  const [income24Hours, setIncome24Hours] = useState(0);
+  const [accountBalance, setAccountBalance] = useState(0);
+  const [deposit, setDeposit] = useState({
+    pending: { count: 0, amount: 0 },
+    accepted: { count: 0, amount: 0 },
+    rejected: { count: 0, amount: 0 },
+  });
+  const [withdraw, setWithdraw] = useState({
+    pending: { count: 0, amount: 0 },
+    accepted: { count: 0, amount: 0 },
+    rejected: { count: 0, amount: 0 },
+  });
+
+  const [totalEarning, setTotalEarning] = useState(0);
+
+  useEffect(() => {
+    const fetchTeamSummary = async () => {
+      try {
+        const token = Cookies.get("token");
+        const res = await axios.get("/api/team-amount", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        console.log("team: ", res);
+
+        if (res.data.status === 200) {
+          setTeamCount(res.data.data.totalTeam);
+          setIncome24Hours(res.data.data.incomeLast24Hours);
+          setTotalEarning(res.data.data.totalEarning);
+        }
+      } catch (error) {
+        console.error("Failed to fetch team summary:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTeamSummary();
+  }, []);
+
+  const [refferalsCount, setrefferalsCount] = useState(0);
+  const [income24HoursRefferals, setIncome24HoursRefferals] = useState(0);
+
+  useEffect(() => {
+    const fetchTeamSummary = async () => {
+      try {
+        const token = Cookies.get("token");
+        const res = await axios.get("/api/referral-amount", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        console.log("team: ", res);
+
+        if (res.data.status === 200) {
+          setrefferalsCount(res.data.data.totalTeam);
+          setIncome24HoursRefferals(res.data.data.incomeLast24Hours);
+        }
+      } catch (error) {
+        console.error("Failed to fetch team summary:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTeamSummary();
+  }, []);
+
+  useEffect(() => {
+    const fetchTeamSummary = async () => {
+      try {
+        const token = Cookies.get("token");
+        const res = await axios.get("/api/stats", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        console.log("deposit: ", res);
+
+        if (res.data.status === 200) {
+          setDeposit(res.data.data.deposits);
+          setWithdraw(res.data.data.withdrawals);
+          setAccountBalance(res.data.data.accountBalance);
+        }
+      } catch (error) {
+        console.error("Failed to fetch team summary:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTeamSummary();
+  }, []);
+
   return (
     <div className="overflow-y-auto scrollbar-hidden">
       <div className="p-2 w-full">
@@ -152,19 +251,20 @@ const Page = () => {
           <div className="bg-white">
             <div className="bg-white p-4">
               <div className="w-full bg-white shadow-xl border border-[#22405c] p-4 justify-center rounded-md">
-                <div className="flex flex-col lg:flex-row items-center lg:items-start text-[#22405c] gap-4 lg:gap-10 p-4">
+                <div className="grid grid-cols-[70px_1fr] sm:flex sm:flex-row items-start sm:items-center text-[#22405c] gap-4 sm:gap-10 p-4">
                   {/* Image */}
-                  <div className="w-full lg:w-auto flex justify-center lg:justify-start">
+                  <div className="flex justify-start">
                     <img
                       className="w-[70px] h-[55px] rounded-full object-cover"
                       src="/logoImg.avif"
                       alt="Rounded avatar"
                     />
                   </div>
+
                   {/* Info Section */}
-                  <div className="flex flex-wrap w-full gap-4 text-center lg:text-left justify-center lg:justify-start">
+                  <div className="flex flex-col w-full text-left gap-2">
                     {/* Block 1 */}
-                    <div className="w-full md:w-1/2 flex flex-col md:flex-row md:items-center gap-2 md:gap-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
                       <p className="text-[13px] lg:text-base font-medium">
                         Member Name:{" "}
                         <span className="font-bold">{data?.fname || ""}</span>
@@ -174,8 +274,9 @@ const Page = () => {
                         <span className="font-normal">{data?.grade || ""}</span>
                       </p>
                     </div>
+
                     {/* Block 2 */}
-                    <div className="w-full md:w-1/2 flex flex-col md:flex-row md:items-center gap-2 md:gap-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
                       <p className="text-[13px] lg:text-base font-medium">
                         Country Name:{" "}
                         <span className="font-normal">{data?.country}</span>
@@ -189,6 +290,7 @@ const Page = () => {
                     </div>
                   </div>
                 </div>
+
                 <p className="mt-4 text-[#22405c] font-bold">Personal Link</p>
                 <div
                   onClick={handleCopy}
@@ -212,32 +314,56 @@ const Page = () => {
               <div className=" mt-4">
                 <Carousel />
               </div>
+              <div className="mb-4">
+                <Card
+                  title="Team Members"
+                  count={teamCount}
+                  amount={income24Hours}
+                />
+              </div>
+
               <div>
-                <Card />
+                <Card
+                  title="My Refferals"
+                  count={refferalsCount}
+                  amount={income24HoursRefferals}
+                />
               </div>
               <div className="conatiner mt-5">
                 <div className="bg-[#F6F1DE] p-3">
                   <div className="bg-[#22405c] p-3 rounded-md">
                     <h1 className="text-xl text-white">Deposit</h1>
                   </div>
+
                   <div className="flex flex-row justify-between gap-4 p-4">
                     <div>
                       <p>Submitted</p>
-                      <p>$0.00</p>
+                      <p>
+                        $
+                        {(
+                          deposit.accepted.amount +
+                          deposit.pending.amount +
+                          deposit.rejected.amount
+                        ).toFixed(2)}
+                      </p>
                     </div>
                     <div>
                       <p>Pending</p>
-                      <p>$0.00</p>
+                      <p>${deposit.pending.amount.toFixed(2)}</p>
                     </div>
                     <div>
                       <p>Rejected</p>
-                      <p>$0.00</p>
+                      <p>${deposit.rejected.amount.toFixed(2)}</p>
                     </div>
                   </div>
                 </div>
               </div>
               <div>
-                <WithDraw />
+                <WithDraw
+                  withdraw={withdraw}
+                  accountBalance={accountBalance}
+                  totalEarning={totalEarning}
+                />
               </div>
             </div>
           </div>

@@ -328,15 +328,15 @@ const UsersTable = () => {
               <th className="px-6 py-3">Date</th>
               <th className="px-6 py-3">Grades</th>
               <th className="px-6 py-3">Fix Salary</th>
-              <th className="px-6 py-3">Salary</th>
+              {/*<th className="px-6 py-3">Salary</th>*/}
               {/*<th className="px-6 py-3">Salary Deposit</th>*/}
               <th className="px-6 py-3">Deposit</th>
-              <th className="px-6 py-3">Reward Deposit</th>
+              {/*<th className="px-6 py-3">Reward Deposit</th>
               <th className="px-6 py-3">Reg. Status</th>
               <th className="px-6 py-3">Act. Status</th>
               <th className="px-6 py-3">Slots</th>
               <th className="px-6 py-3">Monthly Gift Deposit</th>
-              <th className="px-6 py-3">Actions</th>
+              <th className="px-6 py-3">Actions</th>*/}
             </tr>
           </thead>
 
@@ -431,7 +431,7 @@ const UsersTable = () => {
                   </td>
 
                   {/* -------- KEEP REST OF YOUR EXISTING COLUMNS HERE -------- */}
-                  <td className="px-6 py-4">{product.salary}</td>
+                  {/*<td className="px-6 py-4">{product.salary}</td>*/}
 
                   {/* Salary Deposit */}
                   {/*<td className="px-6 py-4 ">
@@ -504,7 +504,7 @@ const UsersTable = () => {
                   </td>
 
                   {/* Reward Deposit */}
-                  <td className="px-6 py-4 ">
+                  {/* <td className="px-6 py-4 ">
                     <button className="bg-[#22405c] text-white px-4 py-2 rounded">
                       Add
                     </button>
@@ -552,7 +552,7 @@ const UsersTable = () => {
                     )}
                   </td>
 
-                  {/* Registration Status */}
+                   Registration Status 
                   <td className="px-6 py-4">
                     <button
                       className="bg-[#22405c] text-white px-4 py-2 rounded"
@@ -562,7 +562,7 @@ const UsersTable = () => {
                     </button>
                   </td>
 
-                  {/* Activation Status */}
+                  {/* Activation Status 
                   <td className="px-6 py-4">
                     <button
                       className="bg-[#22405c] text-white px-4 py-2 rounded"
@@ -572,7 +572,7 @@ const UsersTable = () => {
                     </button>
                   </td>
 
-                  {/* Slots */}
+                  {/* Slots 
                   <td className="px-6 py-4 ">
                     <div className="relative inline-block">
                       <button
@@ -649,7 +649,7 @@ const UsersTable = () => {
                     </div>
                   </td>
 
-                  {/* Monthly Gift */}
+                   Monthly Gift 
                   <td className="px-6 py-4 ">
                     <button
                       className="bg-[#22405c] text-white px-4 py-2 rounded"
@@ -689,7 +689,7 @@ const UsersTable = () => {
                     )}
                   </td>
 
-                  {/* Actions */}
+                  {/* Actions 
                   <td className="px-6 py-4 flex justify-center gap-2">
                     <button
                       className="text-gray-800 hover:text-blue-800"
@@ -716,7 +716,7 @@ const UsersTable = () => {
                         />
                       </svg>
                     </button>
-                  </td>
+                  </td>*/}
                 </tr>
               ))
             )}

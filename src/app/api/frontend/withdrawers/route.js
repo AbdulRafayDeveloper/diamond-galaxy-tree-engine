@@ -104,7 +104,6 @@ export async function GET(req) {
 
     const withdrawals = await Withdrawers.find({
       user_id: user._id,
-      status: { $ne: "pending" },
     }).sort({ createdAt: -1 });
 
     const accountBalance = user.accountBalance || 0;

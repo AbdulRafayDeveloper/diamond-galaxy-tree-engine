@@ -1,11 +1,17 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect, useRef, useCallback } from "react";
-
+import axios from "axios";
+import Cookies from "js-cookie";
+import Image from "next/image";
 const Page = ({ appear, title }) => {
   const [isOpenAvatar, setIsOpenAvatar] = useState(false);
   const [isDropdownAppear, setIsDropdownAppear] = useState(false);
   const dropdownRef = useRef(null);
+  const [form, setform] = useState({
+    email: "",
+    name: "",
+  });
 
   useEffect(() => {
     setIsDropdownAppear(appear);
@@ -22,6 +28,37 @@ const Page = ({ appear, title }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [handleClickOutside]);
 
+  const [image, setImage] = useState("");
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const res = await axios.get("/api/admin/admin-settings", {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        });
+
+        const user = res.data?.data;
+
+        if (res.data.status === 200 && user) {
+          if (user.image) {
+            setImage(user.image);
+            setform({
+              name: user.lname,
+              email: user.email,
+            });
+          }
+        } else {
+          console.error("User data not found");
+        }
+      } catch (err) {
+        console.error("Error fetching user profile:", err);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
+
   return (
     <>
       <header>
@@ -34,11 +71,14 @@ const Page = ({ appear, title }) => {
                   onClick={() => setIsOpenAvatar(!isOpenAvatar)}
                   className="flex flex-row justify-center items-center focus:outline-none"
                 >
-                  <img
+                  <Image
                     className="w-10 h-10 rounded-[400px] object-cover"
-                    src="/logo.jpg"
-                    alt="Rounded avatar"
+                    src={image || "/placeholder.png"}
+                    alt="Profile"
+                    width={150}
+                    height={150}
                   />
+
                   <svg
                     className="w-2.5 h-2.5 ms-3 transition-transform duration-200"
                     aria-hidden="true"
@@ -63,19 +103,21 @@ const Page = ({ appear, title }) => {
                 {isOpenAvatar && (
                   <div className="absolute right-0 mt-2 w-44 bg-white border border-gray-200 rounded-lg shadow-lg z-[999]">
                     <ul className="py-2 text-sm text-gray-700">
-                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer border-b">
+                      <li className="px-4 py-2  cursor-pointer border-b">
                         <div className="flex items-center gap-x-2">
-                          <img
-                            src="/person2.jpg"
-                            className="rounded-full w-8 h-8"
+                          <Image
+                            className="w-10 h-10 rounded-[400px] object-cover"
+                            src={image || "/placeholder.png"}
                             alt="Profile"
+                            width={150}
+                            height={150}
                           />
                           <div className="flex flex-col">
                             <span className="text-xs font-bold text-gray-800">
-                              John Doe
+                              {form?.name || "Admin"}
                             </span>
-                            <span className="text-xs text-[#999999] truncate">
-                              abc@gmail.com
+                            <span className="text-xs text-[#999999] truncate max-w-[100px] inline-block">
+                              {form?.email || "N/A"}
                             </span>
                           </div>
                         </div>

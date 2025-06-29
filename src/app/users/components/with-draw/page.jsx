@@ -1,6 +1,7 @@
+"use client";
 import React from "react";
 
-const Page = () => {
+const Page = ({ withdraw, accountBalance, totalEarning }) => {
   return (
     <>
       <div className="conatiner mt-5 ">
@@ -10,23 +11,29 @@ const Page = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
           <div className="flex flex-col bg-[#22405c] rounded-xl gap-4 p-3 ">
             <div className="flex flex-row gap-2">
-              <h1 className="text-white ">Total Withdraw</h1>
+              <h1 className="text-white ">Withdraw</h1>
             </div>
-            <div>
+            {/*<div>
               <p className="text-lg  text-[#DDA853]">0.00 USD</p>
-            </div>
+            </div>*/}
             <div className="flex flex-row gap-5 ">
               <div>
                 <h1 className="text-white ">Submitted</h1>
-                <p className="text-md text-[#DDA853]">0.00</p>
+                <p className="text-md text-[#DDA853]">
+                  ${withdraw.accepted.amount}
+                </p>
               </div>
               <div>
                 <h1 className="text-white ">Pending</h1>
-                <p className="text-md text-[#DDA853]">$0.00</p>
+                <p className="text-md text-[#DDA853]">
+                  ${withdraw.pending.amount}
+                </p>
               </div>
               <div>
                 <h1 className="text-white ">Rejected</h1>
-                <p className="text-md text-[#DDA853]">$0.00</p>
+                <p className="text-md text-[#DDA853]">
+                  ${withdraw.rejected.amount}
+                </p>
               </div>
             </div>
           </div>
@@ -36,7 +43,7 @@ const Page = () => {
               <h1 className="text-black ">Total Earned</h1>
             </div>
             <div>
-              <p className="text-lg  text-[#DDA853]">0.00 USD</p>
+              <p className="text-lg  text-[#DDA853]">${totalEarning}</p>
             </div>
           </div>
           <div className="flex flex-col bg-[#22405c] rounded-xl gap-4 p-3 justify-center items-center">
@@ -44,7 +51,7 @@ const Page = () => {
               <h1 className="text-white ">Available Balance</h1>
             </div>
             <div>
-              <p className="text-lg  text-[#DDA853]">0.00 USD</p>
+              <p className="text-lg  text-[#DDA853]">${accountBalance}</p>
             </div>
           </div>
         </div>
