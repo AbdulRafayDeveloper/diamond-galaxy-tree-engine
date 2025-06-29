@@ -20,19 +20,19 @@ const Page = ({ withdraw, accountBalance, totalEarning }) => {
               <div>
                 <h1 className="text-white ">Submitted</h1>
                 <p className="text-md text-[#DDA853]">
-                  ${withdraw.accepted.amount}
+                  ${withdraw?.accepted?.amount ?? 0}
                 </p>
               </div>
               <div>
                 <h1 className="text-white ">Pending</h1>
                 <p className="text-md text-[#DDA853]">
-                  ${withdraw.pending.amount}
+                  ${withdraw?.pending?.amount ?? 0}
                 </p>
               </div>
               <div>
                 <h1 className="text-white ">Rejected</h1>
                 <p className="text-md text-[#DDA853]">
-                  ${withdraw.rejected.amount}
+                  ${withdraw?.rejected?.amount ?? 0}
                 </p>
               </div>
             </div>
@@ -43,7 +43,7 @@ const Page = ({ withdraw, accountBalance, totalEarning }) => {
               <h1 className="text-black ">Total Earned</h1>
             </div>
             <div>
-              <p className="text-lg  text-[#DDA853]">${totalEarning}</p>
+              <p className="text-lg  text-[#DDA853]">${totalEarning ?? 0}</p>
             </div>
           </div>
           <div className="flex flex-col bg-[#22405c] rounded-xl gap-4 p-3 justify-center items-center">
@@ -51,7 +51,7 @@ const Page = ({ withdraw, accountBalance, totalEarning }) => {
               <h1 className="text-white ">Available Balance</h1>
             </div>
             <div>
-              <p className="text-lg  text-[#DDA853]">${accountBalance}</p>
+              <p className="text-lg  text-[#DDA853]">${accountBalance ?? 0}</p>
             </div>
           </div>
         </div>
