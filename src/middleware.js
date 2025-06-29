@@ -29,7 +29,6 @@ export async function middleware(req) {
     }
     return NextResponse.next(); // allow access to auth pages
   }
-
   
   // ✅ Has token
   try {
