@@ -26,6 +26,7 @@ const UsersTable = () => {
     "Referral Bonus",
     "Festival Bonus",
     "Salary",
+    "Account Balance"
   ];
 
   const [openDropdownIndex, setOpenDropdownIndex] = useState(null);

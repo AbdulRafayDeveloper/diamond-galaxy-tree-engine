@@ -34,21 +34,36 @@ const Page = ({ appear, title }) => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
+        const token = Cookies.get("token");
+
         const res = await axios.get("/api/frontend/user", {
           headers: {
-            Authorization: `Bearer ${Cookies.get("token")}`,
+            Authorization: `Bearer ${token}`,
           },
         });
 
+
+        console.log("User image found:", res);
+
         const user = res.data?.data;
 
+        console.log("User image found:", user.image);
+        console.log("User data:", user);
+        console.log("User name:", user.lname);
+        console.log("User email:", user.email);
+
         if (res.data.status === 200 && user) {
+          console.log("User data:", user);
+          console.log("User name:", user.lname);
+          console.log("User email:", user.email);
+          setform({
+            name: user.lname,
+            email: user.email,
+          });
           if (user.image) {
+            console.log("User image found:", user.image);
+
             setImage(user.image);
-            setform({
-              name: user.lname,
-              email: user.email,
-            });
           }
         } else {
           console.error("User data not found");
@@ -115,10 +130,10 @@ const Page = ({ appear, title }) => {
                           />
                           <div className="flex flex-col">
                             <span className="text-xs font-bold text-gray-800">
-                              {form?.name || "Admin"}
+                              {form?.name || "User Name"}
                             </span>
                             <span className="text-xs text-[#999999] truncate max-w-[100px] inline-block">
-                              {form?.email || "N/A"}
+                              {form?.email || "Email"}
                             </span>
                           </div>
                         </div>

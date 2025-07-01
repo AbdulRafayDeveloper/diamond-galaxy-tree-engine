@@ -16,6 +16,9 @@ const Page = () => {
   const buttonRef = useRef(null);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [zoomedImage, setZoomedImage] = useState(null);
+
+
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -132,13 +135,24 @@ const Page = () => {
   }, []);
   const [isZoomed, setIsZoomed] = useState(false);
 
-  const handleImageClick = () => {
+  // const handleImageClick = () => {
+  //   setIsZoomed(true);
+  // };
+
+  const handleImageClick = (imageUrl) => {
+    setZoomedImage(imageUrl);
     setIsZoomed(true);
   };
 
+
+  // const closeModal = () => {
+  //   setIsZoomed(false);
+  // };
   const closeModal = () => {
     setIsZoomed(false);
+    setZoomedImage(null);
   };
+
 
   const handleDepositAction = async (withdrawal, actionType) => {
     try {
@@ -215,9 +229,8 @@ const Page = () => {
         <aside
           ref={sidebarRef}
           id="separator-sidebar"
-          className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${
-            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } sm:translate-x-0`}
+          className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+            } sm:translate-x-0`}
           aria-label="Sidebar"
         >
           <SideBar section={section} />
@@ -322,7 +335,7 @@ const Page = () => {
                           {deposit.status || "N/A"}
                         </td>
                         <td className="px-6 py-4 text-sm text-[#5E5E5E]">
-                          <div
+                          {/* <div
                             className="flex justify-center items-center cursor-pointer"
                             onClick={() => handleImageClick(deposit.screenshot)}
                           >
@@ -332,8 +345,20 @@ const Page = () => {
                               width={40}
                               height={30}
                             />
+                          </div> */}
+                          <div
+                            className="flex justify-center items-center cursor-pointer"
+                            onClick={() => handleImageClick(deposit.screenshot || deposit.image || "/transcript.webp")}
+                          >
+                            <Image
+                              src={deposit.image || "/transcript.webp"}
+                              alt="Uploaded"
+                              width={40}
+                              height={30}
+                            />
                           </div>
-                          {isZoomed && (
+
+                          {/* {isZoomed && (
                             <div
                               className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center"
                               onClick={closeModal}
@@ -346,7 +371,22 @@ const Page = () => {
                                 className="rounded shadow-lg transition-transform duration-300 hover:scale-105"
                               />
                             </div>
+                          )} */}
+                          {isZoomed && zoomedImage && (
+                            <div
+                              className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center"
+                              onClick={closeModal}
+                            >
+                              <Image
+                                src={zoomedImage}
+                                alt="Zoomed image"
+                                width={250}
+                                height={250}
+                                className="rounded shadow-lg transition-transform duration-300 hover:scale-105"
+                              />
+                            </div>
                           )}
+
                         </td>
                         <td className="px-6 py-6 flex justify-center items-center gap-2">
                           {deposit.status === "pending" ? (

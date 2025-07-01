@@ -13,6 +13,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import RevenueGraph from "../components/revenue-graph/page";
+import Image from "next/image";
 const revenueData = [
   { month: "Jan", revenue: 1200 },
   { month: "Feb", revenue: 2100 },
@@ -235,9 +236,8 @@ const Page = () => {
         <aside
           ref={sidebarRef}
           id="separator-sidebar"
-          className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${
-            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } sm:translate-x-0`}
+          className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+            } sm:translate-x-0`}
           aria-label="Sidebar"
         >
           <SideBar section={section} />
@@ -254,10 +254,17 @@ const Page = () => {
                 <div className="grid grid-cols-[70px_1fr] sm:flex sm:flex-row items-start sm:items-center text-[#22405c] gap-4 sm:gap-10 p-4">
                   {/* Image */}
                   <div className="flex justify-start">
-                    <img
+                    {/* <img
                       className="w-[70px] h-[55px] rounded-full object-cover"
                       src="/logoImg.avif"
                       alt="Rounded avatar"
+                    /> */}
+                    <Image
+                      className="w-[70px] h-[55px] rounded-full object-cover"
+                      src={data?.image || "/placeholder.png"}
+                      alt="Profile"
+                      width={150}
+                      height={150}
                     />
                   </div>
 
