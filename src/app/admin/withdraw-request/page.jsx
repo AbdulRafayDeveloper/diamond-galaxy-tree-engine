@@ -16,17 +16,20 @@ const Page = () => {
   const buttonRef = useRef(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
-
   const [openDropdownIndex, setOpenDropdownIndex] = useState(null);
+  const [zoomedImageSrc, setZoomedImageSrc] = useState("");
+  const [isZoomed, setIsZoomed] = useState(false);
 
   const [withdrawals, setWithdrawals] = useState([]);
   const [totalWithdrawals, setTotalWithdrawals] = useState(0);
+  const dropdownRefs = useRef([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(10);
+  const section = "Withdraw Request";
 
-  const handleSidebarToggle = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+  useEffect(() => {
+    fetchWithdrawals(searchTerm, currentPage);
+  }, [searchTerm, currentPage]);
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
@@ -35,39 +38,13 @@ const Page = () => {
     };
   }, []);
 
-  const handleClickOutside = (event) => {
-    if (
-      sidebarRef.current &&
-      !sidebarRef.current.contains(event.target) &&
-      buttonRef.current &&
-      !buttonRef.current.contains(event.target)
-    ) {
-      const isClickInsideDropdown = dropdownRefs.current.some((ref) =>
-        ref?.contains(event.target)
-      );
-      if (!isClickInsideDropdown) {
-        setOpenDropdownIndex(null);
-      }
-    }
-  };
-
-  const dropdownRefs = useRef([]);
-
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-  const [isZoomed, setIsZoomed] = useState(false);
 
-  const handleImageClick = () => {
-    setIsZoomed(true);
-  };
-
-  const closeModal = () => {
-    setIsZoomed(false);
-  };
 
   const fetchWithdrawals = async (search = "", pageNumber = 1) => {
     try {
@@ -105,9 +82,36 @@ const Page = () => {
     }
   };
 
-  useEffect(() => {
-    fetchWithdrawals(searchTerm, currentPage);
-  }, [searchTerm, currentPage]);
+  const handleClickOutside = (event) => {
+    if (
+      sidebarRef.current &&
+      !sidebarRef.current.contains(event.target) &&
+      buttonRef.current &&
+      !buttonRef.current.contains(event.target)
+    ) {
+      const isClickInsideDropdown = dropdownRefs.current.some((ref) =>
+        ref?.contains(event.target)
+      );
+      if (!isClickInsideDropdown) {
+        setOpenDropdownIndex(null);
+      }
+    }
+  };
+
+  const handleSidebarToggle = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const handleImageClick = (src) => {
+    setZoomedImageSrc(src);
+    setIsZoomed(true);
+  };
+
+
+  const closeModal = () => {
+    setIsZoomed(false);
+  };
+
 
   const handleWithdrawalAction = async (withdrawal, actionType) => {
     try {
@@ -142,7 +146,6 @@ const Page = () => {
     }
   };
 
-  const section = "Withdraw Request";
   return (
     <div className="overflow-y-auto scrollbar-hidden">
       <div className="p-2 w-full">
@@ -184,9 +187,8 @@ const Page = () => {
         <aside
           ref={sidebarRef}
           id="separator-sidebar"
-          className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${
-            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } sm:translate-x-0`}
+          className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+            } sm:translate-x-0`}
           aria-label="Sidebar"
         >
           <SideBar section={section} />
@@ -299,9 +301,7 @@ const Page = () => {
                         <td className="px-6 py-4 text-sm text-[#5E5E5E]">
                           <div
                             className="flex justify-center items-center cursor-pointer"
-                            onClick={() =>
-                              handleImageClick(withdrawal.screenshot)
-                            }
+                            onClick={() => handleImageClick(withdrawal.screenshot || "/transcript.webp")}
                           >
                             <Image
                               src={withdrawal.screenshot || "/transcript.webp"}
@@ -310,15 +310,14 @@ const Page = () => {
                               height={30}
                             />
                           </div>
+
                           {isZoomed && (
                             <div
                               className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center"
                               onClick={closeModal}
                             >
                               <Image
-                                src={
-                                  withdrawal.screenshot || "/transcript.webp"
-                                }
+                                src={zoomedImageSrc || "/transcript.webp"}
                                 alt="Zoomed image"
                                 width={250}
                                 height={250}
@@ -326,6 +325,7 @@ const Page = () => {
                               />
                             </div>
                           )}
+
                         </td>
                         <td className="px-6 py-6 flex justify-center items-center gap-2">
                           {withdrawal.status === "pending" ? (

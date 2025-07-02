@@ -26,6 +26,12 @@ export async function GET(req) {
     }
 
     const freshUser = await Users.findById(user._id);
+
+    // check that if he already activated his account
+    if (freshUser.is_activated) {
+      return badRequestResponse("Account is already activated.");
+    }
+
     const commissionSettings = await activateCommissions.findOne();
     if (!commissionSettings) {
       return badRequestResponse("Commission settings not found.");
@@ -85,19 +91,19 @@ export async function GET(req) {
     // Load level percentages dynamically
     const levelPercents = [
       levelSettings?.level1 ??
-        parseFloat(process.env.ACTIVATE_LEVEL_ONE || "0"),
+      parseFloat(process.env.ACTIVATE_LEVEL_ONE || "0"),
       levelSettings?.level2 ??
-        parseFloat(process.env.ACTIVATE_LEVEL_TWO || "0"),
+      parseFloat(process.env.ACTIVATE_LEVEL_TWO || "0"),
       levelSettings?.level3 ??
-        parseFloat(process.env.ACTIVATE_LEVEL_THREE || "0"),
+      parseFloat(process.env.ACTIVATE_LEVEL_THREE || "0"),
       levelSettings?.level4 ??
-        parseFloat(process.env.ACTIVATE_LEVEL_FOUR || "0"),
+      parseFloat(process.env.ACTIVATE_LEVEL_FOUR || "0"),
       levelSettings?.level5 ??
-        parseFloat(process.env.ACTIVATE_LEVEL_FIVE || "0"),
+      parseFloat(process.env.ACTIVATE_LEVEL_FIVE || "0"),
       levelSettings?.level6 ??
-        parseFloat(process.env.ACTIVATE_LEVEL_SIX || "0"),
+      parseFloat(process.env.ACTIVATE_LEVEL_SIX || "0"),
       levelSettings?.level7 ??
-        parseFloat(process.env.ACTIVATE_LEVEL_SEVEN || "0"),
+      parseFloat(process.env.ACTIVATE_LEVEL_SEVEN || "0"),
     ];
 
     let levelTracker = 0;

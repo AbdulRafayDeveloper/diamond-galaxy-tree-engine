@@ -252,21 +252,16 @@ const Page = () => {
             <div className="bg-white p-4">
               <div className="w-full bg-white shadow-xl border border-[#22405c] p-4 justify-center rounded-md">
                 <div className="grid grid-cols-[70px_1fr] sm:flex sm:flex-row items-start sm:items-center text-[#22405c] gap-4 sm:gap-10 p-4">
-                  {/* Image */}
-                  <div className="flex justify-start">
-                    {/* <img
-                      className="w-[70px] h-[55px] rounded-full object-cover"
-                      src="/logoImg.avif"
-                      alt="Rounded avatar"
-                    /> */}
+                  <div className="relative w-[70px] h-[70px] rounded-full overflow-hidden shadow-md transition-transform duration-300 hover:scale-105 cursor-pointer ease-in-out">
                     <Image
-                      className="w-[70px] h-[55px] rounded-full object-cover"
                       src={data?.image || "/placeholder.png"}
                       alt="Profile"
-                      width={150}
-                      height={150}
+                      fill
+                      className="object-cover"
                     />
                   </div>
+
+
 
                   {/* Info Section */}
                   <div className="flex flex-col w-full text-left gap-2">
