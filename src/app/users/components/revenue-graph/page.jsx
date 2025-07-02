@@ -53,50 +53,157 @@ const Page = () => {
   }, []);
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-screen-xl mx-auto mt-6">
-      <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
+    // <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-screen-xl mx-auto mt-6">
+    //   <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
+    //     Your Monthly Revenue (Last 12 Months)
+    //   </h2>
+    //   {/* <ResponsiveContainer width="100%" height={300}>
+    //     <LineChart
+    //       data={Data}
+    //       margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+    //     >
+    //       <CartesianGrid strokeDasharray="3 3" />
+    //       <XAxis dataKey="month" />
+    //       <YAxis />
+    //       <Tooltip />
+    //       <Line
+    //         type="monotone"
+    //         dataKey="revenue"
+    //         stroke="#3b82f6"
+    //         strokeWidth={3}
+    //         dot={{ r: 5 }}
+    //         activeDot={{ r: 8 }}
+    //       />
+    //     </LineChart>
+    //   </ResponsiveContainer> */}
+    //   <ResponsiveContainer width="100%" height={300}>
+    //     <LineChart
+    //       data={Data}
+    //       margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+    //     >
+    //       <CartesianGrid strokeDasharray="3 3" />
+    //       <XAxis dataKey="month" />
+    //       <YAxis />
+    //       <Tooltip />
+    //       <Line
+    //         type="monotone"
+    //         dataKey="revenue"
+    //         stroke="#3b82f6"
+    //         strokeWidth={3}
+    //         dot={{ r: 5 }}
+    //         activeDot={{ r: 8 }}
+    //       />
+    //     </LineChart>
+    //   </ResponsiveContainer>
+
+    // </div>
+    // <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-screen-xl mx-auto mt-6">
+    //   <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
+    //     Your Monthly Revenue (Last 12 Months)
+    //   </h2>
+    //   <div className="w-full h-[200px] sm:h-[300px] md:h-[400px]">
+    //     <ResponsiveContainer width="100%" height="100%">
+    //       <LineChart
+    //         data={Data}
+    //         margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+    //       >
+    //         <CartesianGrid strokeDasharray="3 3" />
+    //         <XAxis dataKey="month" />
+    //         <YAxis />
+    //         <Tooltip />
+    //         <Line
+    //           type="monotone"
+    //           dataKey="revenue"
+    //           stroke="#3b82f6"
+    //           strokeWidth={3}
+    //           dot={{ r: 5 }}
+    //           activeDot={{ r: 8 }}
+    //         />
+    //       </LineChart>
+    //     </ResponsiveContainer>
+    //   </div>
+    // </div>
+    // <div className="bg-white p-1 sm:p-4 md:p-6 rounded-xl shadow-lg w-full max-w-full mx-auto mt-6">
+    //   <h2 className="text-xl sm:text-2xl font-bold mb-4 text-center text-gray-800">
+    //     Your Monthly Revenue (Last 12 Months)
+    //   </h2>
+    //   <div className="w-full h-[180px] sm:h-[300px] md:h-[400px]">
+    //     <ResponsiveContainer width="100%" height="100%">
+    //       <LineChart
+    //         data={Data}
+    //         margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+    //       >
+    //         <CartesianGrid strokeDasharray="3 3" />
+    //         <XAxis dataKey="month" />
+    //         <YAxis />
+    //         <Tooltip />
+    //         <Line
+    //           type="monotone"
+    //           dataKey="revenue"
+    //           stroke="#3b82f6"
+    //           strokeWidth={3}
+    //           dot={{ r: 5 }}
+    //           activeDot={{ r: 8 }}
+    //         />
+    //       </LineChart>
+    //     </ResponsiveContainer>
+    //   </div>
+    // </div>
+    // <div className="bg-white p-1 sm:p-4 md:p-6 rounded-xl shadow-lg w-full max-w-full mx-auto mt-6">
+    //   <h2 className="text-xl sm:text-2xl font-bold mb-4 text-center text-gray-800">
+    //     Your Monthly Revenue (Last 12 Months)
+    //   </h2>
+    //   <div className="w-full h-[180px] sm:h-[300px] md:h-[400px]">
+    //     <ResponsiveContainer width="100%" height="100%">
+    //       <LineChart
+    //         data={Data}
+    //         margin={{ top: 10, right: 30, left: 0, bottom: 40 }} // bottom margin increase for tilted labels
+    //       >
+    //         <CartesianGrid strokeDasharray="3 3" />
+    //         <XAxis dataKey="month" angle={-45} textAnchor="end" />
+    //         <YAxis />
+    //         <Tooltip />
+    //         <Line
+    //           type="monotone"
+    //           dataKey="revenue"
+    //           stroke="#3b82f6"
+    //           strokeWidth={3}
+    //           dot={{ r: 5 }}
+    //           activeDot={{ r: 8 }}
+    //         />
+    //       </LineChart>
+    //     </ResponsiveContainer>
+    //   </div>
+    // </div>
+
+    <div className="bg-white p-1 sm:p-4 md:p-6 rounded-xl shadow-lg w-full max-w-full mx-auto mt-6">
+      <h2 className="text-xl sm:text-2xl font-bold mb-4 text-center text-gray-800">
         Your Monthly Revenue (Last 12 Months)
       </h2>
-      {/* <ResponsiveContainer width="100%" height={300}>
-        <LineChart
-          data={Data}
-          margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="month" />
-          <YAxis />
-          <Tooltip />
-          <Line
-            type="monotone"
-            dataKey="revenue"
-            stroke="#3b82f6"
-            strokeWidth={3}
-            dot={{ r: 5 }}
-            activeDot={{ r: 8 }}
-          />
-        </LineChart>
-      </ResponsiveContainer> */}
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart
-          data={Data}
-          margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="month" />
-          <YAxis />
-          <Tooltip />
-          <Line
-            type="monotone"
-            dataKey="revenue"
-            stroke="#3b82f6"
-            strokeWidth={3}
-            dot={{ r: 5 }}
-            activeDot={{ r: 8 }}
-          />
-        </LineChart>
-      </ResponsiveContainer>
-
+      <div className="w-full h-[180px] sm:h-[300px] md:h-[400px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart
+            data={Data}
+            margin={{ top: 10, right: 30, left: 0, bottom: 40 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="month" interval={0} angle={-45} textAnchor="end" />
+            <YAxis />
+            <Tooltip />
+            <Line
+              type="monotone"
+              dataKey="revenue"
+              stroke="#3b82f6"
+              strokeWidth={3}
+              dot={{ r: 5 }}
+              activeDot={{ r: 8 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
     </div>
+
+
   );
 };
 
