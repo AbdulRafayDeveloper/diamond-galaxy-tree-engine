@@ -342,9 +342,7 @@ const Page = () => {
                       <p>
                         $
                         {(
-                          deposit.accepted.amount +
-                          deposit.pending.amount +
-                          deposit.rejected.amount
+                          deposit.accepted.amount
                         ).toFixed(2)}
                       </p>
                     </div>

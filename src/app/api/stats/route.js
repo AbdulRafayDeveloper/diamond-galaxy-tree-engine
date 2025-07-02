@@ -45,6 +45,9 @@ export async function GET(req) {
       ]),
     ]);
 
+    console.log("Deposit Stats:", depositStats);
+    console.log("Withdraw Stats:", withdrawStats);
+
     const formatStats = (arr) => {
       const result = {
         pending: { count: 0, amount: 0 },
@@ -64,6 +67,10 @@ export async function GET(req) {
 
       return result;
     };
+
+    console.log("Formatted Deposit Stats:", formatStats(depositStats));
+    console.log("Formatted Withdraw Stats:", formatStats(withdrawStats));
+    
 
     return successResponse("Deposit and withdrawal summary fetched.", {
       deposits: formatStats(depositStats),
