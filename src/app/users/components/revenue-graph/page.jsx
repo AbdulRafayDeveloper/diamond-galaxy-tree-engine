@@ -202,8 +202,6 @@ const Page = () => {
         </ResponsiveContainer>
       </div>
     </div>
-
-
   );
 };
 
