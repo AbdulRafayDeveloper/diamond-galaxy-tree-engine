@@ -120,7 +120,7 @@ const Page = ({ appear, title }) => {
                   <div className="absolute right-0 mt-2 w-44 bg-white border border-gray-200 rounded-lg shadow-lg z-[999]">
                     <ul className="py-2 text-sm text-gray-700">
                       <li className="px-4 py-2  cursor-pointer border-b">
-                        <div className="flex items-center gap-x-2">
+                        <div className="flex items-center">
                           <Image
                             className="w-10 h-10 rounded-[400px] object-cover"
                             src={image || "/placeholder.png"}
@@ -129,10 +129,10 @@ const Page = ({ appear, title }) => {
                             height={150}
                           />
                           <div className="flex flex-col">
-                            <span className="text-xs font-bold text-gray-800">
+                            <span className="text-xs font-bold text-gray-800 p-1">
                               {form?.name || "User Name"}
                             </span>
-                            <span className="text-xs text-[#999999] truncate max-w-[100px] inline-block">
+                            <span className="text-xs text-[#999999] truncate max-w-[100px] inline-block p-1">
                               {form?.email || "Email"}
                             </span>
                           </div>
