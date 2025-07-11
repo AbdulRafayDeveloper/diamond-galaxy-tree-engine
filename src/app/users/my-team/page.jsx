@@ -3,9 +3,12 @@ import { id } from "date-fns/locale";
 import Header from "../components/header/page";
 import SideBar from "../components/sidebar/SideBar";
 import { useState, useRef, useEffect } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   const sidebarRef = useRef(null);
   const buttonRef = useRef(null);
   const handleSidebarToggle = () => {
@@ -32,44 +35,43 @@ const Page = () => {
     };
   }, []);
 
-  const levelsData=[
-    {
-        id: "01",
-        level:"Level 1",
-        discription:"0 Team Members"
-    },
-    {
-        id: "02",
-        level:"Level 2",
-        discription:"0 Team Members"
-    },
-    {
-        id: "03",
-        level:"Level 3",
-        discription:"0 Team Members"
-    },
-    {
-        id: "04",
-        level:"Level 4",
-        discription:"0 Team Members"
-    },
-    {
-        id: "05",
-        level:"Level 5",
-        discription:"0 Team Members"
-    },
-    {
-        id: "06",
-        level:"Level 6",
-        discription:"0 Team Members"
-    },
-    {
-        id: "07",
-        level:"Level 7",
-        discription:"0 Team Members"
-    },
+  const [levelsData, setLevelsData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  ]
+  useEffect(() => {
+    const fetchReferralData = async () => {
+      try {
+        setLoading(true); // Start loading
+
+        const token = Cookies.get("token");
+        const res = await axios.get("/api/frontend/my-team", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const referralLevels = res?.data?.data || {};
+
+        const updatedLevels = Array.from({ length: 7 }, (_, index) => {
+          const levelKey = `level${index + 1}`;
+          const count = referralLevels[levelKey] || 0;
+          return {
+            id: `0${index + 1}`,
+            level: `Level ${index + 1}`,
+            discription: `${count} Team Member${count !== 1 ? "s" : ""}`,
+          };
+        });
+
+        setLevelsData(updatedLevels);
+      } catch (err) {
+        console.error("Failed to fetch referral data:", err);
+      } finally {
+        setLoading(false); // End loading
+      }
+    };
+
+    fetchReferralData();
+  }, []);
 
   return (
     <div className="overflow-y-auto scrollbar-hidden">
@@ -125,21 +127,29 @@ const Page = () => {
         <div className="bg-white">
           <div className="p-2">
             <div className="bg-[#F6F1DE]  p-2 rounded-md">
-                <div className="flex justify-center items-center text-center mt-4">
-                    <p className="text-3xl font-thick text-md">User Levels</p>
-                </div>
-                <div className="mt-5">
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 p-4  gap-5">
-                        {
-                            levelsData.map((el,idx)=>(
-                                <div key={idx} className="bg-[#22405c] text-white p-2 rounded-md">
-                                    <h1 className="text-lg font-bold">{el.level}</h1>
-                                    <p className="text-sm ">{el.discription}</p>
-                                </div> 
-                            ))
-                        }
-                    </div>
-                </div>
+              <div className="flex justify-center items-center text-center mt-4">
+                <p className="text-3xl font-thick text-md">User Levels</p>
+              </div>
+              <div className="mt-5 min-h-[200px] flex items-center justify-center">
+                {loading ? (
+                  <div className="flex flex-col items-center justify-center text-gray-500 text-sm">
+                    <div className="w-8 h-8 border-4 border-gray-300 border-t-[#22405c] rounded-full animate-spin mb-2"></div>
+                    Loading...
+                  </div>
+                ) : (
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 p-4 gap-5 w-full">
+                    {levelsData.map((el, idx) => (
+                      <div
+                        key={idx}
+                        className="bg-[#22405c] text-white p-2 rounded-md"
+                      >
+                        <h1 className="text-lg font-bold">{el.level}</h1>
+                        <p className="text-sm">{el.discription}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

@@ -12,7 +12,12 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true },
     role: { type: String, default: "user" },
     referrerId: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
-    referralPath: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }],
+    referralPath: {
+      type: Map,
+      of: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }],
+      default: {},
+    },
+
     referenceUrl: { type: String, required: true },
     accountBalance: { type: Number, default: 0 },
     referralChain: {
@@ -97,7 +102,7 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
       required: true,
-    }
+    },
   },
   {
     timestamps: true,

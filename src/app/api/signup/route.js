@@ -115,7 +115,7 @@ export async function POST(req) {
       password: hashedPassword,
       role: "user",
       referrerId: referrerId ?? null,
-      referralPath: [],
+
       referenceUrl,
       referralChain,
     });
@@ -130,9 +130,16 @@ export async function POST(req) {
     }
 
     if (referrerId) {
-      await Users.findByIdAndUpdate(referrerId, {
-        $addToSet: { referralPath: savedUser._id },
-      });
+      for (let i = 0; i < referralChain.length && i < 7; i++) {
+        const levelKey = `referralPath.level${i + 1}`;
+
+        await Users.findByIdAndUpdate(referralChain[i], {
+          $addToSet: {
+            [levelKey]: savedUser._id,
+            rewardableReferrals: savedUser._id,
+          },
+        });
+      }
     }
 
     for (let i = 0; i < referralChain.length && i < 7; i++) {
@@ -155,14 +162,18 @@ export async function POST(req) {
     }
 
     const subject = "Verify Your Email";
-    const emailContent = generateEmailVerificationTemplate(savedUser.username, `${process.env.CLIENT_URL}/auth/verify-email?token=${token}`);
+    const emailContent = generateEmailVerificationTemplate(
+      savedUser.username,
+      `${process.env.CLIENT_URL}/auth/verify-email?token=${token}`
+    );
 
     await sendEmail(email, subject, emailContent);
 
     return NextResponse.json(
       {
         success: true,
-        message: "Account created successfully! Please check your Gmail inbox and click the verification link to activate your account.",
+        message:
+          "Account created successfully! Please check your Gmail inbox and click the verification link to activate your account.",
         token,
         savedUser,
       },

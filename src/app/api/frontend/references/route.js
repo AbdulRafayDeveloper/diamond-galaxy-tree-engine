@@ -3,11 +3,8 @@ import { Users } from "@/app/config/Models/Users/users";
 import serverSideUserValidation from "@/app/helper/serverSideUserValidation";
 import {
   successResponse,
-  badRequestResponse,
-  conflictResponse,
-  serverErrorResponse,
-  unauthorizedResponse,
   notFoundResponse,
+  serverErrorResponse,
 } from "@/app/helper/apiResponseHelpers";
 
 import serverSideValidations from "@/app/helper/serverSideValidations";
@@ -18,8 +15,8 @@ export async function GET(req, res) {
     await connectDB();
     const token = serverSideValidations.checkTokenValidationStyle(req);
     console.log(token);
-    const user = await serverSideUserValidation.validateUserByToken(token);
 
+    const user = await serverSideUserValidation.validateUserByToken(token);
     if (user.status) return user;
 
     const foundUser = await Users.findById(user._id).select("referralPath");
@@ -28,8 +25,27 @@ export async function GET(req, res) {
       return notFoundResponse("User not found.", null);
     }
 
+    // ✅ Handle both Map and array formats
+    let referralIds = [];
+
+    if (Array.isArray(foundUser.referralPath)) {
+      // Legacy array format
+      referralIds = foundUser.referralPath;
+    } else if (
+      foundUser.referralPath instanceof Map ||
+      typeof foundUser.referralPath === "object"
+    ) {
+      // New Map or object format with levels (e.g. level1, level2...)
+      const pathObject =
+        foundUser.referralPath instanceof Map
+          ? Object.fromEntries(foundUser.referralPath)
+          : foundUser.referralPath;
+
+      referralIds = Object.values(pathObject).flat();
+    }
+
     const referredUsers = await Users.find({
-      _id: { $in: foundUser.referralPath },
+      _id: { $in: referralIds },
     }).select("fname lname username email country createdAt");
 
     return successResponse(
@@ -37,6 +53,7 @@ export async function GET(req, res) {
       referredUsers
     );
   } catch (error) {
+    console.error("Referral Path Fetch Error:", error);
     return serverErrorResponse(error.message);
   }
 }
