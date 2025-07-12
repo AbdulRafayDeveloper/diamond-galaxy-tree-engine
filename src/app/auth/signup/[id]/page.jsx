@@ -148,7 +148,7 @@ const Page = () => {
       if (response.status === 200 && response.data.success) {
         const { token, user } = response.data;
 
-        toast.success("Account created successfully!");
+        toast.success("Account created successfully! Please check your Gmail inbox and click the verification link to activate your account.");
 
         // Clear fields after successful response
         setFormData({
