@@ -10,6 +10,5 @@ export default function Home() {
     router.replace("/auth/signin");
   }, []);
 
-  
   return null;
 }
