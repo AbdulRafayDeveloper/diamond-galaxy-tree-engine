@@ -13,6 +13,7 @@ import {
 } from "@/app/helper/apiResponseHelpers";
 import { validateWithdrawer } from "@/app/helper/withdrawer/withdrawer";
 import { uploadAndGeneratePublicUrl } from "@/app/helper/Url-Generator/googledrive";
+import { uploadFileToS3 } from "@/app/helper/S3-Storage/s3helper";
 
 export async function POST(req) {
   try {
@@ -55,10 +56,11 @@ export async function POST(req) {
     const ext = file.name.split(".").pop();
     const fileName = `${uuidv4()}.${ext}`;
 
-    const screenshotUrl = await uploadAndGeneratePublicUrl(
+    const screenshotUrl = await uploadFileToS3(
       buffer,
-      fileName,
-      file.type || "image/jpeg"
+      "withdraw-request-images",
+      "png",
+      "image/png"
     );
 
     const withdrawGateways = formData.get("withdrawGateways");

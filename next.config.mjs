@@ -14,6 +14,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "drive.usercontent.google.com",
       },
+      {
+        protocol: "https",
+        hostname: "clients-projects-s3-testing-us-east-1.s3.amazonaws.com",
+      },
     ],
   },
 };

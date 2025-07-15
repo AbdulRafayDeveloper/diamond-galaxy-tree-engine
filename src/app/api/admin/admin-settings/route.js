@@ -11,6 +11,7 @@ import {
 import { uploadAndGeneratePublicUrl } from "@/app/helper/Url-Generator/googledrive";
 import { v4 as uuidv4 } from "uuid";
 import { updateAndGeneratePublicUrl } from "@/app/helper/Url-Generator/updateimage";
+import { updateFileOnS3 } from "@/app/helper/S3-Storage/s3helper";
 
 export async function PUT(req) {
   try {
@@ -55,14 +56,17 @@ export async function PUT(req) {
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
       const ext = file.name.split(".").pop();
-      const fileName = `${uuidv4()}.${ext}`;
+      const contentType = file.type || "image/jpeg";
 
-      const imageUrl = await updateAndGeneratePublicUrl(
-        buffer,
-        fileName,
-        file.type || "image/jpeg",
-        user.image
+      const imageUrl = await updateFileOnS3(
+        user.image, // old image URL to delete
+        buffer, // new image buffer
+        "profile-images", // folder in S3
+        ext, // file extension
+        contentType // MIME type
       );
+
+      console.log(imageUrl);
 
       updatedFields.image = imageUrl;
     }

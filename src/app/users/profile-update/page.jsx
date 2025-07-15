@@ -261,6 +261,7 @@ const Page = () => {
                           className="hidden"
                           accept="image/*"
                           onChange={handleImageUpload}
+                          unoptimized
                         />
                       </div>
                     </div>

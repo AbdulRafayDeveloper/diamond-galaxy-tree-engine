@@ -13,6 +13,7 @@ import {
 } from "@/app/helper/apiResponseHelpers";
 import { validateDepositor } from "@/app/helper/depositors/validateDepositors";
 import { uploadAndGeneratePublicUrl } from "@/app/helper/Url-Generator/googledrive";
+import { uploadFileToS3 } from "@/app/helper/S3-Storage/s3helper";
 
 export async function POST(req) {
   try {
@@ -47,11 +48,14 @@ export async function POST(req) {
     const fileName = `${uuidv4()}.${ext}`;
 
     // 🔁 Upload to Google Drive and get URL
-    const imageUrl = await uploadAndGeneratePublicUrl(
+    const imageUrl = await uploadFileToS3(
       buffer,
-      fileName,
-      file.type || "image/jpeg"
+      "deposit-request-images",
+      "png",
+      "image/png"
     );
+
+    console.log(imageUrl);
 
     const paymentMethod = formData.get("paymentMethod");
     const amount = parseFloat(formData.get("amount"));
