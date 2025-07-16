@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 
 const Page = () => {
   const router = useRouter();
+  const [data, setData] = useState({});
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef();
@@ -53,6 +54,32 @@ const Page = () => {
       [name]: value,
     }));
   };
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const token = Cookies.get("token");
+
+        const response = await axios.get("/api/frontend/user", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        console.log("User data response:", response);
+        console.log("User data response.data.data:", response.data.data);
+        console.log("User data response.data.data:", response.data.data.amountValue);
+
+        const userData = response.data.data;
+        setData(userData);
+        console.log(userData);
+      } catch (e) {
+        console.log("Failed to fetch user:", e);
+      }
+    };
+
+    getData();
+  }, []);
 
   /*const handleSubmit = (e) => {
     e.preventDefault();
@@ -157,6 +184,18 @@ const Page = () => {
       return;
     }
 
+    console.log("data?.accountBalance: ", data?.accountBalance);
+    const accountBalance = data?.accountBalance || 0;
+    const amountValue = parseFloat(formData.Amount);
+    const feeValue = parseFloat(calculatedPercent);
+    const totalDeduction = amountValue + feeValue;
+
+    // 💥 Check if total deduction is greater than balance
+    if (totalDeduction > accountBalance) {
+      toast.error(`Your total amount $${totalDeduction.toFixed(2)} exceeds your balance ($${accountBalance}).`);
+      return;
+    }
+
     try {
       const token = Cookies.get("token");
       const form = new FormData();
@@ -231,9 +270,8 @@ const Page = () => {
         <aside
           ref={sidebarRef}
           id="separator-sidebar"
-          className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${
-            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } sm:translate-x-0`}
+          className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+            } sm:translate-x-0`}
           aria-label="Sidebar"
         >
           <SideBar section={section} />
