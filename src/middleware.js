@@ -8,7 +8,6 @@ const ROLE_DASHBOARD = {
   user: "/users/dashboard",
 };
 
-
 export async function middleware(req) {
   const token = req.cookies.get("token")?.value;
   const { pathname } = req.nextUrl;
