@@ -26,6 +26,17 @@ export async function GET(req) {
     }
 
     const freshUser = await Users.findById(user._id);
+
+    // Check if user account is activated
+    if (!freshUser.is_activated) {
+      return badRequestResponse("Your account is not activated yet.");
+    }
+
+    // Check if user has sufficient balance
+    if (freshUser.accountBalance <= 0) {
+      return badRequestResponse("Insufficient account balance.");
+    }
+
     const commissionSettings = await activateCommissions.findOne();
     const levelSettings = await SlotLevel.findOne();
 
@@ -97,19 +108,19 @@ export async function GET(req) {
 
     const levelPercents = [
       levelSettings?.level1 ??
-        parseFloat(process.env.ACTIVATE_LEVEL_ONE || "0"),
+      parseFloat(process.env.ACTIVATE_LEVEL_ONE || "0"),
       levelSettings?.level2 ??
-        parseFloat(process.env.ACTIVATE_LEVEL_TWO || "0"),
+      parseFloat(process.env.ACTIVATE_LEVEL_TWO || "0"),
       levelSettings?.level3 ??
-        parseFloat(process.env.ACTIVATE_LEVEL_THREE || "0"),
+      parseFloat(process.env.ACTIVATE_LEVEL_THREE || "0"),
       levelSettings?.level4 ??
-        parseFloat(process.env.ACTIVATE_LEVEL_FOUR || "0"),
+      parseFloat(process.env.ACTIVATE_LEVEL_FOUR || "0"),
       levelSettings?.level5 ??
-        parseFloat(process.env.ACTIVATE_LEVEL_FIVE || "0"),
+      parseFloat(process.env.ACTIVATE_LEVEL_FIVE || "0"),
       levelSettings?.level6 ??
-        parseFloat(process.env.ACTIVATE_LEVEL_SIX || "0"),
+      parseFloat(process.env.ACTIVATE_LEVEL_SIX || "0"),
       levelSettings?.level7 ??
-        parseFloat(process.env.ACTIVATE_LEVEL_SEVEN || "0"),
+      parseFloat(process.env.ACTIVATE_LEVEL_SEVEN || "0"),
     ];
 
     let levelTracker = 0;
@@ -129,9 +140,8 @@ export async function GET(req) {
         senderId: freshUser._id,
         type: "commission",
         amount,
-        description: `Level ${i + 1} slot-${
-          slotIndex + 1
-        } activation commission`,
+        description: `Level ${i + 1} slot-${slotIndex + 1
+          } activation commission`,
         postbalance: recipient.accountBalance,
       });
 
