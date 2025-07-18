@@ -69,10 +69,16 @@ export async function PUT(req) {
     const body = await req.json();
     const { type } = body;
 
+    console.log("Type: ", type);
+
     const draw = await LuckyDraw.findOne({ type });
     if (!draw) return badRequestResponse("Lucky draw type not found");
 
+    console.log("Draw: ", draw);
+
     const userDoc = await Users.findById(user._id);
+
+    console.log("User Document: ", userDoc);
 
     const userDrawField = `is_${type}`;
     if (userDoc[userDrawField]) {
@@ -81,9 +87,13 @@ export async function PUT(req) {
       );
     }
 
+    console.log("User Draw Field: ", userDrawField);
+
     if (userDoc.accountBalance < draw.price) {
       return badRequestResponse("Insufficient balance for lucky draw purchase");
     }
+
+    console.log("User Account Balance: ", userDoc.accountBalance);
 
     const user1 = await Users.findByIdAndUpdate(
       user._id,
@@ -91,11 +101,13 @@ export async function PUT(req) {
       { new: true }
     );
 
+    console.log("Updated User Document: ", user1);
+
     await Transaction.create({
       userId: user1._id,
       senderId: null,
       type: "luckyDraw",
-      amount: price,
+      amount: draw.price,
       description: `Lucky Draw fee deducted`,
       postbalance: user1.accountBalance,
     });
@@ -104,8 +116,12 @@ export async function PUT(req) {
       ? await Users.findById(userDoc.referrerId)
       : null;
 
+    console.log("First Level User: ", firstLevelUser);
+
     let levelOneCommission = 0;
     let companyCommission = draw.price;
+
+    console.log("Initial Company Commission: ", companyCommission);
 
     if (firstLevelUser) {
       levelOneCommission = (draw.price * draw.levelOnePercentage) / 100;

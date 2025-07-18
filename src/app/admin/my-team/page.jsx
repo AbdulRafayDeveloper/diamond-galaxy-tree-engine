@@ -267,7 +267,8 @@ const Page = () => {
                       htmlFor={name}
                       className="block text-sm font-medium mb-1"
                     >
-                      Level {i + 1} {levelConfigs[activeTab].placeholder}
+                      {/* Level {i + 1} {levelConfigs[activeTab].placeholder} */}
+                      Level {levelConfigs[activeTab].fields - i} {levelConfigs[activeTab].placeholder}
                     </label>
                     <input
                       type="number"
