@@ -12,6 +12,7 @@ import {
   serverErrorResponse,
   conflictResponse,
 } from "@/app/helper/apiResponseHelpers";
+import { Transaction } from "@/app/config/Models/Transaction/transaction";
 
 export async function PUT(req, context) {
   try {
@@ -62,11 +63,20 @@ export async function PUT(req, context) {
 
     await commission.save();
 
+    await Transaction.create({
+      userId: user._id,
+      senderId: null,
+      type: "luckyDraw",
+      amount: amount,
+      description: `Amount credited from lucky draw`,
+      postbalance: user.accountBalance,
+    });
+
     return successResponse(
       "Deposit added and commission recorded successfully."
     );
   } catch (err) {
-    console.error("Error in PUT /api/admin/lucky-draw/deposit/[userId]:", err);
+    console.log("Error in PUT /api/admin/lucky-draw/deposit/[userId]:", err);
     return serverErrorResponse("Internal server error.");
   }
 }

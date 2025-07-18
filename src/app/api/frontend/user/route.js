@@ -62,7 +62,7 @@ export async function PUT(req) {
         contentType // MIME type
       );
 
-      console.log(imageUrl);
+      // console.log(imageUrl);
 
       updatedFields.image = imageUrl;
     }
@@ -88,7 +88,7 @@ export async function GET(req, res) {
   try {
     await connectDB();
     const token = serverSideValidations.checkTokenValidationStyle(req);
-    console.log(token);
+    // console.log(token);
     const user = await serverSideUserValidation.validateUserByToken(token);
 
     if (user.status) return user;
@@ -99,7 +99,7 @@ export async function GET(req, res) {
       return notFoundResponse("User not found.", null);
     }
 
-    console.log(foundUser);
+    // console.log(foundUser);
 
     return successResponse("User retrieved successfully.", foundUser);
   } catch (error) {

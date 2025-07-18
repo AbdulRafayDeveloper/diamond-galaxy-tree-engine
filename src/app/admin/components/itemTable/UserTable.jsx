@@ -403,6 +403,9 @@ const UsersTable = () => {
                               "Diamond Grade",
                               "Royal Grade",
                               "Star Grade",
+                              "Elit Grade",
+                              "Crown Diamond Grade",
+                              "Galaxy Global Grade",
                               "Member",
                             ].map((option) => (
                               <li key={option}>

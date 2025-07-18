@@ -66,6 +66,7 @@ const Page = () => {
     const masked = first.charAt(0) + "*".repeat(first.length - 1); // Mask the username
     return `${masked}@${domain}`;
   };
+  
   return (
     <div className="overflow-y-auto scrollbar-hidden">
       <div className="p-2 w-full">

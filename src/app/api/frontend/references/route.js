@@ -25,11 +25,30 @@ export async function GET(req, res) {
       return notFoundResponse("User not found.", null);
     }
 
-    // ✅ Handle both Map and array formats
+    // // ✅ Handle both Map and array formats
+    // let referralIds = [];
+
+    // if (Array.isArray(foundUser.referralPath)) {
+    //   // Legacy array format
+    //   referralIds = foundUser.referralPath;
+    // } else if (
+    //   foundUser.referralPath instanceof Map ||
+    //   typeof foundUser.referralPath === "object"
+    // ) {
+    //   // New Map or object format with levels (e.g. level1, level2...)
+    //   const pathObject =
+    //     foundUser.referralPath instanceof Map
+    //       ? Object.fromEntries(foundUser.referralPath)
+    //       : foundUser.referralPath;
+
+    //   referralIds = Object.values(pathObject).flat();
+    // }
+
+    // Handle both Map and array formats
     let referralIds = [];
 
     if (Array.isArray(foundUser.referralPath)) {
-      // Legacy array format
+      // Legacy array format (assume it's level1-like)
       referralIds = foundUser.referralPath;
     } else if (
       foundUser.referralPath instanceof Map ||
@@ -41,8 +60,10 @@ export async function GET(req, res) {
           ? Object.fromEntries(foundUser.referralPath)
           : foundUser.referralPath;
 
-      referralIds = Object.values(pathObject).flat();
+      // Only include level1
+      referralIds = pathObject?.level1 || [];
     }
+
 
     const referredUsers = await Users.find({
       _id: { $in: referralIds },
