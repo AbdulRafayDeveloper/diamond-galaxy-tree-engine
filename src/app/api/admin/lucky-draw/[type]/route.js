@@ -10,6 +10,90 @@ import {
   notFoundResponse,
 } from "@/app/helper/apiResponseHelpers";
 
+// export async function GET(req, context) {
+//   try {
+//     await connectDB();
+
+//     const token = serverSideValidations.checkTokenValidationStyle(req);
+//     const adminUser = await serverSideValidations.validateUserByToken(token);
+
+//     if (!adminUser || !adminUser._id) {
+//       return badRequestResponse("Unauthorized. Invalid or missing token.");
+//     }
+
+//     if (adminUser.role !== "admin") {
+//       return conflictResponse("Access denied. Admins only.");
+//     }
+
+//     const params = await context.params;
+//     const { type } = params;
+//     console.log("the type at backend is:", type);
+
+//     const draw = await LuckyDraw.findOne({ type });
+
+//     if (!draw) {
+//       return successResponse("Lucky draw not found for this type.");
+//     }
+
+//     return successResponse("Lucky draw fetched successfully.", draw);
+//   } catch (error) {
+//     console.log("Error in GET /api/admin/lucky-draw/[type]:", error);
+//     return serverErrorResponse("Internal server error.");
+//   }
+// }
+
+// export async function GET(req, context) {
+//   try {
+//     await connectDB();
+
+//     const token = serverSideValidations.checkTokenValidationStyle(req);
+//     const adminUser = await serverSideValidations.validateUserByToken(token);
+
+//     if (!adminUser || !adminUser._id) {
+//       return badRequestResponse("Unauthorized. Invalid or missing token.");
+//     }
+
+//     if (adminUser.role !== "admin") {
+//       return conflictResponse("Access denied. Admins only.");
+//     }
+
+//     const params = await context.params;
+//     const { type } = params;
+
+//     console.log("the type at backend is:", type);
+
+//     // Get all draws of this type
+//     const draws = await LuckyDraw.find({ type });
+
+//     if (!draws.length) {
+//       return successResponse("No lucky draw found for this type.");
+//     }
+
+//     // Pick a random one
+//     const draw = draws[Math.floor(Math.random() * draws.length)];
+
+//     // Fetch participants
+//     const participants = await LuckyDraw.find({ type: type });
+
+//     const totalParticipants = participants.length;
+//     const totalCollected = participants.reduce((sum, p) => sum + (p.price || 0), 0);
+
+//     console.log("Total Participants:", totalParticipants);
+//     console.log("Total Collected Amount:", totalCollected);
+//     console.log("Participants:", participants);
+
+//     return successResponse("Lucky draw fetched successfully.", {
+//       draw,
+//       totalParticipants,
+//       totalCollected,
+//       participants,
+//     });
+//   } catch (error) {
+//     console.log("Error in GET /api/admin/lucky-draw/[type]:", error);
+//     return serverErrorResponse("Internal server error.");
+//   }
+// }
+
 export async function GET(req, context) {
   try {
     await connectDB();
@@ -25,17 +109,39 @@ export async function GET(req, context) {
       return conflictResponse("Access denied. Admins only.");
     }
 
-    const params = await context.params;
-    const { type } = params;
-    console.log("the type at backend is:", type);
+    const { type } = context.params;
 
-    const draw = await LuckyDraw.findOne({ type });
+    // Get all lucky draws of this type
+    const draws = await LuckyDraw.find({ type });
 
-    if (!draw) {
-      return successResponse("Lucky draw not found for this type.");
+    if (!draws.length) {
+      return successResponse("No lucky draw found for this type.");
     }
 
-    return successResponse("Lucky draw fetched successfully.", draw);
+    // Pick one random draw
+    const draw = draws[Math.floor(Math.random() * draws.length)];
+
+    // Get participants from that draw
+    const participants = draw.participants || [];
+
+    // Total number of participants
+    const totalParticipants = participants.length;
+
+    // Total collected amount
+    const totalCollected = participants.reduce((sum, p) => sum + (p.total || 0), 0);
+
+    // Pick a random participant if any exist
+    const winner = participants.length
+      ? participants[Math.floor(Math.random() * participants.length)]
+      : null;
+
+    return successResponse("Lucky draw fetched successfully.", {
+      draw,
+      totalParticipants,
+      totalCollected,
+      winner,
+      participants,
+    });
   } catch (error) {
     console.log("Error in GET /api/admin/lucky-draw/[type]:", error);
     return serverErrorResponse("Internal server error.");

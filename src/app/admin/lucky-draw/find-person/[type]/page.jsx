@@ -70,19 +70,55 @@ const Page = () => {
   const [winnerDetails, setWinnerDetails] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [amount, setAmount] = useState("");
+  const [totalParticipants, setTotalParticipants] = useState(0);
+  const [totalCollectedAmount, setTotalCollectedAmount] = useState(0);
+  // const [users, setUsers] = useState([]);
   const { type } = useParams();
-
-  console.log("type: ", type);
-
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const sidebarRef = useRef(null);
+  const buttonRef = useRef(null);
   const [formData, setFormData] = useState({
     price: "",
     levelOneCommission: "",
     drawingDate: "",
   });
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const sidebarRef = useRef(null);
-  const buttonRef = useRef(null);
+  console.log("type: ", type);
+
+  useEffect(() => {
+    const fetchLuckyDraw = async () => {
+      try {
+        const res = await axios.get(`/api/admin/lucky-draw/${type}`, {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        });
+        const data = res.data?.data;
+
+        if (data) {
+          setFormData({
+            price: data.winner.price || "",
+            levelOneCommission: data.winner.levelOnePercentage || "",
+            drawingDate: data.winner.drawDate?.split("T")[0] || "",
+          });
+          // setUsers(data.participants || []);
+          setTotalParticipants(data.totalParticipants || 0);
+          setTotalCollectedAmount(data.totalCollected || 0);
+        }
+      } catch (error) {
+        console.log("No lucky draw data found for this type yet.");
+      }
+    };
+
+    if (type) {
+      fetchLuckyDraw();
+    }
+  }, [type]);
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
 
   const handleSidebarToggle = () => setIsSidebarOpen(!isSidebarOpen);
   const handleClickOutside = (e) => {
@@ -95,11 +131,6 @@ const Page = () => {
       setIsSidebarOpen(false);
     }
   };
-
-  useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -155,32 +186,7 @@ const Page = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchLuckyDraw = async () => {
-      try {
-        const res = await axios.get(`/api/admin/lucky-draw/${type}`, {
-          headers: {
-            Authorization: `Bearer ${Cookies.get("token")}`,
-          },
-        });
-        const data = res.data?.data;
 
-        if (data) {
-          setFormData({
-            price: data.price || "",
-            levelOneCommission: data.levelOnePercentage || "",
-            drawingDate: data.drawDate?.split("T")[0] || "",
-          });
-        }
-      } catch (error) {
-        console.log("No lucky draw data found for this type yet.");
-      }
-    };
-
-    if (type) {
-      fetchLuckyDraw();
-    }
-  }, [type]);
 
   const handleResetDraw = async () => {
     const confirmation = await Swal.fire({
@@ -298,9 +304,8 @@ const Page = () => {
 
         <aside
           ref={sidebarRef}
-          className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${
-            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } sm:translate-x-0`}
+          className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+            } sm:translate-x-0`}
         >
           <SideBar section="Lucky Draw" />
         </aside>
@@ -365,22 +370,76 @@ const Page = () => {
           <h2 className="text-xl font-bold text-center text-[#22405c]">
             Spin and Find a Random Person for Lucky Draw
           </h2>
+          {mustSpin && (
+            <div className="text-sm text-gray-500 mb-2">Spinning...</div>
+          )}
+
+          {!mustSpin && (
+            <button
+              onClick={async () => {
+                const newPrize = Math.floor(Math.random() * users.length);
+                setPrizeNumber(newPrize);
+                setMustSpin(true);
+
+                setTimeout(async () => {
+                  setMustSpin(false);
+                  try {
+                    const res = await axios.get(
+                      `/api/admin/lucky-draw/lucky-draw-winner/${type}`,
+                      {
+                        headers: {
+                          Authorization: `Bearer ${Cookies.get("token")}`,
+                        },
+                      }
+                    );
+
+                    const winner = res.data?.data?.winner;
+                    if (res.data.status === 200 && winner) {
+                      setWinnerDetails({
+                        id: winner.id,
+                        name: winner.name,
+                        email: winner.email,
+                        username: winner.username,
+                        isRegistered: winner.is_registered,
+                        isActivated: winner.isInActivatedSlots,
+                        balance: res.data.data.totalCompanyCommission,
+                        slot: "-",
+                      });
+                      setShowModal(true);
+                    } else {
+                      toast.error("No winner data received.");
+                    }
+                  } catch (error) {
+                    console.error("Error fetching winner:", error);
+                    toast.error(
+                      error?.response?.data?.message ||
+                      "Could not retrieve winner info"
+                    );
+                  }
+                }, 1500);
+              }}
+              className="bg-[#22405c] text-white px-4 py-2 rounded"
+            >
+              Spin
+            </button>
+          )}
+          <p>Total Participants: {totalParticipants}</p>
+          <p>Total Collected Amount: ${totalCollectedAmount || 0}</p>
           <div className="w-full max-w-xl grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 mb-4">
             {users.map((user, index) => (
               <div
                 key={index}
-                className={`text-center py-2 px-3 rounded shadow transition-all duration-300 ${
-                  index === prizeNumber && !mustSpin
-                    ? "bg-green-600 text-white font-bold"
-                    : "bg-[#F6F1DE] text-black"
-                }`}
+                className={`text-center py-2 px-3 rounded shadow transition-all duration-300 ${index === prizeNumber && !mustSpin
+                  ? "bg-green-600 text-white font-bold"
+                  : "bg-[#F6F1DE] text-black"
+                  }`}
               >
                 {user.name}
               </div>
             ))}
           </div>
 
-          {mustSpin && (
+          {/* {mustSpin && (
             <div className="text-sm text-gray-500 mb-2">Spinning...</div>
           )}
 
@@ -432,7 +491,7 @@ const Page = () => {
             >
               Spin
             </button>
-          )}
+          )} */}
 
           {showModal && winnerDetails && (
             <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
