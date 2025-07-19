@@ -21,6 +21,13 @@ const UsersTable = () => {
   const [selectedOptionsSlots, setSelectedOptionsSlots] = useState([]);
   const [selectedDescription, setSelectedDescription] = useState("");
   const descriptionOptions = [
+    "Welcome Bonus",
+    "Monthly Pool Gift",
+    "Leadership Reward",
+    "Slot Commission",
+    "Lucky Draw Commission",
+    "Social media reward",
+    "Target Achiever Reward",
     "Company Bonus",
     "Performance Reward",
     "Referral Bonus",

@@ -48,12 +48,14 @@ export async function PUT(req, context) {
     user.accountBalance += amount;
     await user.save();
 
+    console.log("User description: ", description);
+
     const newTransaction = new Transaction({
       userId: user._id,
       senderId: adminUser._id,
-      type: "monthly_gift",
+      type: description || "Monthly Gift",
       amount: amount,
-      description: "Company gifted this amount (monthly_gift)",
+      description: `${description} given to you by the company`,
       postbalance: user.accountBalance,
     });
 
@@ -66,12 +68,12 @@ export async function PUT(req, context) {
         <div style="font-family: Arial, sans-serif; font-size: 16px; color: #333;">
           <p>Hi ${user.username},</p>
           <p>🎁 You have received a monthly gift of <strong>$${amount.toFixed(
-            2
-          )}</strong>.</p>
+          2
+        )}</strong>.</p>
           <p><strong>Description:</strong> ${description}</p>
           <p>Your updated account balance is now: <strong>$${user.accountBalance.toFixed(
-            2
-          )}</strong>.</p>
+          2
+        )}</strong>.</p>
           <p>Keep up the great work!</p>
           <br />
           <p>Best regards,<br/>The Team</p>

@@ -92,6 +92,11 @@ const Page = () => {
             Authorization: `Bearer ${Cookies.get("token")}`,
           },
         });
+        // console.log("Lucky Draw Data: ", res.data);
+        // if (res.data.status !== 200) {
+        //   toast.error(res.data.message || "Failed to fetch lucky draws");
+        //   return;
+        // }
         setDrawData(res.data.data.draws || []);
         setActiveDraws(res.data.data.activeDraws || {});
       } catch (err) {
