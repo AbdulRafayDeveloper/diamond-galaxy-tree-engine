@@ -240,7 +240,7 @@ const Page = () => {
                             handleBuyDraw(el.name.toLowerCase())
                           }
                         >
-                          {isCardActive(el.name) ? "Bought" : "Buy"}
+                          {isCardActive(el.name) ? "Already Buy" : "Buy"}
                         </button>
                       </div>
                     </div>

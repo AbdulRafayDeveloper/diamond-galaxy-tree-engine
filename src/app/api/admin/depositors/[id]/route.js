@@ -80,7 +80,7 @@ export async function PUT(req, { params }) {
       await Transaction.create({
         userId: user._id,
         senderId: null,
-        type: "credit",
+        type: "deposit",
         amount: creditedAmount,
         description: `Amount credited`,
         postbalance: user.accountBalance,

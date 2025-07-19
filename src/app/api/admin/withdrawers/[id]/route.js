@@ -77,7 +77,7 @@ export async function PUT(req, { params }) {
       await Transaction.create({
         userId: user._id,
         senderId: null,
-        type: "debit",
+        type: "withdraw",
         amount: actualDeduction,
         description: `Amount withdrawn`,
         postbalance: user.accountBalance,
