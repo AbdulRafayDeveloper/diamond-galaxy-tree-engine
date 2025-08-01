@@ -46,6 +46,44 @@ const UsersTable = () => {
   const [currentUserId, setCurrentUserId] = useState(null);
   const [salary, setSalary] = useState("");
 
+  const handleResetPassword = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to reset this user's password?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DC2626",
+      cancelButtonColor: "#6B7280",
+      confirmButtonText: "Yes, Reset",
+      cancelButtonText: "Cancel",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          console.log("Resetting password for user ID:", id);
+          const token = Cookies.get("token");
+          const res = await axios.put(
+            `/api/admin/reset-password/${id}`,
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (res.data.status === 200) {
+            Swal.fire("Success!", "Password has been reset.", "success");
+          } else {
+            Swal.fire("Error", res.data.message || "Failed to reset.", "error");
+          }
+        } catch (error) {
+          Swal.fire("Error", error.message, "error");
+        }
+      }
+    });
+  };
+
+
   const openModal = async (userId) => {
     setCurrentUserId(userId);
     setIsOpen(true);
@@ -218,37 +256,7 @@ const UsersTable = () => {
     setIsOpenSalary(false);
   };
 
-  const handleUnregister = () => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "Do you want to register this user?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, Register",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire("Registered!", "The user has been registered.", "success");
-      }
-    });
-  };
 
-  const handleDeactivate = () => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "Do you want to activate this user?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, Activate",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire("Activated!", "The user has been activated.", "success");
-      }
-    });
-  };
 
   const DeleteRecord = () => {
     Swal.fire({
@@ -263,23 +271,6 @@ const UsersTable = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire("Deleted!", "Record has been deleted.", "success");
-      }
-    });
-  };
-
-  const ResetPassword = () => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "Do you want to reset this password?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#DC2626",
-      cancelButtonColor: "#6B7280",
-      confirmButtonText: "Yes, Reset",
-      cancelButtonText: "Cancel",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire("Reset!", "Reset password successfully", "success");
       }
     });
   };
@@ -311,6 +302,158 @@ const UsersTable = () => {
     }
   };
 
+  const handleRegister = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to register this user?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Register",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const token = Cookies.get("token"); // ✅ Get token from cookies
+
+          const res = await axios.put(
+            `/api/admin/register/${id}`,
+            {}, // body
+            {
+              headers: {
+                Authorization: `Bearer ${token}`, // ✅ Send token in headers
+              },
+            }
+          );
+
+          if (res.data.status === 200) {
+            Swal.fire("Registered!", "The user has been successfully registered.", "success");
+            fetchData(); // Optionally refresh the user list
+          } else {
+            Swal.fire("Error", res.data.message || "Failed to register.", "error");
+          }
+        } catch (error) {
+          console.error(error);
+          Swal.fire("Error", error.response?.data?.message || "Something went wrong.", "error");
+        }
+      }
+    });
+  };
+
+  const handleUnregister = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to unregister this user?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Unregister",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const token = Cookies.get("token"); // ✅ Get token from cookies
+
+          const res = await axios.put(
+            `/api/admin/unregister/${id}`,
+            {}, // body
+            {
+              headers: {
+                Authorization: `Bearer ${token}`, // ✅ Send token in headers
+              },
+            }
+          );
+
+          if (res.data.status === 200) {
+            Swal.fire("Unregistered!", "The user has been successfully unregistered.", "success");
+            fetchData(); // Optionally refresh the user list
+          } else {
+            Swal.fire("Error", res.data.message || "Failed to unregister.", "error");
+          }
+        } catch (error) {
+          console.error(error);
+          Swal.fire("Error", error.response?.data?.message || "Something went wrong.", "error");
+        }
+      }
+    });
+  };
+
+  const handleActivate = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to activate this user?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Activate",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const token = Cookies.get("token"); // ✅ Get token from cookies
+
+          const res = await axios.put(
+            `/api/admin/activate/${id}`,
+            {}, // body
+            {
+              headers: {
+                Authorization: `Bearer ${token}`, // ✅ Send token in headers
+              },
+            }
+          );
+
+          if (res.data.status === 200) {
+            Swal.fire("Activated!", "The user has been successfully activated.", "success");
+            fetchData(); // Optionally refresh the user list
+          } else {
+            Swal.fire("Error", res.data.message || "Failed to activate.", "error");
+          }
+        } catch (error) {
+          console.error(error);
+          Swal.fire("Error", error.response?.data?.message || "Something went wrong.", "error");
+        }
+      }
+    });
+  };
+
+  const handleDeactivate = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to deactivate this user?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Deactivate",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const token = Cookies.get("token"); // ✅ Get token from cookies
+
+          const res = await axios.put(
+            `/api/admin/deactivate/${id}`,
+            {}, // body
+            {
+              headers: {
+                Authorization: `Bearer ${token}`, // ✅ Send token in headers
+              },
+            }
+          );
+
+          if (res.data.status === 200) {
+            Swal.fire("Deactivated!", "The user has been successfully deactivated.", "success");
+            fetchData(); // Optionally refresh the user list
+          } else {
+            Swal.fire("Error", res.data.message || "Failed to deactivate.", "error");
+          }
+        } catch (error) {
+          console.error(error);
+          Swal.fire("Error", error.response?.data?.message || "Something went wrong.", "error");
+        }
+      }
+    });
+  };
+
   return (
     <>
       <div className="flex justify-end p-4 sticky top-0 bg-white z-10">
@@ -334,17 +477,23 @@ const UsersTable = () => {
               <th className="px-6 py-3">Name</th>
               <th className="px-6 py-3">Email</th>
               <th className="px-6 py-3">Date</th>
+              <th className="px-6 py-3">Reset Password</th>
               <th className="px-6 py-3">Grades</th>
               <th className="px-6 py-3">Fix Salary</th>
-              {/*<th className="px-6 py-3">Salary</th>*/}
-              {/*<th className="px-6 py-3">Salary Deposit</th>*/}
+
               <th className="px-6 py-3">Deposit</th>
               {/*<th className="px-6 py-3">Reward Deposit</th>
               <th className="px-6 py-3">Reg. Status</th>
               <th className="px-6 py-3">Act. Status</th>
-              <th className="px-6 py-3">Slots</th>
+              {/*<th className="px-6 py-3">Salary</th>*/}
+              {/*<th className="px-6 py-3">Salary Deposit</th>*/}
+              <th className="px-6 py-3">Activate Account</th>
+              <th className="px-6 py-3">De-Activate Account</th>
+              <th className="px-6 py-3">Register Account</th>
+              <th className="px-6 py-3">Un-Register Account</th>
+              {/* <th className="px-6 py-3">Slots</th>
               <th className="px-6 py-3">Monthly Gift Deposit</th>
-              <th className="px-6 py-3">Actions</th>*/}
+              <th className="px-6 py-3">Actions</th> */}
             </tr>
           </thead>
 
@@ -373,6 +522,15 @@ const UsersTable = () => {
                   <td className="px-6 py-4">{product.name}</td>
                   <td className="px-6 py-4">{product.propertyAddress}</td>
                   <td className="px-6 py-4">{product.date}</td>
+                  <td className="px-6 py-4">
+                    <button
+                      onClick={() => handleResetPassword(product.id)}
+                      className="text-black font-medium rounded-full text-sm px-3 py-1 border border-gray-300"
+                      type="button"
+                    >
+                      Reset
+                    </button>
+                  </td>
 
                   {/* Grades Dropdown */}
                   <td className="px-6 py-4">
@@ -573,15 +731,39 @@ const UsersTable = () => {
                     >
                       Unregister
                     </button>
-                  </td>
+                  </td>*/}
 
-                  {/* Activation Status 
+                  {/* Activation Status */}
                   <td className="px-6 py-4">
                     <button
                       className="bg-[#22405c] text-white px-4 py-2 rounded"
-                      onClick={handleDeactivate}
+                      onClick={() => handleActivate(product.id)}
                     >
-                      InActive
+                      Activate
+                    </button>
+                  </td>
+                  <td className="px-6 py-4">
+                    <button
+                      className="bg-[#22405c] text-white px-4 py-2 rounded"
+                      onClick={() => handleDeactivate(product.id)}
+                    >
+                      De-Activate
+                    </button>
+                  </td>
+                  <td className="px-6 py-4">
+                    <button
+                      className="bg-[#22405c] text-white px-4 py-2 rounded"
+                      onClick={() => handleRegister(product.id)}
+                    >
+                      Register
+                    </button>
+                  </td>
+                  <td className="px-6 py-4">
+                    <button
+                      className="bg-[#22405c] text-white px-4 py-2 rounded"
+                      onClick={() => handleUnregister(product.id)}
+                    >
+                      Un-Register
                     </button>
                   </td>
 

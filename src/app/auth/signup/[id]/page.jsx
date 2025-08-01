@@ -204,7 +204,7 @@ const Page = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-2 grid-cols-1 min-h-screen">
             <div
               style={{ backgroundImage: "url('/reg.jpg')" }}
-              className="flex relative justify-center object-cover bg-cover min-h-screen"
+              className="hidden md:flex relative justify-center object-cover bg-cover min-h-screen"
             >
               <div className="absolute inset-0 flex flex-col justify-center items-center bg-black bg-opacity-40 p-2 gap-4">
                 <h1 className="text-[32px] text-white font-bold">
@@ -232,6 +232,11 @@ const Page = () => {
                   Login Now
                 </Link>
               </div>
+            </div>
+            {/* This is shown only on mobile */}
+            <div className="md:hidden flex flex-col justify-center items-center p-4">
+              {/* <h1 className="text-xl font-bold text-[#22405c] mb-2">Diamond Galaxy</h1> */}
+              <img src="/logo.jpg" alt="Diamond Galaxy Logo" className="h-28 w-auto" />
             </div>
             <div className="mx-auto flex justify-center">
               <form onSubmit={handleSubmit} className="p-3 m-4 w-full max-w-xl">
@@ -520,6 +525,36 @@ const Page = () => {
                   </p>
                 </div>
               </form>
+            </div>
+
+            <div
+              style={{ backgroundImage: "url('/reg.jpg')" }}
+              className="md:hidden flex relative justify-center object-cover bg-cover min-h-screen"
+            >
+              <div className="absolute inset-0 flex flex-col justify-center items-center bg-black bg-opacity-40 p-2 gap-4">
+                <h1 className="text-[32px] text-white font-bold">Diamond Galaxy</h1>
+                <p className="text-center text-white text-sm">
+                  Multi-Level Marketing (MLM) is a business strategy where
+                  individuals earn income not only through direct sales of
+                  products or services but also by recruiting others to join the
+                  business. Each new recruit, known as a downline, can also earn
+                  commissions by selling products and recruiting others. This
+                  creates a hierarchical structure where earnings are based on
+                  both personal sales and the sales made by recruited
+                  individuals. While MLM can offer financial opportunities, it
+                  often faces criticism for being similar to pyramid schemes,
+                  where the focus may be more on recruitment than product sales,
+                  leading to potential legal and ethical concerns. Successful
+                  MLM businesses typically have strong, high-demand products and
+                  an ethical structure that emphasizes sales over recruitment.
+                </p>
+                <Link
+                  href="/auth/signin"
+                  className="bg-[#22405c] p-2 text-white w-[200px] rounded-[50px] font-bold text-sm text-center"
+                >
+                  Login Now
+                </Link>
+              </div>
             </div>
           </div>
         </div>

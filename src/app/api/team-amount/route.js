@@ -31,6 +31,28 @@ export async function GET(req) {
       "commission",
     ];
 
+    const earningTypes = [
+      "Welcome Bonus",
+      "Monthly Pool Gift",
+      "Leadership Reward",
+      "Slot Commission",
+      "Lucky Draw Commission",
+      "Social media reward",
+      "Target Achiever Reward",
+      "Company Bonus",
+      "Performance Reward",
+      "Referral Bonus",
+      "Festival Bonus",
+      "Salary",
+      // "deposit",
+      "commission",
+      "activation",
+      "luckyDraw",
+      "monthly_gift",
+      "registration",
+      "slot purchase",
+    ];
+
     const recentIncome = await Transaction.aggregate([
       {
         $match: {
@@ -50,20 +72,34 @@ export async function GET(req) {
       },
     ]);
 
+    // const totalEarnings = await Transaction.aggregate([
+    //   {
+    //     $match: {
+    //       userId: new mongoose.Types.ObjectId(user._id),
+    //       senderId: {
+    //         $in: referralIds.map((id) => new mongoose.Types.ObjectId(id)),
+    //       },
+    //       type: { $in: incomeTypes },
+    //     },
+    //   },
+    //   {
+    //     $group: {
+    //       _id: null,
+    //       totalIncome: { $sum: "$amount" },
+    //     },
+    //   },
+    // ]);
     const totalEarnings = await Transaction.aggregate([
       {
         $match: {
           userId: new mongoose.Types.ObjectId(user._id),
-          senderId: {
-            $in: referralIds.map((id) => new mongoose.Types.ObjectId(id)),
-          },
-          type: { $in: incomeTypes },
+          type: { $in: earningTypes }, 
         },
       },
       {
         $group: {
           _id: null,
-          totalIncome: { $sum: "$amount" },
+          totalIncome: { $sum: "$amount" }, 
         },
       },
     ]);
