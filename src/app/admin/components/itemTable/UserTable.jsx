@@ -41,10 +41,12 @@ const UsersTable = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isSalaryOpen, setIsOpenSalary] = useState(false);
+  const [isDepositHistoryOpen, setIsDepositHistoryOpen] = useState(false);
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
   const [currentUserId, setCurrentUserId] = useState(null);
   const [salary, setSalary] = useState("");
+  const [depositAmount, setDepositAmount] = useState("");
 
   const handleResetPassword = (id) => {
     Swal.fire({
@@ -256,6 +258,17 @@ const UsersTable = () => {
     setIsOpenSalary(false);
   };
 
+  const openDepositHistoryModal = (userId) => {
+    setCurrentUserId(userId);
+    setIsDepositHistoryOpen(true);
+  };
+
+  const closeDepositHistoryModal = () => {
+    setIsDepositHistoryOpen(false);
+    setDepositAmount("");
+    setCurrentUserId(null);
+  };
+
 
 
   const DeleteRecord = () => {
@@ -299,6 +312,33 @@ const UsersTable = () => {
       Swal.fire("Error!", error.message, "error");
     } finally {
       closeModal();
+    }
+  };
+
+  const handleDepositHistorySubmit = async () => {
+    if (!depositAmount) {
+      Swal.fire("Error", "Please enter deposit amount", "error");
+      return;
+    }
+
+    try {
+      const token = Cookies.get("token");
+      const res = await axios.put(
+        `/api/admin-deposit/${currentUserId}`,
+        { amount: depositAmount },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (res.data.status === 200) {
+        Swal.fire("Success!", "Deposit added successfully to user's account and deposit history.", "success");
+        fetchData();
+      } else {
+        Swal.fire("Error!", res.data.message, "error");
+      }
+    } catch (error) {
+      Swal.fire("Error!", error.message, "error");
+    } finally {
+      closeDepositHistoryModal();
     }
   };
 
@@ -482,6 +522,7 @@ const UsersTable = () => {
               <th className="px-6 py-3">Fix Salary</th>
 
               <th className="px-6 py-3">Deposit</th>
+              <th className="px-6 py-3">Deposit with History</th>
               {/*<th className="px-6 py-3">Reward Deposit</th>
               <th className="px-6 py-3">Reg. Status</th>
               <th className="px-6 py-3">Act. Status</th>
@@ -500,7 +541,7 @@ const UsersTable = () => {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="8" className="text-center py-10">
+                <td colSpan="9" className="text-center py-10">
                   <div className="flex flex-col items-center justify-center text-gray-500 text-sm">
                     <div className="w-8 h-8 border-4 border-gray-300 border-t-[#22405c] rounded-full animate-spin mb-2"></div>
                     Loading...
@@ -509,7 +550,7 @@ const UsersTable = () => {
               </tr>
             ) : users.length === 0 ? (
               <tr>
-                <td colSpan="13" className="text-center py-10">
+                <td colSpan="10" className="text-center py-10">
                   No records found.
                 </td>
               </tr>
@@ -672,6 +713,16 @@ const UsersTable = () => {
                         </div>
                       )}
                     </div>
+                  </td>
+
+                  {/* Deposit with History */}
+                  <td className="px-6 py-4">
+                    <button
+                      className="bg-[#22405c] text-white px-4 py-2 rounded"
+                      onClick={() => openDepositHistoryModal(product.id)}
+                    >
+                      Add
+                    </button>
                   </td>
 
                   {/* Reward Deposit */}
@@ -998,6 +1049,42 @@ const UsersTable = () => {
                   onClick={handleSetSalary}
                 >
                   Set
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Deposit with History Modal */}
+        {isDepositHistoryOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-20 z-50 flex justify-center items-center">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-80">
+              <h2 className="text-xl font-semibold mb-4 text-center">
+                Add Deposit to History
+              </h2>
+              <p className="text-sm text-gray-600 mb-4 text-center">
+                This will add deposit to user's account balance and deposit history
+              </p>
+              <input
+                type="number"
+                placeholder="Enter deposit amount"
+                value={depositAmount}
+                onChange={(e) => setDepositAmount(e.target.value)}
+                className="w-full border border-gray-300 p-2 rounded mb-4"
+              />
+
+              <div className="flex justify-end gap-2">
+                <button
+                  className="bg-[#F6F1DE] px-4 py-2 rounded"
+                  onClick={closeDepositHistoryModal}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="bg-[#22405c] text-white px-4 py-2 rounded"
+                  onClick={handleDepositHistorySubmit}
+                >
+                  Add Deposit
                 </button>
               </div>
             </div>

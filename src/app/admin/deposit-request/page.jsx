@@ -350,8 +350,18 @@ const Page = () => {
                             className="flex justify-center items-center cursor-pointer"
                             onClick={() => handleImageClick(deposit.screenshot || deposit.image || "/transcript.webp")}
                           >
-                            <Image
+                            {/* <Image
                               src={deposit.image || "/transcript.webp"}
+                              alt="Uploaded"
+                              width={40}
+                              height={30}
+                            /> */}
+                            <Image
+                              src={
+                                deposit.image && (deposit.image.startsWith("http") || deposit.image.startsWith("/"))
+                                  ? deposit.image
+                                  : "/transcript.webp"
+                              }
                               alt="Uploaded"
                               width={40}
                               height={30}

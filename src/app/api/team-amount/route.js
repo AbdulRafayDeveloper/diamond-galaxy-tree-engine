@@ -51,6 +51,7 @@ export async function GET(req) {
       "monthly_gift",
       "registration",
       "slot purchase",
+      "Account Balance"
     ];
 
     const recentIncome = await Transaction.aggregate([

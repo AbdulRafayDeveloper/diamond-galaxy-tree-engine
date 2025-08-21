@@ -122,18 +122,29 @@ const Table = ({ products }) => {
               </td>
               <td className="px-6 py-4 text-sm text-[#5E5E5E]">
                 <div className="flex justify-center items-center cursor-pointer" onClick={handleImageClick}>
-                  <Image src={product.image} alt="image" width={40} height={30} />
+                  <Image 
+                    src={product.image || "/placeholder.png"} 
+                    alt="image" 
+                    width={40} 
+                    height={30}
+                    onError={(e) => {
+                      e.target.src = "/placeholder.png";
+                    }}
+                  />
                 </div>
 
                 {/* Zoom Modal */}
                 {isZoomed && (
                   <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center" onClick={closeModal}>
                     <Image
-                      src={product.image}
+                      src={product.image || "/placeholder.png"}
                       alt="Zoomed image"
                       width={250}
                       height={250}
                       className="rounded shadow-lg transition-transform duration-300 hover:scale-105"
+                      onError={(e) => {
+                        e.target.src = "/placeholder.png";
+                      }}
                     />
                   </div>
                 )}

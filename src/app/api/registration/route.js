@@ -30,6 +30,7 @@ export async function GET(req) {
     if (freshUser.is_registered) {
       return badRequestResponse("User is already registered.");
     }
+
     const registerCommission = await RegisterCommissions.findOne();
     if (!registerCommission) {
       return badRequestResponse("Commission settings not found.");
@@ -44,9 +45,11 @@ export async function GET(req) {
       );
     }
 
+    // Deduct registration fee from user
     freshUser.accountBalance -= price;
     await freshUser.save();
 
+    // Create transaction record for deduction
     await Transaction.create({
       userId: freshUser._id,
       senderId: null,
@@ -56,9 +59,11 @@ export async function GET(req) {
       postbalance: freshUser.accountBalance,
     });
 
+    // Calculate company commission first
     const companyAmount = (companyPercent / 100) * price;
     const distributable = price - companyAmount;
 
+    // Create base commission record for company
     const baseCommission = new Commissions({
       user_id: user._id,
       request_id: null,
@@ -68,90 +73,146 @@ export async function GET(req) {
       source: "registration",
     });
 
+    // Get level settings
     const levelSettings = await RegistrationLevel.findOne();
-    const level1Percent =
-      levelSettings?.level1 ||
-      parseFloat(process.env.REGISTRATION_LEVEL_ONE || "60");
-    const level2Percent =
-      levelSettings?.level2 ||
-      parseFloat(process.env.REGISTRATION_LEVEL_TWO || "30");
-    const companyPercent2 =
-      levelSettings?.companyPercentage ||
-      parseFloat(process.env.REGISTRATION_COMPANY_COMMISSION || "10");
+    const level1Percent = levelSettings?.level1 || parseFloat(process.env.REGISTRATION_LEVEL_ONE || "60");
+    const level2Percent = levelSettings?.level2 || parseFloat(process.env.REGISTRATION_LEVEL_TWO || "30");
+    const companyPercent2 = levelSettings?.companyPercentage || parseFloat(process.env.REGISTRATION_COMPANY_COMMISSION || "10");
 
+    // Calculate commission amounts
     const lvl1Amount = (level1Percent / 100) * distributable;
     const lvl2Amount = (level2Percent / 100) * distributable;
     const companyExtraAmount = (companyPercent2 / 100) * distributable;
 
-    let ref2 = null;
-    let ref1 = null;
+    // Build referral chain properly
+    let referralChain = [];
+    let currentRef = freshUser.referrerId;
 
-    if (freshUser.referrerId) {
-      ref2 = await Users.findById(freshUser.referrerId);
+    // Get up to 2 levels of referrals
+    while (currentRef && referralChain.length < 2) {
+      const refUser = await Users.findById(currentRef);
+      if (refUser) {
+        referralChain.push(refUser);
+        currentRef = refUser.referrerId;
+      } else {
+        break;
+      }
     }
 
-    if (ref2?.referrerId) {
-      ref1 = await Users.findById(ref2.referrerId);
-    }
+    console.log("Referral chain: ", referralChain);
+    console.log("Referral chain length: ", referralChain.length);
+    console.log("Referral chain: ", referralChain[0]);
+    console.log("Referral chain: ", referralChain[1]);
+    console.log("lvl1Amount: ", lvl1Amount);
+    console.log("lvl2Amount: ", lvl2Amount);
+    console.log("companyExtraAmount: ", companyExtraAmount);
 
-    if (ref1) {
-      ref1.accountBalance += lvl1Amount;
-      await ref1.save();
-      await Transaction.create({
-        userId: ref1._id,
-        senderId: freshUser._id,
-        type: "commission",
-        amount: lvl1Amount,
-        description: "Level 1 registration commission",
-        postbalance: ref1.accountBalance,
-      });
+    // Distribute commissions based on available levels
+    let distributedTo = [];
+    let totalDistributed = 0;
 
-      ref2.accountBalance += lvl2Amount;
-      await ref2.save();
-      await Transaction.create({
-        userId: ref2._id,
-        senderId: freshUser._id,
-        type: "commission",
-        amount: lvl2Amount,
-        description: "Level 2 registration commission",
-        postbalance: ref2.accountBalance,
-      });
-    } else if (ref2) {
-      ref2.accountBalance += lvl1Amount;
-      await ref2.save();
-      await Transaction.create({
-        userId: ref2._id,
-        senderId: freshUser._id,
-        type: "commission",
-        amount: lvl1Amount,
-        description: "Level 1 registration commission",
-        postbalance: ref2.accountBalance,
-      });
+    // Level 1 (Direct referrer)
+    if (referralChain.length > 0) {
+      const level1User = referralChain[0];
 
-      baseCommission.amount += lvl2Amount;
+      console.log("Level 1 user: ", level1User);
+      console.log("Level 1 user is registered: ", level1User.is_registered);
+
+      // Check if Level 1 user is registered (optional validation)
+      if (level1User.is_registered) {
+        level1User.accountBalance += lvl1Amount;
+        await level1User.save();
+
+        await Transaction.create({
+          userId: level1User._id,
+          senderId: freshUser._id,
+          type: "commission",
+          amount: lvl1Amount,
+          description: "Level 1 registration commission",
+          postbalance: level1User.accountBalance,
+        });
+
+        distributedTo.push({
+          level: 1,
+          user: level1User._id,
+          amount: lvl1Amount,
+          username: level1User.username
+        });
+        totalDistributed += lvl1Amount;
+      } else {
+        // If Level 1 user is not registered, add to company
+        baseCommission.amount += lvl1Amount;
+      }
     } else {
-      baseCommission.amount += lvl1Amount + lvl2Amount;
+      // No Level 1 user, add to company
+      baseCommission.amount += lvl1Amount;
     }
 
+    // Level 2 (Referrer of Level 1)
+    if (referralChain.length > 1) {
+      const level2User = referralChain[1];
+
+      // Check if Level 2 user is registered (optional validation)
+      if (level2User.is_registered) {
+        level2User.accountBalance += lvl2Amount;
+        await level2User.save();
+
+        await Transaction.create({
+          userId: level2User._id,
+          senderId: freshUser._id,
+          type: "commission",
+          amount: lvl2Amount,
+          description: "Level 2 registration commission",
+          postbalance: level2User.accountBalance,
+        });
+
+        distributedTo.push({
+          level: 2,
+          user: level2User._id,
+          amount: lvl2Amount,
+          username: level2User.username
+        });
+        totalDistributed += lvl2Amount;
+      } else {
+        // If Level 2 user is not registered, add to company
+        baseCommission.amount += lvl2Amount;
+      }
+    } else {
+      // No Level 2 user, add to company
+      baseCommission.amount += lvl2Amount;
+    }
+
+    // Add company extra percentage
     baseCommission.amount += companyExtraAmount;
 
+    // Save company commission
     await baseCommission.save();
 
+    // Mark user as registered
     freshUser.is_registered = true;
     await freshUser.save();
 
-    return successResponse("Commission distributed successfully.", {
+    // Calculate remaining amount that goes to company
+    const remainingToCompany = distributable - totalDistributed;
+
+    return successResponse("Registration completed and commission distributed successfully.", {
       deductedFrom: freshUser._id,
       total: price,
-      distributed: {
-        companyAmount,
+      companyAmount: companyAmount + companyExtraAmount + remainingToCompany,
+      distributedTo,
+      summary: {
+        totalAmount: price,
+        companyCommission: companyAmount,
+        distributableAmount: distributable,
+        level1Amount: lvl1Amount,
+        level2Amount: lvl2Amount,
         companyExtraAmount,
-        level1: ref1?._id || null,
-        level2: ref2?._id || null,
-      },
+        totalDistributed,
+        remainingToCompany
+      }
     });
   } catch (error) {
-    console.log("Error in GET /api/distribute-registration-commission:", error);
+    console.log("Error in registration commission distribution:", error);
     return serverErrorResponse("Internal server error.");
   }
 }

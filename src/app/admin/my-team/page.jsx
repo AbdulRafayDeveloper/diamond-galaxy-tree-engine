@@ -218,9 +218,8 @@ const Page = () => {
         <aside
           ref={sidebarRef}
           id="separator-sidebar"
-          className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${
-            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } sm:translate-x-0`}
+          className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+            } sm:translate-x-0`}
           aria-label="Sidebar"
         >
           <SideBar section={section} />
@@ -238,11 +237,10 @@ const Page = () => {
                 setFormData({});
                 fetchLevelConfigs(key);
               }}
-              className={`px-4 py-2 text-sm rounded-lg font-medium ${
-                activeTab === key
+              className={`px-4 py-2 text-sm rounded-lg font-medium ${activeTab === key
                   ? "bg-[#22405c]  text-white"
                   : "bg-[#F6F1DE] text-gray-700"
-              }`}
+                }`}
             >
               {label}
             </button>
@@ -267,8 +265,9 @@ const Page = () => {
                       htmlFor={name}
                       className="block text-sm font-medium mb-1"
                     >
+                      {`Level ${i + 1}`}
                       {/* Level {i + 1} {levelConfigs[activeTab].placeholder} */}
-                      Level {levelConfigs[activeTab].fields - i} {levelConfigs[activeTab].placeholder}
+                      {/* Level {levelConfigs[activeTab].fields - i} {levelConfigs[activeTab].placeholder} */}
                     </label>
                     <input
                       type="number"

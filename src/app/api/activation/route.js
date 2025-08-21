@@ -46,9 +46,11 @@ export async function GET(req) {
       );
     }
 
+    // Deduct activation fee from user
     freshUser.accountBalance -= price;
     await freshUser.save();
 
+    // Create transaction record for deduction
     await Transaction.create({
       userId: freshUser._id,
       senderId: null,
@@ -58,9 +60,11 @@ export async function GET(req) {
       postbalance: freshUser.accountBalance,
     });
 
+    // Calculate company commission first
     const companyAmount = (companyPercent / 100) * price;
     const distributable = price - companyAmount;
 
+    // Create base commission record for company
     const baseCommission = new Commissions({
       user_id: user._id,
       request_id: null,
@@ -70,96 +74,141 @@ export async function GET(req) {
       source: "activation",
     });
 
+    // Get level settings
     const levelSettings = await ActivatedLevel.findOne();
-    const companyExtraPercent =
-      levelSettings?.companyPercentage ||
-      parseFloat(process.env.COMPANY_COMMISSION || "10");
-
+    const companyExtraPercent = levelSettings?.companyPercentage || parseFloat(process.env.COMPANY_COMMISSION || "10");
     const companyExtraAmount = (companyExtraPercent / 100) * distributable;
-
-    // Build list of actual available uplines
-    let uplines = [];
-    let currentRef = freshUser.referrerId;
-
-    while (currentRef && uplines.length < 7) {
-      const refUser = await Users.findById(currentRef);
-      if (!refUser) break;
-      uplines.push(refUser);
-      currentRef = refUser.referrerId;
-    }
 
     // Load level percentages dynamically
     const levelPercents = [
-      levelSettings?.level1 ??
-        parseFloat(process.env.ACTIVATE_LEVEL_ONE || "0"),
-      levelSettings?.level2 ??
-        parseFloat(process.env.ACTIVATE_LEVEL_TWO || "0"),
-      levelSettings?.level3 ??
-        parseFloat(process.env.ACTIVATE_LEVEL_THREE || "0"),
-      levelSettings?.level4 ??
-        parseFloat(process.env.ACTIVATE_LEVEL_FOUR || "0"),
-      levelSettings?.level5 ??
-        parseFloat(process.env.ACTIVATE_LEVEL_FIVE || "0"),
-      levelSettings?.level6 ??
-        parseFloat(process.env.ACTIVATE_LEVEL_SIX || "0"),
-      levelSettings?.level7 ??
-        parseFloat(process.env.ACTIVATE_LEVEL_SEVEN || "0"),
+      levelSettings?.level1 ?? parseFloat(process.env.ACTIVATE_LEVEL_ONE || "0"),
+      levelSettings?.level2 ?? parseFloat(process.env.ACTIVATE_LEVEL_TWO || "0"),
+      levelSettings?.level3 ?? parseFloat(process.env.ACTIVATE_LEVEL_THREE || "0"),
+      levelSettings?.level4 ?? parseFloat(process.env.ACTIVATE_LEVEL_FOUR || "0"),
+      levelSettings?.level5 ?? parseFloat(process.env.ACTIVATE_LEVEL_FIVE || "0"),
+      levelSettings?.level6 ?? parseFloat(process.env.ACTIVATE_LEVEL_SIX || "0"),
+      levelSettings?.level7 ?? parseFloat(process.env.ACTIVATE_LEVEL_SEVEN || "0"),
     ];
 
-    let levelTracker = 0;
-    let distributedTo = [];
+    // Build referral chain properly (closest to furthest)
+    let referralChain = [];
+    let currentRef = freshUser.referrerId;
 
-    // Distribute from furthest upline as Level 1
-    const reversedUplines = [...uplines].reverse();
-    for (let i = 0; i < reversedUplines.length; i++) {
-      const recipient = reversedUplines[i];
-      const levelPercent = levelPercents[levelTracker++] || 0;
+    while (currentRef && referralChain.length < 7) {
+      const refUser = await Users.findById(currentRef);
+      if (refUser) {
+        referralChain.push(refUser);
+        currentRef = refUser.referrerId;
+      } else {
+        break;
+      }
+    }
+
+    console.log("=== ACTIVATION COMMISSION DISTRIBUTION ===");
+    console.log("User activating:", freshUser.username);
+    console.log("Total amount:", price);
+    console.log("Company commission:", companyAmount);
+    console.log("Distributable amount:", distributable);
+    console.log("Referral chain length:", referralChain.length);
+    console.log("Level percentages:", levelPercents);
+    console.log("Company extra amount:", companyExtraAmount);
+
+    let distributedTo = [];
+    let totalDistributed = 0;
+
+    // Distribute commissions to each level in order (Level 1 = direct referrer, Level 2 = referrer of Level 1, etc.)
+    for (let i = 0; i < referralChain.length && i < 7; i++) {
+      const recipient = referralChain[i];
+      const levelPercent = levelPercents[i] || 0;
       const amount = (levelPercent / 100) * distributable;
 
-      recipient.accountBalance += amount;
-      await recipient.save();
+      console.log(`Level ${i + 1} - User: ${recipient.username}, Percent: ${levelPercent}%, Amount: ${amount}, Registered: ${recipient.is_registered}`);
 
-      await Transaction.create({
-        userId: recipient._id,
-        senderId: freshUser._id,
-        type: "commission",
-        amount,
-        description: `Level ${i + 1} activation commission`,
-        postbalance: recipient.accountBalance,
-      });
+      if (amount > 0) {
+        // Check if recipient is registered (optional validation)
+        if (recipient.is_activated) {
+          recipient.accountBalance += amount;
+          await recipient.save();
 
-      distributedTo.push({
-        level: i + 1,
-        user: recipient._id,
-        amount,
-      });
+          await Transaction.create({
+            userId: recipient._id,
+            senderId: freshUser._id,
+            type: "commission",
+            amount,
+            description: `Level ${i + 1} activation commission`,
+            postbalance: recipient.accountBalance,
+          });
+
+          distributedTo.push({
+            level: i + 1,
+            user: recipient._id,
+            amount,
+            username: recipient.username,
+            percentage: levelPercent
+          });
+          totalDistributed += amount;
+
+          console.log(`✅ Level ${i + 1}: ${recipient.username} received ${amount} (${levelPercent}%)`);
+        } else {
+          // If recipient is not registered, add to company
+          baseCommission.amount += amount;
+          console.log(`❌ Level ${i + 1}: ${recipient.username} not registered, ${amount} goes to company`);
+        }
+      } else {
+        console.log(`⚠️ Level ${i + 1}: ${recipient.username} - No commission (0%)`);
+      }
     }
 
-    for (; levelTracker < 7; levelTracker++) {
-      const missingPercent = levelPercents[levelTracker] || 0;
+    // Add remaining undistributed amounts to company
+    let remainingToCompany = 0;
+    for (let i = referralChain.length; i < 7; i++) {
+      const missingPercent = levelPercents[i] || 0;
       const amount = (missingPercent / 100) * distributable;
       baseCommission.amount += amount;
+      remainingToCompany += amount;
+      console.log(`📊 Missing Level ${i + 1}: ${amount} (${missingPercent}%) goes to company`);
     }
 
+    // Add company extra percentage
     baseCommission.amount += companyExtraAmount;
+
+    // Save company commission
     await baseCommission.save();
 
+    // Mark user as activated
     freshUser.is_activated = true;
     await freshUser.save();
 
-    return successResponse("Commission distributed successfully.", {
+    // Calculate remaining amount that goes to company
+    const totalRemainingToCompany = distributable - totalDistributed;
+
+    console.log("=== DISTRIBUTION SUMMARY ===");
+    console.log("Total distributed:", totalDistributed);
+    console.log("Remaining to company:", totalRemainingToCompany);
+    console.log("Company extra amount:", companyExtraAmount);
+    console.log("Total company amount:", baseCommission.amount);
+    console.log("Distributed to users:", distributedTo.length);
+    console.log("=====================================");
+
+    return successResponse("Activation completed and commission distributed successfully.", {
       deductedFrom: freshUser._id,
       total: price,
+      companyAmount: companyAmount + companyExtraAmount + totalRemainingToCompany,
       distributedTo,
-      company: {
-        companyAmount,
+      summary: {
+        totalAmount: price,
+        companyCommission: companyAmount,
+        distributableAmount: distributable,
+        totalDistributed,
         companyExtraAmount,
-        retainedFromMissingLevels:
-          baseCommission.amount - companyAmount - companyExtraAmount,
-      },
+        remainingToCompany: totalRemainingToCompany,
+        levelPercentages: levelPercents,
+        referralChainLength: referralChain.length,
+        distributedToCount: distributedTo.length
+      }
     });
   } catch (error) {
-    console.log("Error in GET /api/distribute-activation-commission:", error);
+    console.log("Error in activation commission distribution:", error);
     return serverErrorResponse("Internal server error.");
   }
 }

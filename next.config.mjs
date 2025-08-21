@@ -18,6 +18,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "clients-projects-s3-testing-us-east-1.s3.amazonaws.com",
       },
+      {
+        protocol: "https",
+        hostname: "daimond-galaxy-project.s3.amazonaws.com",
+      },
     ],
   },
 };
